@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RegisterAPI, GoogleSignInAPI } from '../../../api/AuthApi';
+import { postUserData } from '../../../api/FirestoreAPI';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from 'react-google-button';
 import { toast } from 'react-toastify';
@@ -10,7 +11,13 @@ export default function RegisterComponent() {
     try {
       let res = await RegisterAPI(credentials.email, credentials.password);
       toast.success('Account created');
+      postUserData({
+        name: credentials.name,
+        matricNumber: credentials.matricNumber,
+        email: credentials.email,
+      });
       navigate('/login');
+      localStorage.setItem('userEmail', res.user.email);
     } catch (err) {
       toast.error('Error creating account');
     }
@@ -21,19 +28,45 @@ export default function RegisterComponent() {
     navigate('/passi');
   };
   return (
-    <div className='w-[350px] h-[100vh]  mx-auto mt-24'>
+    <div className='w-[350px] h-[100vh]  mx-auto mt-16'>
       <div
-        className='h-[80%] flex flex-col items-center justify-between space-y-14 p-4 '
+        className='h-[90vh] flex flex-col items-center justify-between space-y-14 p-4 '
         style={{
           border: '1px solid white',
           background: 'black',
           color: 'white',
         }}>
         <div
-          className='flex flex-col items-center justify-between h-[70%] py-8 w-[90%]'
+          className='flex flex-col items-center justify-between h-[70%] py-8 w-[95%]'
           style={{ border: '1px solid white' }}>
           <h1 className='font-bold text-2xl'>Sign Up</h1>
           <div className='flex flex-col space-y-4'>
+            <input
+              onChange={(e) =>
+                setCredentials({ ...credentials, name: e.target.value })
+              }
+              className='name-input h-[40px] w-[250px]'
+              placeholder='Enter your Full Name'
+              style={{
+                border: '1px solid white',
+                outlineColor: 'white',
+                color: 'black',
+              }}
+              type='text'
+            />
+            <input
+              onChange={(e) =>
+                setCredentials({ ...credentials, matricNumber: e.target.value })
+              }
+              className='name-input h-[40px] w-[250px]'
+              placeholder='Enter your Matric Number'
+              style={{
+                border: '1px solid white',
+                outlineColor: 'white',
+                color: 'black',
+              }}
+              type='text'
+            />
             <input
               onChange={(e) =>
                 setCredentials({ ...credentials, email: e.target.value })
@@ -63,7 +96,7 @@ export default function RegisterComponent() {
           </div>
 
           <button
-            className='rounded w-[100px] h-[40px] bg-white text-black'
+            className='rounded w-[100px] h-[40px] bg-blue-700 text-white'
             style={{ cursor: 'pointer' }}
             onClick={Register}>
             Agree & Join

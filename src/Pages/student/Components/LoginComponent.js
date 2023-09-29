@@ -10,6 +10,7 @@ export default function LoginComponent() {
     try {
       let res = await LoginAPI(credentials.email, credentials.password);
       toast.success('Signed in to PASSI');
+      localStorage.setItem('userEmail', res.user.email);
       navigate('/passi');
     } catch (err) {
       toast.error('Check your credentials');

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import HomeComponent from './HomeComponent';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { getCurrentUser } from '../../../api/FirestoreAPI';
 import { auth } from '../../../firebaseConfig';
 import Loader from '../Components/common/Loader';
 const Passi = () => {
@@ -15,6 +16,9 @@ const Passi = () => {
         setLoading(false);
       }
     });
+  }, []);
+  useMemo(() => {
+    getCurrentUser();
   }, []);
 
   return loading ? <Loader /> : <HomeComponent />;

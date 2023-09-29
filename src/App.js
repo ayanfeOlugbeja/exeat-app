@@ -6,6 +6,8 @@ import Passi from './Pages/student//Passi/Passi';
 import NavBar from './Pages/student/Passi/NavBar';
 
 import { app } from './firebaseConfig';
+import Create from './Pages/student/Passi/create/Create';
+import Access from './Pages/student/Passi/Access/Access';
 const App = () => {
   return (
     <BrowserRouter>
@@ -17,6 +19,8 @@ const App = () => {
             <Route path='login' element={<Login />} />
             <Route path='register' element={<Register />} />
             <Route path='passi' element={<Passi />} />
+            <Route path='passi/create' element={<Create />} />
+            <Route path='passi/logs' element={<Access />} />
           </Routes>
         </main>
       </div>

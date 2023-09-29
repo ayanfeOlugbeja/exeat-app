@@ -1,8 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import logo from './../../../Images/logo.png';
 import Menu from './Menu';
+import ProfilePopup from './profile/ProfilePopup';
+import { BsFillPersonFill } from 'react-icons/bs';
 
-const Navbar = () => {
+export const Navbar = () => {
+  const [popupVisible, setPopupVisible] = useState(false);
   const location = useLocation();
   const isHomepage = location.pathname === '/';
   const isLoginpage = location.pathname === '/login';
@@ -10,13 +14,23 @@ const Navbar = () => {
   if (isHomepage || isLoginpage || isRegisterpage) {
     return null;
   }
+  const displayPopup = () => {
+    setPopupVisible(!popupVisible);
+  };
 
   return (
     <div>
+      {popupVisible ? (
+        <div className='popup-position'>
+          <ProfilePopup />
+        </div>
+      ) : (
+        <></>
+      )}
       <div
-        className='navBar  w-[100%] h-[14vh] p-2'
+        className='navBar  w-[100%] h-[12vh] p-2'
         style={{ border: '2px solid black' }}>
-        <div className='flex flex-row justify-around items-center'>
+        <div className='flex flex-row justify-around items-center ml-10'>
           <Menu />
           <div className='navElements  w-[80%] h-[100%] flex flex-row justify-between mx-auto items-center '>
             <div className='w-[13%] flex flex-row items-center justify-around'>
@@ -32,8 +46,11 @@ const Navbar = () => {
             </div>
 
             <div
-              className='imagePlaceholder w-[5%] h-[65%]'
-              style={{ border: '1px solid grey', borderRadius: '50%' }}></div>
+              className='imagePlaceholder w-[5%] h-[70%] rounded-full'
+              style={{ border: '2px solid black' }}
+              onClick={displayPopup}>
+              <BsFillPersonFill size={40} className='mx-auto' />
+            </div>
           </div>
         </div>
       </div>

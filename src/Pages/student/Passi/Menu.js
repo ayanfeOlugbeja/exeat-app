@@ -11,10 +11,9 @@ const Menu = () => {
   const navLinks = [
     { id: 1, text: 'Home', path: '/passi' },
     { id: 2, text: 'Profile', path: '/passi/profile' },
-    { id: 3, text: 'Request', path: '/passi/request' },
-    { id: 4, text: 'Logout', path: '/passi/logout' },
-    { id: 5, text: 'Access Logs', path: '/passi/logs' },
-    { id: 6, text: 'Print approval', path: '/passi/print' },
+    { id: 3, text: 'Create', path: '/passi/create' },
+    { id: 4, text: 'Access Logs', path: '/passi/logs' },
+    { id: 5, text: 'Print approval', path: '/passi/print' },
   ];
 
   return (
@@ -45,7 +44,7 @@ const Menu = () => {
           </button>
           {isOpen && (
             <div
-              className='absolute top-[14vh] w-[260px] h-[70vh] '
+              className='absolute top-[12vh] w-[260px] h-[70vh] '
               style={{ border: '2px solid black', borderTop: 'none' }}>
               <ul className={`${isOpen ? 'block' : 'hidden'}`}>
                 {navLinks.map((link) => (
@@ -53,7 +52,7 @@ const Menu = () => {
                     <Link
                       to={link.path}
                       onClick={toggleMenu} // Close the menu when a link is clicked
-                      className='flex flex-row justify-between items-start space-y-4 px-4 mt-6'>
+                      className='flex flex-row justify-between items-start space-y-4 px-4 mt-6 font-semibold'>
                       {link.text}
                     </Link>
                   </li>
