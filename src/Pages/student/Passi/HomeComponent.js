@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BiSolidPaint } from 'react-icons/bi';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { BiLogOut } from 'react-icons/bi';
-import { onLogout } from '../../../api/AuthApi';
-export default function HomeComponent() {
+import HomePopup from './HomePopup';
+export default function HomeComponent({ currentUser }) {
+  const [modalOpen, setModalOpen] = useState(false);
   let navigate = useNavigate();
+  const handleCreateApplicationClick = () => {
+    navigate('/passi/create', { state: { currentUser } });
+  };
+  const handleAccessApplicationClick = () => {
+    navigate('/passi/logs', { state: { currentUser } });
+  };
+
   return (
     <div className='h-[100vh] w-[100vw]'>
       <div className='welcome-title h-[60px] flex items-center justify-end p-3'>
@@ -17,7 +25,7 @@ export default function HomeComponent() {
       <div className='relative cards w-[45%] h-[84%] mx-auto flex flex-row flex-wrap gap-10 p-4 items-center justify-center'>
         <div
           className='w-[40%] h-[46%] flex flex-col flex-nowrap items-center justify-center p-2 gap-8'
-          onClick={() => navigate('/passi/create')}
+          onClick={handleCreateApplicationClick}
           style={{ border: '2px solid black' }}>
           <BiSolidPaint className='w-[90px] h-[70px]' />
           <p className='font-bold'>Create Application</p>
@@ -31,17 +39,18 @@ export default function HomeComponent() {
         </div>
         <div
           className='w-[40%] h-[46%] flex flex-col flex-nowrap items-center justify-center p-2 gap-8'
-          onClick={() => navigate('/passi/logs')}
+          onClick={handleAccessApplicationClick}
           style={{ border: '2px solid black' }}>
           <HiOutlineDocumentText className='w-[90px] h-[70px]' />
           <p className='font-bold'>Access Logs</p>
         </div>
         <div
           className='w-[40%] h-[46%] flex flex-col flex-nowrap items-center justify-center p-2 gap-8'
-          onClick={onLogout}
+          onClick={() => setModalOpen(true)}
           style={{ border: '2px solid black' }}>
           <BiLogOut className='w-[90px] h-[70px]' />
           <p className='font-bold'>Logout</p>
+          {modalOpen && <HomePopup onClose={() => setModalOpen(false)} />}
         </div>
       </div>
     </div>

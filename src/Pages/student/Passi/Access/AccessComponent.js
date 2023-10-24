@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { getPosts } from '../../../../api/FirestoreAPI';
 
-export default function AccessComponent() {
+export default function AccessComponent({ currentUser }) {
   const [allPosts, setAllPosts] = useState([]);
   useMemo(() => {
     getPosts(setAllPosts);

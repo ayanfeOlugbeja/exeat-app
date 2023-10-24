@@ -60,8 +60,6 @@ export default function LoginComponent() {
           </button>
         </div>
 
-        {/* <p className=' text-lg h-[5%]'>or</p> */}
-
         <div
           className='flex flex-col items-center justify-between h-[30%] p-4'
           style={{ border: '1px solid black' }}>

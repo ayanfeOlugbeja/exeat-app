@@ -3,14 +3,16 @@ import { postResponse } from '../../../../api/FirestoreAPI';
 import { Button } from 'antd';
 import { InputNumber, DatePicker, Space } from 'antd';
 import { getCurrentTimestamp } from '../../../../helpers/useMoment';
-export default function CreateComponent() {
-  let userEmail = localStorage.getItem('userEmail');
+export default function CreateComponent({ currentUser }) {
   const [status, setStatus] = useState('');
   const sendRequest = async () => {
     let object = {
       status: status,
       timestamp: getCurrentTimestamp('LLL'),
-      userEmail: userEmail,
+      userEmail: currentUser.email,
+      userName: currentUser.name,
+      matricNumber: currentUser.matricNumber,
+      // postID,
     };
     await postResponse(object);
     await setStatus('');

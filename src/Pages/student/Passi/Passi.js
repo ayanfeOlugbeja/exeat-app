@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../../../api/FirestoreAPI';
 import { auth } from '../../../firebaseConfig';
 import Loader from '../Components/common/Loader';
+
 const Passi = () => {
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
+
   let navigate = useNavigate();
   useEffect(() => {
     onAuthStateChanged(auth, (res) => {
@@ -18,10 +21,16 @@ const Passi = () => {
     });
   }, []);
   useMemo(() => {
-    getCurrentUser();
+    getCurrentUser(setCurrentUser);
   }, []);
 
-  return loading ? <Loader /> : <HomeComponent />;
+  return (
+    <div>
+      {/* <NavBar currentUser={currentUser} style={{ display: 'none' }} /> */}
+
+      {loading ? <Loader /> : <HomeComponent currentUser={currentUser} />}
+    </div>
+  );
 };
 
 export default Passi;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from React Router
+import { Link, useLocation } from 'react-router-dom'; // Import Link from React Router
 
 const Menu = () => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -18,7 +19,7 @@ const Menu = () => {
 
   return (
     <nav>
-      <div className=''>
+      <div>
         <div>
           <button
             onClick={toggleMenu}
@@ -48,12 +49,17 @@ const Menu = () => {
               style={{ border: '2px solid black', borderTop: 'none' }}>
               <ul className={`${isOpen ? 'block' : 'hidden'}`}>
                 {navLinks.map((link) => (
-                  <li key={link.id}>
+                  <li
+                    key={link.id}
+                    className='p-2 font-semibold text-lg justify-start'>
                     <Link
                       to={link.path}
                       onClick={toggleMenu} // Close the menu when a link is clicked
                       className='flex flex-row justify-between items-start space-y-4 px-4 mt-6 font-semibold'>
                       {link.text}
+                      {location.pathname === link.path && (
+                        <span className='absolute right-4'>◾</span>
+                      )}
                     </Link>
                   </li>
                 ))}

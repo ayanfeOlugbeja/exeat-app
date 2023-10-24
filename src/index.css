@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 * {
-  border: 1px solid green;
+  /* border: 1px solid green; */
   box-sizing: border-box;
 }
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background-color: #8badf4;
+  background-color: #3873d8;
 }
 ::-webkit-scrollbar-thumb {
   background-color: #999;
