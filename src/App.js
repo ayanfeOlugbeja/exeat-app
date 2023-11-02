@@ -8,6 +8,7 @@ import NavBar from './Pages/student/Passi/NavBar';
 import { app } from './firebaseConfig';
 import Create from './Pages/student/Passi/create/Create';
 import Access from './Pages/student/Passi/Access/Access';
+import Profile from './Pages/student/Passi/profile/Profile';
 import { getCurrentUser } from './api/FirestoreAPI';
 // import { UserProvider } from './UserContext';
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
             <Route path='register' element={<Register />} />
             <Route path='passi' element={<Passi />} />
             <Route path='passi/create' element={<Create />} />
+            <Route path='passi/profile' element={<Profile />} />
             <Route path='passi/logs' element={<Access />} />
           </Routes>
         </main>

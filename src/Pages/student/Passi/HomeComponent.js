@@ -14,6 +14,9 @@ export default function HomeComponent({ currentUser }) {
   const handleAccessApplicationClick = () => {
     navigate('/passi/logs', { state: { currentUser } });
   };
+  const handleProfileClick = () => {
+    navigate('/passi/profile', { state: { currentUser } });
+  };
 
   return (
     <div className='h-[100vh] w-[100vw]'>
@@ -32,7 +35,7 @@ export default function HomeComponent({ currentUser }) {
         </div>
         <div
           className='w-[40%] h-[46%] flex flex-col flex-nowrap items-center justify-center p-2 gap-8'
-          onClick={() => navigate('/passi/profile')}
+          onClick={handleProfileClick}
           style={{ border: '2px solid black' }}>
           <BsFillPersonFill className='w-[90px] h-[70px]' />
           <p className='font-bold'>Profile</p>

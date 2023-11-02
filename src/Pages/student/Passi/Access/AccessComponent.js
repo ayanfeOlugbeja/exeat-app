@@ -20,6 +20,7 @@ export default function AccessComponent({ currentUser }) {
             <div
               className='w-[100%] h-[100px]'
               style={{ border: '1px solid black' }}>
+              <p>{posts.userName}</p>
               <p>{posts.timestamp}</p>
               <p>{posts.status}</p>
             </div>

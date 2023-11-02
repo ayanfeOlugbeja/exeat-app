@@ -26,8 +26,6 @@ const Passi = () => {
 
   return (
     <div>
-      {/* <NavBar currentUser={currentUser} style={{ display: 'none' }} /> */}
-
       {loading ? <Loader /> : <HomeComponent currentUser={currentUser} />}
     </div>
   );

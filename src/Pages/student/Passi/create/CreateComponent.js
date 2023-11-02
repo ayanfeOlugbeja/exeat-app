@@ -3,6 +3,7 @@ import { postResponse } from '../../../../api/FirestoreAPI';
 import { Button } from 'antd';
 import { InputNumber, DatePicker, Space } from 'antd';
 import { getCurrentTimestamp } from '../../../../helpers/useMoment';
+import { getUniqueID } from '../../../../helpers/getUniqueID';
 export default function CreateComponent({ currentUser }) {
   const [status, setStatus] = useState('');
   const sendRequest = async () => {
@@ -12,7 +13,7 @@ export default function CreateComponent({ currentUser }) {
       userEmail: currentUser.email,
       userName: currentUser.name,
       matricNumber: currentUser.matricNumber,
-      // postID,
+      postID: getUniqueID(),
     };
     await postResponse(object);
     await setStatus('');
