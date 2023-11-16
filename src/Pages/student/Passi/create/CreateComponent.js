@@ -26,9 +26,9 @@ export default function CreateComponent({ currentUser }) {
         <h2 className='text-2xl font-bold mr-24'>PASSI - Create Exeat</h2>
       </div>
 
-      <div className='w-[40%] h-[60%] mx-auto mt-20'>
+      <div className='w-[40%] h-[60%] mx-auto mt-20 '>
         <div
-          className='input-bar w-[95%] h-[95%] flex flex-col  items-center p-2 mx-auto m-2'
+          className='input-bar w-[95%] h-[95%] flex flex-col  items-center p-2 mx-auto m-4'
           style={{ border: '1px solid black' }}>
           <input
             type='text'

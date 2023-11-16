@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProfileCard from '../../Components/common/ProfileCard';
 import ProfileEdit from '../../Components/common/ProfileEdit';
 
-function profileComponent({ currentUser }) {
+function ProfileComponent({ currentUser }) {
   const [isEdit, setIsEdit] = useState(false);
   const onEdit = () => {
     setIsEdit(!isEdit);
@@ -18,4 +18,4 @@ function profileComponent({ currentUser }) {
   );
 }
 
-export default profileComponent;
+export default ProfileComponent;

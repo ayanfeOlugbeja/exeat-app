@@ -3,8 +3,8 @@ import ProfileComponent from './ProfileComponent';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { auth } from '../../../firebaseConfig';
-import Loader from '../Components/common/Loader';
+import { auth } from '../../../../firebaseConfig';
+import Loader from '../../Components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
 const Profile = () => {
