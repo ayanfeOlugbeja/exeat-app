@@ -11,8 +11,16 @@ export const Navbar = ({ currentUser }) => {
   const isHomepage = location.pathname === '/';
   const isLoginpage = location.pathname === '/login';
   const isRegisterpage = location.pathname === '/register';
+  const isRecoverpage = location.pathname === '/recover';
+  const isVerifypage = location.pathname === '/verify';
 
-  if (isHomepage || isLoginpage || isRegisterpage) {
+  if (
+    isHomepage ||
+    isLoginpage ||
+    isRegisterpage ||
+    isRecoverpage ||
+    isVerifypage
+  ) {
     return null;
   }
   const displayPopup = () => {

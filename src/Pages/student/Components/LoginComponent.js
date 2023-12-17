@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginAPI, GoogleSignInAPI } from '../../../api/AuthApi';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import GoogleButton from 'react-google-button';
 import { toast } from 'react-toastify';
 export default function LoginComponent() {
@@ -58,6 +59,9 @@ export default function LoginComponent() {
             onClick={login}>
             Sign in
           </button>
+          <Link to='/recover' className='text-black'>
+            Forgot Password?
+          </Link>
         </div>
 
         <div

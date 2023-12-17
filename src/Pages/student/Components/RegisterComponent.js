@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RegisterAPI, GoogleSignInAPI } from '../../../api/AuthApi';
 import { postUserData } from '../../../api/FirestoreAPI';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from 'react-google-button';
 import { toast } from 'react-toastify';
@@ -10,13 +11,13 @@ export default function RegisterComponent() {
   const Register = async () => {
     try {
       let res = await RegisterAPI(credentials.email, credentials.password);
-      toast.success('Account created');
+      toast.success('Check Email for Account Verification Link');
       postUserData({
         name: credentials.name,
         matricNumber: credentials.matricNumber,
         email: credentials.email,
       });
-      navigate('/login');
+      navigate('/verify');
       localStorage.setItem('userEmail', res.user.email);
     } catch (err) {
       toast.error('Error creating account');
@@ -101,6 +102,7 @@ export default function RegisterComponent() {
             onClick={Register}>
             Agree & Join
           </button>
+          <Link to='/recover'>Forgot Password?</Link>
         </div>
 
         {/* <p className=' text-lg h-[5%]'>or</p> */}
