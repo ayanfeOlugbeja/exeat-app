@@ -14,6 +14,7 @@ export default function CreateComponent({ currentUser }) {
       userName: currentUser.name,
       matricNumber: currentUser.matricNumber,
       postID: getUniqueID(),
+      userID: currentUser.id,
     };
     await postResponse(object);
     await setStatus('');

@@ -12,6 +12,8 @@ import { app } from './firebaseConfig';
 import Create from './Pages/student/Passi/create/Create';
 import Access from './Pages/student/Passi/Access/Access';
 import Profile from './Pages/student/Passi/profile/Profile';
+import Admin from './Pages/admin/Admin';
+import About from './Pages/Profile/Profile';
 
 import { getCurrentUser } from './api/FirestoreAPI';
 // import { UserProvider } from './UserContext';
@@ -36,6 +38,8 @@ const App = () => {
             <Route path='passi/logs' element={<Access />} />
             <Route path='recover' element={<ForgotPassword />} />
             <Route path='verify' element={<EmailVerification />} />
+            <Route path='admin' element={<Admin currentUser={currentUser} />} />
+            <Route path='profile' element={<About />} />
           </Routes>
         </main>
       </div>

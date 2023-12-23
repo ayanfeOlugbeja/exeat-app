@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { getSingleStatus, getSingleUser } from '../../../../api/FirestoreAPI';
 import { HiOutlinePencil } from 'react-icons/hi';
+import { AiOutlineClose } from 'react-icons/ai';
 import { useLocation } from 'react-router-dom';
 import FileUploadModal from '../fileUpload/FileUploadModal';
 import { uploadImage as uploadImageAPI } from '../../../../api/ImageUpload';
@@ -15,7 +16,7 @@ export default function ProfileCard({ onEdit, currentUser }) {
   const getImage = (event) => {
     setCurrentImage(event.target.files[0]);
   };
-  console.log(currentProfile);
+  // console.log(currentProfile);
   const uploadImage = () => {
     uploadImageAPI(
       currentImage,
@@ -37,7 +38,7 @@ export default function ProfileCard({ onEdit, currentUser }) {
   }, []);
 
   return (
-    <>
+    <div className='flex flex-col justify-center items-center p-5 mt-10 space-y-5 w-[300px] mx-auto'>
       <FileUploadModal
         getImage={getImage}
         uploadImage={uploadImage}
@@ -49,15 +50,15 @@ export default function ProfileCard({ onEdit, currentUser }) {
       <div className='profile-card'>
         {currentUser.id === location?.state?.id ? (
           <div className='edit-btn'>
-            <HiOutlinePencil className='edit-icon' onClick={onEdit} />
+            <HiOutlinePencil className='edit-icon' onClick={onEdit} size={25} />
           </div>
         ) : (
           <></>
         )}
-        <div className='profile-info'>
-          <div>
+        <div className='profile-info '>
+          <div className='space-y-3 font-semibold p-3'>
             <img
-              className='profile-image'
+              className='profile-image w-[200px] h-[200px]'
               onClick={() => setModalOpen(true)}
               src={
                 Object.values(currentProfile).length === 0
@@ -70,6 +71,11 @@ export default function ProfileCard({ onEdit, currentUser }) {
               {Object.values(currentProfile).length === 0
                 ? currentUser.name
                 : currentProfile?.name}
+            </h3>
+            <h3 className='matricNumber'>
+              {Object.values(currentProfile).length === 0
+                ? currentUser.matricNumber
+                : currentProfile?.matricNumber}
             </h3>
             <p className='heading'>
               {Object.values(currentProfile).length === 0
@@ -143,6 +149,6 @@ export default function ProfileCard({ onEdit, currentUser }) {
           );
         })} 
       </div> */}
-    </>
+    </div>
   );
 }

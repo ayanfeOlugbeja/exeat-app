@@ -13,13 +13,17 @@ export const Navbar = ({ currentUser }) => {
   const isRegisterpage = location.pathname === '/register';
   const isRecoverpage = location.pathname === '/recover';
   const isVerifypage = location.pathname === '/verify';
+  const isAdminpage = location.pathname === '/admin';
+  const isProfilepage = location.pathname === '/profile';
 
   if (
     isHomepage ||
     isLoginpage ||
     isRegisterpage ||
     isRecoverpage ||
-    isVerifypage
+    isVerifypage ||
+    isAdminpage ||
+    isProfilepage
   ) {
     return null;
   }
@@ -61,12 +65,19 @@ export const Navbar = ({ currentUser }) => {
               )}
             </div>
 
-            <div
+            {/* <div
               className='imagePlaceholder w-[5%] h-[70%] rounded-full'
               style={{ border: '2px solid black' }}
               onClick={displayPopup}>
               <BsFillPersonFill size={40} className='mx-auto' />
-            </div>
+            </div> */}
+            <img
+              className='user-logo w-[5%] h-[70%] rounded-full'
+              style={{ border: '2px solid black' }}
+              src={currentUser?.imageLink}
+              alt='user'
+              onClick={displayPopup}
+            />
           </div>
         </div>
       </div>
