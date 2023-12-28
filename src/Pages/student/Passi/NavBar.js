@@ -15,7 +15,7 @@ export const Navbar = ({ currentUser }) => {
   const isVerifypage = location.pathname === '/verify';
   const isAdminpage = location.pathname === '/admin';
   const isProfilepage = location.pathname === '/profile';
-
+  const isDepartmentpage = location.pathname === '/department';
   if (
     isHomepage ||
     isLoginpage ||
@@ -23,7 +23,8 @@ export const Navbar = ({ currentUser }) => {
     isRecoverpage ||
     isVerifypage ||
     isAdminpage ||
-    isProfilepage
+    isProfilepage ||
+    isDepartmentpage
   ) {
     return null;
   }
@@ -72,7 +73,7 @@ export const Navbar = ({ currentUser }) => {
               <BsFillPersonFill size={40} className='mx-auto' />
             </div> */}
             <img
-              className='user-logo w-[5%] h-[70%] rounded-full'
+              className='user-logo w-[60px] h-[60px] rounded-full'
               style={{ border: '2px solid black' }}
               src={currentUser?.imageLink}
               alt='user'

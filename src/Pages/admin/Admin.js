@@ -4,7 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseConfig';
 import Loader from '../student/Components/common/Loader';
-
+import ExeatCard from './Components/ExeatCard';
 function Admin({ currentUser }) {
   const [loading, setLoading] = useState(true);
 

@@ -14,6 +14,7 @@ import Access from './Pages/student/Passi/Access/Access';
 import Profile from './Pages/student/Passi/profile/Profile';
 import Admin from './Pages/admin/Admin';
 import About from './Pages/Profile/Profile';
+import DepartmentHead from './Pages/department/DepartmentHead';
 
 import { getCurrentUser } from './api/FirestoreAPI';
 // import { UserProvider } from './UserContext';
@@ -40,6 +41,10 @@ const App = () => {
             <Route path='verify' element={<EmailVerification />} />
             <Route path='admin' element={<Admin currentUser={currentUser} />} />
             <Route path='profile' element={<About />} />
+            <Route
+              path='department'
+              element={<DepartmentHead currentUser={currentUser} />}
+            />
           </Routes>
         </main>
       </div>

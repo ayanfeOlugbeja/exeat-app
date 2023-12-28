@@ -38,7 +38,7 @@ export default function ProfileCard({ onEdit, currentUser }) {
   }, []);
 
   return (
-    <div className='flex flex-col justify-center items-center p-5 mt-10 space-y-5 w-[300px] mx-auto'>
+    <div className='flex flex-col justify-center items-center p-5 mt-10 space-y-5 w-[500px] mx-auto'>
       <FileUploadModal
         getImage={getImage}
         uploadImage={uploadImage}
@@ -58,7 +58,7 @@ export default function ProfileCard({ onEdit, currentUser }) {
         <div className='profile-info '>
           <div className='space-y-3 font-semibold p-3'>
             <img
-              className='profile-image w-[200px] h-[200px]'
+              className='profile-image w-[200px] h-[200px] mx-auto'
               onClick={() => setModalOpen(true)}
               src={
                 Object.values(currentProfile).length === 0
@@ -68,14 +68,68 @@ export default function ProfileCard({ onEdit, currentUser }) {
               alt='your-pic'
             />
             <h3 className='userName'>
+              Full Name -
               {Object.values(currentProfile).length === 0
                 ? currentUser.name
                 : currentProfile?.name}
             </h3>
             <h3 className='matricNumber'>
+              Matriculation Number -
               {Object.values(currentProfile).length === 0
                 ? currentUser.matricNumber
                 : currentProfile?.matricNumber}
+            </h3>
+            <h3 className='Email'>
+              Email -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.email
+                : currentProfile?.email}
+            </h3>
+            <h3 className='parentEmail'>
+              Parent Email -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.parentEmail
+                : currentProfile?.parentEmail}
+            </h3>
+            <h3 className='Phone'>
+              Phone -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.phone
+                : currentProfile?.phone}
+            </h3>
+            <h3 className='parentPhone'>
+              Parent Phone -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.parentPhone
+                : currentProfile?.parentPhone}
+            </h3>
+            <h3 className='room'>
+              Room Number -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.room
+                : currentProfile?.room}
+            </h3>
+
+            <h3 className='gender'>
+              {' '}
+              Gender -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.gender
+                : currentProfile?.gender}
+            </h3>
+            <h3 className='level'>
+              {' '}
+              Level -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.level
+                : currentProfile?.level}
+            </h3>
+            <h3 className='department'>
+              {' '}
+              Department -
+              {Object.values(currentProfile).length === 0
+                ? currentUser.department
+                : currentProfile?.department}
             </h3>
             <p className='heading'>
               {Object.values(currentProfile).length === 0
