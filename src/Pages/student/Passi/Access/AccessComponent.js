@@ -1,32 +1,112 @@
-import React, { useMemo, useState } from 'react';
-import { getPosts } from '../../../../api/FirestoreAPI';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Modal } from 'antd';
+import { BsPencil, BsTrash } from 'react-icons/bs';
+import {
+  getCurrentUser,
+  getAllUsers,
+  deletePost,
+  getConnections,
+} from './../../../../api/FirestoreAPI';
+// import LikeButton from '../LikeButton';
+// import './index.scss';
 
-export default function AccessComponent({ currentUser }) {
-  const [allPosts, setAllPosts] = useState([]);
+export default function Access({ posts, id, getEditData }) {
+  let navigate = useNavigate();
+
+  const [currentUser, setCurrentUser] = useState({});
+  const [allUsers, setAllUsers] = useState([]);
+  const [imageModal, setImageModal] = useState(false);
+  // const [isConnected, setIsConnected] = useState(false);
   useMemo(() => {
-    getPosts(setAllPosts);
+    getCurrentUser(setCurrentUser);
+    getAllUsers(setAllUsers);
   }, []);
 
-  return (
-    <div className='h-[100vh]'>
-      <div className='title-bar h-[60px] flex items-center justify-end p-3'>
-        <h2 className='text-2xl font-bold mr-24'>PASSI - Access Logs</h2>
+  useEffect(() => {
+    getConnections(currentUser.id, posts.userID);
+  }, [currentUser.id, posts.userID]);
+
+  return currentUser.id === posts.userID ? (
+    <div className='posts-card' key={id}>
+      <div className='post-image-wrapper'>
+        {currentUser.id === posts.userID ? (
+          <div className='action-container'>
+            <BsPencil
+              size={20}
+              className='action-icon'
+              onClick={() => getEditData(posts)}
+            />
+            <BsTrash
+              size={20}
+              className='action-icon'
+              onClick={() => deletePost(posts.id)}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
+
+        <img
+          alt='profile-image'
+          className='profile-image'
+          src={
+            allUsers
+              .filter((item) => item.id === posts.userID)
+              .map((item) => item.imageLink)[0]
+          }
+        />
+        <div>
+          <p
+            className='name'
+            onClick={() =>
+              navigate('/profile', {
+                state: { id: posts?.userID, email: posts.userEmail },
+              })
+            }>
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.name}
+          </p>
+          <p className='headline'>
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.headline}
+          </p>
+          <p className='timestamp'>{posts.timeStamp}</p>
+        </div>
       </div>
-      <div
-        className='w-[40%] h-auto mx-auto mt-20 flex flex-col gap-10 p-8 justify-center'
-        style={{ border: '1px solid black' }}>
-        {allPosts.map((posts) => {
-          return (
-            <div
-              className='w-[100%] h-[100px]'
-              style={{ border: '1px solid black' }}>
-              <p>{posts.userName}</p>
-              <p>{posts.timestamp}</p>
-              <p>{posts.status}</p>
-            </div>
-          );
-        })}
-      </div>
+      {posts.postImage ? (
+        <img
+          onClick={() => setImageModal(true)}
+          src={posts.postImage}
+          className='post-image'
+          alt='post-image'
+        />
+      ) : (
+        <></>
+      )}
+      <p
+        className='status'
+        dangerouslySetInnerHTML={{ __html: posts.status }}></p>
+
+      {/* <LikeButton
+        userId={currentUser?.id}
+        postId={posts.id}
+        currentUser={currentUser}
+      /> */}
+
+      <Modal
+        centered
+        open={imageModal}
+        onOk={() => setImageModal(false)}
+        onCancel={() => setImageModal(false)}
+        footer={[]}>
+        <img
+          onClick={() => setImageModal(true)}
+          src={posts.postImage}
+          className='post-image modal'
+          alt='post-image'
+        />
+      </Modal>
     </div>
+  ) : (
+    <></>
   );
 }

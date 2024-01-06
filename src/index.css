@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 * {
-  /* border: 1px solid green; */
+  border: 1px solid green;
   box-sizing: border-box;
 }
 ::-webkit-scrollbar {
@@ -28,4 +28,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.modal-input {
+  border: none !important;
+  background-color: white;
+  outline: none;
+  color: black;
+  font-size: 16px;
+  width: 100%;
+  resize: none;
+}
+.q1-container.q1-snow,
+.q1-toolbar.q1-snow {
+  border: none !important;
+}
+.q1-container.q1-snow {
+  font-size: 20px;
+}
+.q1-editor {
+  min-height: 60px;
 }

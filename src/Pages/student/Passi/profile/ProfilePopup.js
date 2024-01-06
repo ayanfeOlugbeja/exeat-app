@@ -2,9 +2,9 @@ import React from 'react';
 import { onLogout } from '../../../../api/AuthApi';
 import { useNavigate } from 'react-router-dom';
 export default function ProfilePopup({ currentUser }) {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
   const handleProfileClick = () => {
-    navigate('/passi/profile');
+    navigate('/passi/profile', { state: { currentUser } });
   };
   return (
     <div

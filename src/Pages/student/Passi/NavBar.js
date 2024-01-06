@@ -36,7 +36,7 @@ export const Navbar = ({ currentUser }) => {
     <div>
       {popupVisible ? (
         <div className='popup-position'>
-          <ProfilePopup />
+          <ProfilePopup currentUser={currentUser} />
         </div>
       ) : (
         <></>

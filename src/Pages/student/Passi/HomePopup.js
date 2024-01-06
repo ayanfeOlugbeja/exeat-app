@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { onLogout } from '../../../api/AuthApi';
-// import { BiLogOut } from 'react-icons/bi';
+import { BiLogOut } from 'react-icons/bi';
 
 export default function HomePopup() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,11 +44,7 @@ export default function HomePopup() {
           </div>
         </div>
       )}
-      <div
-        onClick={handleOpenModal}
-        className='cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-md'>
-        Logout
-      </div>
+      <BiLogOut onClick={handleOpenModal} className='w-[90px] h-[70px]' />
       {/* <div
         className='w-[221px] h-[247px] flex flex-col flex-nowrap items-center justify-center p-2 gap-8 z-50'
         onClick={handleOpenModal}
