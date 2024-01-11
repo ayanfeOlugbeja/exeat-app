@@ -8,7 +8,7 @@ import { Button, Modal, Progress } from 'antd';
 import { AiOutlinePicture } from 'react-icons/ai';
 import ReactQuill from 'react-quill';
 // import { DatePicker, Space } from 'antd';
-import Access from './../Access/Access';
+
 import { getCurrentTimestamp } from '../../../../helpers/useMoment';
 import { getUniqueID } from '../../../../helpers/getUniqueID';
 import { uploadPostImage } from '../../../../api/ImageUpload';
@@ -19,6 +19,7 @@ export default function CreateComponent({ currentUser }) {
   const [currentPost, setCurrentPost] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [postImage, setPostImage] = useState('');
+  console.log(currentUser);
   const sendRequest = async () => {
     let object = {
       status: status,
@@ -119,16 +120,6 @@ export default function CreateComponent({ currentUser }) {
             disabled={status.length > 0 ? false : true}>
             {isEdit ? 'Update' : 'Post'}
           </Button>
-        </div>
-
-        <div>
-          {allStatuses.map((posts) => {
-            return (
-              <div key={posts.id}>
-                <Access posts={posts} getEditData={getEditData} />
-              </div>
-            );
-          })}
         </div>
       </div>
     </div>

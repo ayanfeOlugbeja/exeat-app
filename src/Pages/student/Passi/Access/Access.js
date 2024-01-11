@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AccessComponent from './AccessComponent';
+import Accessing from './Accessing';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,9 +24,7 @@ const Access = () => {
   }, []);
 
   return (
-    <div>
-      {loading ? <Loader /> : <AccessComponent currentUser={currentUser} />}
-    </div>
+    <div>{loading ? <Loader /> : <Accessing currentUser={currentUser} />}</div>
   );
 };
 
