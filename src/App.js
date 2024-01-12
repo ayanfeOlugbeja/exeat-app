@@ -15,8 +15,9 @@ import Profile from './Pages/student/Passi/profile/Profile';
 import Admin from './Pages/admin/Admin';
 import About from './Pages/Profile/Profile';
 import DepartmentHead from './Pages/department/DepartmentHead';
-
+import StudentList from './Pages/admin/Components/StudentList';
 import { getCurrentUser } from './api/FirestoreAPI';
+import Document from './Pages/admin/Components/Document/Document';
 // import { UserProvider } from './UserContext';
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -41,9 +42,20 @@ const App = () => {
             <Route path='verify' element={<EmailVerification />} />
             <Route path='admin' element={<Admin currentUser={currentUser} />} />
             <Route path='profile' element={<About />} />
+
             <Route
               path='department'
               element={<DepartmentHead currentUser={currentUser} />}
+            />
+
+            <Route
+              path='admin/students'
+              element={<StudentList currentUser={currentUser} />}
+            />
+
+            <Route
+              path='admin/docs'
+              element={<Document currentUser={currentUser} />}
             />
           </Routes>
         </main>

@@ -12,7 +12,7 @@ import {
 // import LikeButton from '../LikeButton';
 // import './index.scss';
 
-export default function AccessComponent({ posts, id, getEditData }) {
+export default function DocumentComponent({ posts, id, getEditData }) {
   let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
@@ -23,11 +23,11 @@ export default function AccessComponent({ posts, id, getEditData }) {
     getAllUsers(setAllUsers);
   }, []);
 
-  useEffect(() => {
-    getConnections(currentUser.id, posts.userID, setIsConnected);
-  }, [currentUser.id, posts.userID]);
+  // useEffect(() => {
+  //   getConnections(currentUser.id, posts.userID, setIsConnected);
+  // }, [currentUser.id, posts.userID]);
 
-  return currentUser.id === posts.userID ? (
+  return (
     <div
       className='posts-card flex flex-col justify-center gap-5 min-h-[150px] h-auto w-[600px] mx-auto my-4'
       key={id}
@@ -58,7 +58,7 @@ export default function AccessComponent({ posts, id, getEditData }) {
           </p>
           <p className='timestamp'>{posts.timeStamp}</p>
         </div>
-        {currentUser.id === posts.userID ? (
+        {/* {currentUser.id === posts.userID ? (
           <div className='action-container flex flex-row gap-3'>
             <BsPencil
               size={20}
@@ -73,7 +73,7 @@ export default function AccessComponent({ posts, id, getEditData }) {
           </div>
         ) : (
           <></>
-        )}
+        )} */}
       </div>
       {posts.postImage ? (
         <img
@@ -111,7 +111,5 @@ export default function AccessComponent({ posts, id, getEditData }) {
         />
       </Modal>
     </div>
-  ) : (
-    <></>
   );
 }
