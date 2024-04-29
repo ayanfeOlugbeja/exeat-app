@@ -8,7 +8,7 @@ import Passi from './Pages/student//Passi/Passi';
 import EmailVerification from './Pages/student/Login/EmailVerification';
 import ForgotPassword from './Pages/student/Components/ForgotPassword';
 import NavBar from './Pages/student/Passi/NavBar';
-import { app } from './firebaseConfig';
+// import { app } from './firebaseConfig';
 import Create from './Pages/student/Passi/create/Create';
 import Access from './Pages/student/Passi/Access/Access';
 import Profile from './Pages/student/Passi/profile/Profile';
@@ -55,6 +55,15 @@ const App = () => {
 
             <Route
               path='admin/docs'
+              element={<Document currentUser={currentUser} />}
+            />
+            <Route
+              path='department/students'
+              element={<StudentList currentUser={currentUser} />}
+            />
+
+            <Route
+              path='department/docs'
               element={<Document currentUser={currentUser} />}
             />
           </Routes>

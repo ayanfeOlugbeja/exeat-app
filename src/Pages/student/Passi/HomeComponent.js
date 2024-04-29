@@ -47,10 +47,7 @@ export default function HomeComponent({ currentUser }) {
           <HiOutlineDocumentText className='w-[90px] h-[70px]' />
           <p className='font-bold'>Access Logs</p>
         </div>
-        {/* 
-          <BiLogOut className='w-[90px] h-[70px]' />
-          
-        </div> */}
+
         <div
           className='w-[40%] h-[46%] flex flex-col flex-nowrap items-center justify-center p-2 gap-8'
           style={{ border: '2px solid black' }}>

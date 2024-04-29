@@ -18,6 +18,8 @@ export const Navbar = ({ currentUser }) => {
   const isDepartmentpage = location.pathname === '/department';
   const isAdmindocs = location.pathname === '/admin/docs';
   const isAdminstudents = location.pathname === '/admin/students';
+  const isDeptdocs = location.pathname === '/department/docs';
+  const isDeptstudents = location.pathname === '/department/students';
   if (
     isHomepage ||
     isLoginpage ||
@@ -28,7 +30,9 @@ export const Navbar = ({ currentUser }) => {
     isProfilepage ||
     isDepartmentpage ||
     isAdmindocs ||
-    isAdminstudents
+    isAdminstudents ||
+    isDeptdocs ||
+    isDeptstudents
   ) {
     return null;
   }
@@ -70,12 +74,6 @@ export const Navbar = ({ currentUser }) => {
               )}
             </div>
 
-            {/* <div
-              className='imagePlaceholder w-[5%] h-[70%] rounded-full'
-              style={{ border: '2px solid black' }}
-              onClick={displayPopup}>
-              <BsFillPersonFill size={40} className='mx-auto' />
-            </div> */}
             <img
               className='user-logo w-[60px] h-[60px] rounded-full'
               style={{ border: '2px solid black' }}

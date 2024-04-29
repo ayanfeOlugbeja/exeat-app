@@ -1,89 +1,98 @@
-import React, { useState } from 'react';
-import { LoginAPI, GoogleSignInAPI } from '../../../api/AuthApi';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import GoogleButton from 'react-google-button';
+
+import { useNavigate } from 'react-router-dom';
+
+import { AiOutlineMail } from 'react-icons/ai';
+import { RiLockPasswordFill } from 'react-icons/ri';
+
+import { LoginAPI } from '../../../api/AuthApi';
 import { toast } from 'react-toastify';
 export default function LoginComponent() {
-  let navigate = useNavigate();
+  const navig = useNavigate();
+
   const [credentials, setCredentials] = useState({});
   const login = async () => {
     try {
       let res = await LoginAPI(credentials.email, credentials.password);
       toast.success('Signed in to PASSI');
       localStorage.setItem('userEmail', res.user.email);
-      navigate('/passi');
+      navig('/passi');
     } catch (err) {
       toast.error('Check your credentials');
     }
   };
-  const googleSignIn = () => {
-    let response = GoogleSignInAPI();
-    console.log(response);
-    navigate('/passi');
-  };
+
   return (
-    <div className='w-[350px] h-[100vh]  mx-auto mt-24'>
-      <div
-        className='h-[80%] flex flex-col items-center justify-between space-y-14 p-4 
-    '
-        style={{ border: '1px solid black' }}>
-        <div
-          className='flex flex-col items-center justify-between h-[70%] py-8 w-[90%]'
-          style={{ border: '1px solid black' }}>
-          <h1 className='font-bold text-2xl'>Sign In</h1>
-          <div className='flex flex-col space-y-4'>
-            <input
-              onChange={(e) =>
-                setCredentials({ ...credentials, email: e.target.value })
-              }
-              className='email-input h-[40px] w-[250px]'
-              placeholder='Enter your email'
-              style={{ border: '1px solid black' }}
-              type='email'
-            />
-            <input
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
-              className='password-input  h-[40px] w-[250px]'
-              placeholder='Enter your password'
-              style={{ border: '1px solid black' }}
-              type='password'
-            />
-          </div>
+    <>
+      <div className='py-[150px] px-[20px]  '>
+        <div className='flex flex-row justify-center'>
+          <div
+            data-aos='zoom-in'
+            className='bg-slate-900 md:px-[70px]  flex flex-col  p-[20px] rounded shadow-2xl'>
+            <div>
+              <h1 className='text-center text-slate-50 font-semibold text-[20px] uppercase font-myfont    mb-3'>
+                Welcome back!
+              </h1>
+            </div>
+            <form action='' className='flex  flex-col gap-5'>
+              <div className='flex flex-col gap-1 items-start'>
+                <label
+                  htmlFor='email'
+                  className='flex  items-center gap-1 text-slate-50 text-[15px]'>
+                  <AiOutlineMail />
+                  Email:
+                </label>
+                <input
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, email: e.target.value })
+                  }
+                  value={credentials.emailAddress}
+                  type='email'
+                  placeholder='aiyedogbon@gmail.com'
+                  className='p-3 text shadow bg-slate-50 text-slate-900 rounded w-full outline-0 '
+                />
+              </div>
+              <div className='flex flex-col gap-1 items-start'>
+                <label
+                  htmlFor='password'
+                  className='flex gap-1 items-center text-slate-50 text-[15px] '>
+                  <RiLockPasswordFill />
+                  Password
+                </label>
+                <input
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, password: e.target.value })
+                  }
+                  value={credentials.password}
+                  type='password'
+                  placeholder='******'
+                  className='p-3 rounded bg-slate-50 text-slate-900 outline-0 w-full shadow '
+                />
+              </div>
+              <button
+                onClick={login}
+                type='button'
+                className='bg-yellow-500 hover:bg-yellow-700 text-slate-50 rounded text-[17px] font-semibold p-3'>
+                Login
+              </button>
 
-          <button
-            className='rounded w-[100px] h-[40px] bg-black text-white'
-            style={{ cursor: 'pointer' }}
-            onClick={login}>
-            Sign in
-          </button>
-          <Link to='/recover' className='text-black'>
-            Forgot Password?
-          </Link>
-        </div>
-
-        <div
-          className='flex flex-col items-center justify-between h-[30%] p-4'
-          style={{ border: '1px solid black' }}>
-          <div className='google-btn'>
-            <GoogleButton
-              className='bg-black text-white'
-              type='dark'
-              onClick={googleSignIn}
-            />
+              <Link
+                to='/recover'
+                className='text-slate-200 hover:text-slate-500 text-[13px] font-300'>
+                Forgot Password?
+              </Link>
+              <p className='text-center text-[17px] text-slate-100 '>
+                Don't have account yet?{' '}
+                <Link to='/register' className='text-yellow-500 text-[15px]'>
+                  Sign Up
+                </Link>
+              </p>
+            </form>
           </div>
-          <p>
-            New to PASSI?{' '}
-            <span
-              className='text-blue-500 text-base cursor-pointer'
-              onClick={() => navigate('/register')}>
-              Join Now
-            </span>
-          </p>
         </div>
       </div>
-    </div>
+    </>
   );
 }

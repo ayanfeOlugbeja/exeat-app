@@ -18,6 +18,12 @@ export default function DocumentComponent({ posts, id, getEditData }) {
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [profileModal, setProfileModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  const openProfileModal = () => {
+    setProfileModal(true);
+  };
+
   useMemo(() => {
     getCurrentUser(setCurrentUser);
     getAllUsers(setAllUsers);
@@ -43,21 +49,18 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           }
           style={{ border: '2px solid black' }}
         />
-        <div>
-          <p
-            className='name'
-            onClick={() =>
-              navigate('/profile', {
-                state: { id: posts?.userID, email: posts.userEmail },
-              })
-            }>
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.name}
-          </p>
-          <p className='headline'>
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.headline}
-          </p>
-          <p className='timestamp'>{posts.timeStamp}</p>
-        </div>
+        <p className='name' onClick={openProfileModal}>
+          {allUsers.find((user) => user.id === posts.userID)?.name}
+        </p>
+
+        <p className='timestamp'>{posts.timeStamp}</p>
+
+        <Modal
+          centered
+          open={profileModal}
+          onOk={() => setProfileModal(false)}
+          onCancel={() => setProfileModal(false)}
+          footer={[]}></Modal>
         {/* {currentUser.id === posts.userID ? (
           <div className='action-container flex flex-row gap-3'>
             <BsPencil

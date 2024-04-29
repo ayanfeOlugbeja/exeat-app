@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import SideBar from '../admin/SideBar';
+import SideBar from './SideBar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseConfig';

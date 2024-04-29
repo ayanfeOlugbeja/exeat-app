@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { RegisterAPI, GoogleSignInAPI } from '../../../api/AuthApi';
+import { RegisterAPI } from '../../../api/AuthApi';
 import { postUserData } from '../../../api/FirestoreAPI';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import GoogleButton from 'react-google-button';
+
 import { toast } from 'react-toastify';
 export default function RegisterComponent() {
   let navigate = useNavigate();
@@ -31,11 +31,7 @@ export default function RegisterComponent() {
       toast.error('Error creating account');
     }
   };
-  const googleSignIn = () => {
-    let response = GoogleSignInAPI();
-    console.log(response);
-    navigate('/passi');
-  };
+
   return (
     <div className='w-[350px]   mx-auto mt-16 ' style={{ background: 'blue' }}>
       <div className=' flex flex-col items-center justify-between  '>
@@ -56,9 +52,33 @@ export default function RegisterComponent() {
               onChange={(e) =>
                 setCredentials({ ...credentials, department: e.target.value })
               }>
-              <option value='mps'>Mathematical and Physical Sciences</option>
-              <option value='chemical science'>Chemical Sciences</option>
-              <option value='biological science'>Biological Sciences</option>
+              <option value=''>Course of Study</option>
+              <option value='computer science'>Computer Science</option>
+              <option value='Biochemistry'>Biochemistry</option>
+              <option value='Mathematics'>Mathematics</option>
+              <option value='Physics'>Physics</option>
+              <option value='Chemistry'>Chemistry</option>
+              <option value='Industrial Chemistry'>Industrial Chemistry</option>
+              <option value='Microbiology'>Microbiology</option>
+              <option value='Statistics'>Statistics</option>
+              <option value='English Language'>English Language</option>
+              <option value='French'>French</option>
+              <option value='History and Diplomatic Studies'>
+                History and Diplomatic Studies
+              </option>
+              <option value='Religious Studies'>Religious Studies</option>
+              <option value='Philosophy'>Philosphy</option>
+              <option value='Accounting'>Accounting</option>
+              <option value='Business Administration'>
+                Business Administration
+              </option>
+              <option value='Public Administration'>
+                Public Adminstration
+              </option>
+              <option value='Banking and Finance'>Banking and Finance</option>
+              <option value='Economics'>Economics</option>
+              <option value='Mass Communication'>Mass Communication</option>
+              <option value='Law'>Law</option>
             </select>
             <select
               name='level'
@@ -66,6 +86,7 @@ export default function RegisterComponent() {
               onChange={(e) =>
                 setCredentials({ ...credentials, level: e.target.value })
               }>
+              <option value=''>Academic Level</option>
               <option value='100'>100</option>
               <option value='200'>200</option>
               <option value='300'>300</option>
@@ -163,11 +184,6 @@ export default function RegisterComponent() {
           <Link to='/recover'>Forgot Password?</Link>
         </div>
 
-        {/* <p className=' text-lg h-[5%]'>or</p> */}
-
-        <div className='google-btn'>
-          <GoogleButton type='dark' onClick={googleSignIn} />
-        </div>
         <p>
           Already on PASSI?{' '}
           <span

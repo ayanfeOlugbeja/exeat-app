@@ -10,13 +10,13 @@ import HomePopup from '../student/Passi/HomePopup';
 function SideBar({ currentUser }) {
   let navigate = useNavigate();
   const handleDocumentClick = () => {
-    navigate('/admin/docs', { state: { currentUser } });
+    navigate('/department/docs', { state: { currentUser } });
   };
   const handleHomeClick = () => {
-    navigate('/admin', { state: { currentUser } });
+    navigate('/department', { state: { currentUser } });
   };
   const handleStudentClick = () => {
-    navigate('/admin/students', { state: { currentUser } });
+    navigate('/department/students', { state: { currentUser } });
   };
 
   return (

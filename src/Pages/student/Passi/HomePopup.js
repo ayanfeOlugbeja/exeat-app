@@ -45,13 +45,6 @@ export default function HomePopup() {
         </div>
       )}
       <BiLogOut onClick={handleOpenModal} className='w-[90px] h-[70px]' />
-      {/* <div
-        className='w-[221px] h-[247px] flex flex-col flex-nowrap items-center justify-center p-2 gap-8 z-50'
-        onClick={handleOpenModal}
-        style={{ border: '2px solid black' }}>
-        {/* <BiLogOut className='w-[90px] h-[70px]' /> */}
-      {/* <p className='font-bold'>Logout</p>
-      </div> */}{' '}
     </div>
   );
 }
