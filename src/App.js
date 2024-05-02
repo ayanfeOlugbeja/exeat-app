@@ -18,6 +18,8 @@ import DepartmentHead from './Pages/department/DepartmentHead';
 import StudentList from './Pages/admin/Components/StudentList';
 import { getCurrentUser } from './api/FirestoreAPI';
 import Document from './Pages/admin/Components/Document/Document';
+import DepartmentDocument from './Pages/department/Components/Documents/DepartmentDocument';
+import NotFound from './NotFound';
 // import { UserProvider } from './UserContext';
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
@@ -64,8 +66,9 @@ const App = () => {
 
             <Route
               path='department/docs'
-              element={<Document currentUser={currentUser} />}
+              element={<DepartmentDocument currentUser={currentUser} />}
             />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </main>
       </div>

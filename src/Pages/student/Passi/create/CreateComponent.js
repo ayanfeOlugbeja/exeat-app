@@ -26,6 +26,7 @@ export default function CreateComponent({ currentUser }) {
       userEmail: currentUser.email,
       userName: currentUser.name,
       matricNumber: currentUser.matricNumber,
+      department: currentUser.department,
       postID: getUniqueID(),
       userID: currentUser.id,
       postImage: postImage,

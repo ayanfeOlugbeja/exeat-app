@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Modal } from 'antd';
 import { BsPencil, BsTrash } from 'react-icons/bs';
+import school from './../../../../Images/schoolLogo.png';
 import {
   getCurrentUser,
   getAllUsers,
@@ -35,63 +36,87 @@ export default function DocumentComponent({ posts, id, getEditData }) {
 
   return (
     <div
-      className='posts-card flex flex-col justify-center gap-5 min-h-[150px] h-auto w-[600px] mx-auto my-4'
+      className='posts-card min-h-[150px] max-h-[470px]  w-[60%] mx-auto my-4'
       key={id}
-      style={{ border: '2px solid green' }}>
-      <div className='post-image-wrapper flex  justify-between flex-row items-center m-2'>
+      style={{ border: '3px solid blue', background: '#ceeff8' }}>
+      <div className='header flex flex-row justify-between w-[70%] items-center'>
+        <img src={school} alt='school logo' className='w-[100px] h-[100px]' />
+        <div className='text-center text-2xl font-extrabold'>
+          <p>GLORIOUS VISION UNIVERSITY</p>
+          <p>STUDENTS EXEAT FORM</p>
+        </div>
+      </div>
+      <div className='body my-[10px] flex flex-row justify-evenly'>
         <img
-          alt='profile-image'
-          className='profile-image w-[60px] h-[60px] rounded-full'
           src={
             allUsers
               .filter((item) => item.id === posts.userID)
               .map((item) => item.imageLink)[0]
           }
-          style={{ border: '2px solid black' }}
+          alt=''
+          className='profile-image w-[180px] h-[180px]'
         />
-        <p className='name' onClick={openProfileModal}>
-          {allUsers.find((user) => user.id === posts.userID)?.name}
-        </p>
-
-        <p className='timestamp'>{posts.timeStamp}</p>
-
-        <Modal
-          centered
-          open={profileModal}
-          onOk={() => setProfileModal(false)}
-          onCancel={() => setProfileModal(false)}
-          footer={[]}></Modal>
-        {/* {currentUser.id === posts.userID ? (
-          <div className='action-container flex flex-row gap-3'>
-            <BsPencil
-              size={20}
-              className='action-icon'
-              onClick={() => getEditData(posts)}
-            />
-            <BsTrash
-              size={20}
-              className='action-icon'
-              onClick={() => deletePost(posts.id)}
-            />
-          </div>
+        <div className='text-sm w-[50%] font-semibold '>
+          <p>
+            <span className='font-bold'>NAME: </span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.name}
+          </p>
+          <p>
+            <span className='font-bold'>DEPARTMENT: </span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.department}
+          </p>
+          <p>
+            <span className='font-bold'> COURSE:</span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.course}
+          </p>
+          <p>
+            <span className='font-bold'> ACADEMIC LEVEL:</span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.level}
+          </p>
+          <p>
+            <span className='font-bold'>GENDER: </span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.gender}
+          </p>
+          <p>
+            <span className='font-bold'> ROOM NUMBER:</span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.room}
+          </p>
+          <p>
+            {' '}
+            <span className='font-bold'>PHONE NUMBER: </span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.phone}
+          </p>
+          <p>
+            {' '}
+            <span className='font-bold'>PARENT'S NUMBER: </span>{' '}
+            {
+              allUsers.filter((user) => user.id === posts.userID)[0]
+                ?.parentPhone
+            }
+          </p>
+        </div>
+      </div>
+      <div className='request text-center text-base mx-2 my-2'>
+        <p
+          className='status'
+          dangerouslySetInnerHTML={{ __html: posts.status }}></p>
+      </div>
+      <div className='flex flex-row items-center'>
+        {posts.postImage ? (
+          <img
+            src={posts.postImage}
+            className='post-image w-[80px] h-[60px]'
+            alt='post-image'
+          />
         ) : (
           <></>
-        )} */}
+        )}
+        <p
+          className=' cursor-pointer text-blue-800'
+          onClick={() => setImageModal(true)}>
+          View Attachment
+        </p>
       </div>
-      {posts.postImage ? (
-        <img
-          onClick={() => setImageModal(true)}
-          src={posts.postImage}
-          className='post-image w-[600px] h-[400px]'
-          alt='post-image'
-        />
-      ) : (
-        <></>
-      )}
-
-      <p
-        className='status'
-        dangerouslySetInnerHTML={{ __html: posts.status }}></p>
 
       {/* <LikeButton
         userId={currentUser?.id}
@@ -108,7 +133,7 @@ export default function DocumentComponent({ posts, id, getEditData }) {
         <img
           onClick={() => setImageModal(true)}
           src={posts.postImage}
-          className='post-image modal w-[800px] h-[600px] mx-auto my-auto p-4'
+          className='post-image modal w-[1000px] h-[600px] mx-auto my-auto p-4'
           alt='post-image'
           style={{ objectFit: 'cover' }}
         />

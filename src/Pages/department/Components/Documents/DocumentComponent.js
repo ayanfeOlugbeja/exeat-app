@@ -2,33 +2,39 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Modal } from 'antd';
 import { BsPencil, BsTrash } from 'react-icons/bs';
+import school from './../../../../Images/schoolLogo.png';
 import {
   getCurrentUser,
   getAllUsers,
   deletePost,
   getConnections,
 } from './../../../../api/FirestoreAPI';
-import school from '../../../../Images/schoolLogo.png';
 
 // import LikeButton from '../LikeButton';
 // import './index.scss';
 
-export default function AccessComponent({ posts, id, getEditData }) {
+export default function DocumentComponent({ posts, id, getEditData }) {
   let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
+  const [profileModal, setProfileModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
+  const openProfileModal = () => {
+    setProfileModal(true);
+  };
+
   useMemo(() => {
     getCurrentUser(setCurrentUser);
     getAllUsers(setAllUsers);
   }, []);
 
-  useEffect(() => {
-    getConnections(currentUser.id, posts.userID, setIsConnected);
-  }, [currentUser.id, posts.userID]);
+  // useEffect(() => {
+  //   getConnections(currentUser.id, posts.userID, setIsConnected);
+  // }, [currentUser.id, posts.userID]);
 
-  return currentUser.id === posts.userID ? (
+  return currentUser.department === posts.department ? (
     <div
       className='posts-card min-h-[150px] max-h-[470px]  w-[60%] mx-auto my-4'
       key={id}

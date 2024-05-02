@@ -20,6 +20,7 @@ export const Navbar = ({ currentUser }) => {
   const isAdminstudents = location.pathname === '/admin/students';
   const isDeptdocs = location.pathname === '/department/docs';
   const isDeptstudents = location.pathname === '/department/students';
+  const isNotFound = location.pathname === '*';
   if (
     isHomepage ||
     isLoginpage ||
@@ -32,7 +33,8 @@ export const Navbar = ({ currentUser }) => {
     isAdmindocs ||
     isAdminstudents ||
     isDeptdocs ||
-    isDeptstudents
+    isDeptstudents ||
+    isNotFound
   ) {
     return null;
   }

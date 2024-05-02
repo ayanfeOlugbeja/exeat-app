@@ -23,6 +23,7 @@ export default function RegisterComponent() {
         parentPhone: credentials.parentPhone,
         room: credentials.room,
         gender: credentials.gender,
+        course: credentials.course,
       });
       navigate('/verify');
       localStorage.setItem('userEmail', res.user.email);
@@ -51,6 +52,18 @@ export default function RegisterComponent() {
               id='department'
               onChange={(e) =>
                 setCredentials({ ...credentials, department: e.target.value })
+              }>
+              <option value=''>DEPARTMENT</option>
+              <option value='mps'>Mathematical and Physical Sciences</option>
+              <option value='chemical sciences'>Chemical Sciences</option>
+              <option value='biological sciences'>Biological Sciences</option>
+              <option value='languages'>Languages</option>
+            </select>
+            <select
+              name='course'
+              id='course'
+              onChange={(e) =>
+                setCredentials({ ...credentials, course: e.target.value })
               }>
               <option value=''>Course of Study</option>
               <option value='computer science'>Computer Science</option>
