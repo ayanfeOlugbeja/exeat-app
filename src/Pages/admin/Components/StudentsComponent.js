@@ -8,36 +8,82 @@ export default function StudentsComponent({ currentUser }) {
     getAllUsers(setUsers);
   }, []);
 
-  return users.length > 1 ? (
-    <div className='connections-main p-4 flex flex-col gap-3'>
-      {users.map((user) => {
-        return user.id === currentUser.id ? (
-          <></>
-        ) : (
-          // <ConnectedUsers
-          //   currentUser={currentUser}
-          //   user={user}
-          //   getCurrentUser={getCurrentUser}
-          // />
-          <div
-            className='grid-child w-[93%] h-[100px] flex flex-row flex-nowrap justify-between items-center ml-[80px]  '
-            style={{ border: '2px solid black' }}>
-            <img
-              src={user.imageLink}
-              alt='user-profileimage'
-              className=' w-[60px] h-[60px]'
-              style={{ border: '1px solid black' }}
-            />
-            <p className='name'>{user.name}</p>
-
-            <button type='primary' className='text-blue-500 border-red-800'>
-              Admin
-            </button>
-          </div>
-        );
-      })}
+  return (
+    <div className='justify-center flex'>
+      <div className='md:ml-2 ml-[150px]'>
+        <p className=' text-[15px] md:my-[25px] text-center font-bold uppercase '>
+          Registered users
+        </p>
+        {/* <div className='flex justify-center'>
+          <input
+            onChange={(e) => {
+              const value = e.target.value;
+              const findUser = userList.filter((user) => {
+                return (
+                  user.firstName
+                    .toLocaleLowerCase()
+                    .includes(value.toLocaleLowerCase()) ||
+                  user.lastName
+                    .toLocaleLowerCase()
+                    .includes(value.toLocaleLowerCase()) ||
+                  user.email
+                    .toLocaleLowerCase()
+                    .includes(value.toLocaleLowerCase()) ||
+                  user.userLevel
+                    .toLocaleLowerCase()
+                    .includes(value.toLocaleLowerCase())
+                );
+              });
+              setSearchedUser(findUser);
+            }}
+            type='text'
+            placeholder='Search for a user'
+            className='border-2 outline-0  px-[20px] rounded  '
+            name=''
+            id=''
+          />
+        </div> */}
+        <table className='border-separate relative overflow-x-scroll border-spacing-2 shadow-2xl '>
+          <thead className=' '>
+            <tr className=''>
+              <th className='md:text-[25px] text-[10px] py-1 px-2 rounded uppercase shadow'>
+                Full Name
+              </th>
+              <th className='md:text-[25px] text-[10px] py-1 px-2 rounded uppercase shadow'>
+                Email Address
+              </th>
+              <th className='md:text-[25px] text-[10px] py-1 px-2 rounded uppercase shadow'>
+                Level
+              </th>
+              <th className='md:text-[25px] text-[10px] py-1 px-2 rounded uppercase shadow'>
+                Picture
+              </th>
+            </tr>
+          </thead>
+          <tbody className='overflow-x-auto '>
+            {users.map((user) => (
+              <tr className='' key={user.id}>
+                <td className='border border-slate-100 ... text-[10px] md:text-[14px] text-slate-500 p-1 '>
+                  {user.name}
+                </td>
+                <td className='border border-slate-100 ... text-[10px] md:text-[14px] text-slate-500 py-1 px-2 '>
+                  {user.email}
+                </td>
+                <td className='border border-slate-100 ... text-[10px] md:text-[14px] text-slate-500 py-1 px-2 '>
+                  {user.level}
+                </td>
+                <td className='text-[10px] md:text-[14px] w-fit text-slate-500 py-1 px-2 '>
+                  <img
+                    className='max-w-[60px] max-h-[60px] rounded'
+                    src={user.imageLink}
+                    alt=''
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-  ) : (
-    <div className='connections-main'>No Connections to Add!</div>
   );
 }

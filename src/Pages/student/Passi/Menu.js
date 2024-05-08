@@ -11,10 +11,9 @@ const Menu = () => {
 
   const navLinks = [
     { id: 1, text: 'Home', path: '/passi' },
-    { id: 2, text: 'Profile', path: '/passi/profile' },
-    { id: 3, text: 'Create', path: '/passi/create' },
-    { id: 4, text: 'Access Logs', path: '/passi/logs' },
-    { id: 5, text: 'Print approval', path: '/passi/print' },
+
+    { id: 2, text: 'Create', path: '/passi/create' },
+    { id: 3, text: 'Access Logs', path: '/passi/logs' },
   ];
 
   return (
@@ -45,7 +44,7 @@ const Menu = () => {
           </button>
           {isOpen && (
             <div
-              className='absolute top-[12vh] w-[260px] h-[70vh] '
+              className='absolute top-[12vh] w-[220px] h-[35vh] bg-gray-50'
               style={{ border: '2px solid black', borderTop: 'none' }}>
               <ul className={`${isOpen ? 'block' : 'hidden'}`}>
                 {navLinks.map((link) => (

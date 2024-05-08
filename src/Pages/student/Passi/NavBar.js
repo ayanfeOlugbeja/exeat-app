@@ -52,7 +52,7 @@ export const Navbar = ({ currentUser }) => {
         <></>
       )}
       <div
-        className='navBar  w-[100%] h-[12vh] p-2'
+        className='navBar  w-[100%] h-[12vh] p-2 '
         style={{ border: '2px solid black' }}>
         <div className='flex flex-row justify-around items-center ml-10 '>
           <Menu />
@@ -68,13 +68,13 @@ export const Navbar = ({ currentUser }) => {
                 GVU{' '}
               </Link>
             </div>
-            <div className='welcome-message'>
+            {/* <div className='welcome-message'>
               {currentUser ? (
                 <p>Welcome, {currentUser.displayName || currentUser.name}</p>
               ) : (
                 <p>Welcome</p>
               )}
-            </div>
+            </div> */}
 
             <img
               className='user-logo w-[60px] h-[60px] rounded-full'
