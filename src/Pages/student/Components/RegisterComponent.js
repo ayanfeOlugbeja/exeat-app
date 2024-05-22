@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getUniqueID } from '../../../helpers/getUniqueID';
 import { toast } from 'react-toastify';
+import logo from './../../../Images/logo.png';
 export default function RegisterComponent() {
   let navigate = useNavigate();
   const [credentials, setCredentials] = useState({});
@@ -25,8 +26,7 @@ export default function RegisterComponent() {
         gender: credentials.gender,
         course: credentials.course,
         stats: 'user',
-        imageLink:
-          'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
+        imageLink: logo,
         userID: getUniqueID(),
       });
       navigate('/verify');
