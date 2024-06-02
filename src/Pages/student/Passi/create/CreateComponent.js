@@ -1,29 +1,29 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react'
 import {
   postResponse,
   getPosts,
   updatePost,
-} from '../../../../api/FirestoreAPI';
+} from '../../../../api/FirestoreAPI'
 
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { uploadPostImage } from '../../../../api/ImageUpload';
-import 'react-toastify/dist/ReactToastify.css';
-import { getCurrentTimestamp } from '../../../../helpers/useMoment';
-import { getUniqueID } from '../../../../helpers/getUniqueID';
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import { uploadPostImage } from '../../../../api/ImageUpload'
+import 'react-toastify/dist/ReactToastify.css'
+import { getCurrentTimestamp } from '../../../../helpers/useMoment'
+import { getUniqueID } from '../../../../helpers/getUniqueID'
 
 export default function CreateComponent({ currentUser }) {
-  const [status, setStatus] = useState('');
-  const [allStatuses, setAllStatus] = useState([]);
-  const [currentPost, setCurrentPost] = useState({});
-  const [isEdit, setIsEdit] = useState(false);
-  const [postImage, setPostImage] = useState('');
+  const [status, setStatus] = useState('')
+  const [allStatuses, setAllStatus] = useState([])
+  const [currentPost, setCurrentPost] = useState({})
+  const [isEdit, setIsEdit] = useState(false)
+  const [postImage, setPostImage] = useState('')
   // console.log(currentUser);
   const [newsContents, setNewsContents] = useState({
     headline: '',
     overview: '',
-  });
-  console.log(newsContents);
+  })
+  console.log(newsContents)
   const sendRequest = async () => {
     let object = {
       status: status,
@@ -37,40 +37,42 @@ export default function CreateComponent({ currentUser }) {
       postImage: postImage,
       headline: newsContents.headline,
       overview: newsContents.overview,
-    };
-    await postResponse(object);
-    setIsEdit(false);
-    await setStatus('');
-  };
+    }
+    await postResponse(object)
+    setIsEdit(false)
+    await setStatus('')
+  }
   const getEditData = (posts) => {
-    setStatus(posts?.status);
-    setCurrentPost(posts);
-    setIsEdit(true);
-  };
+    setStatus(posts?.status)
+    setCurrentPost(posts)
+    setIsEdit(true)
+  }
 
   const updateStatus = () => {
-    updatePost(currentPost.id, status, postImage);
-  };
+    updatePost(currentPost.id, status, postImage)
+  }
 
   useMemo(() => {
-    getPosts(setAllStatus);
-  }, []);
+    getPosts(setAllStatus)
+  }, [])
 
-  const [progress, setProgress] = useState(0);
-  const [fileType, setFileType] = useState('image');
+  const [progress, setProgress] = useState(0)
+  const [fileType, setFileType] = useState('image')
 
   // const { RangePicker } = DatePicker;
 
   return (
     <div
       on
-      className='py-[20px] shadow rounded-[30px] m-[20px] px-[40px] font-poppins justify-center bg-gray-50 overflow-x-hidden flex flex-row '>
+      className='py-[20px] shadow rounded-[30px] m-[20px] mt-[80px] px-[40px] font-poppins justify-center bg-gray-50 overflow-x-hidden flex flex-row '
+    >
       <div className='grid grid-cols-1 gap-5'>
         <div className='flex flex-col gap-5 md:flex-row  '>
           <div className='flex flex-col gap-0 '>
             <label
               className='capitalize font-[600] text-[13px] '
-              htmlFor='headline'>
+              htmlFor='headline'
+            >
               headline :
             </label>
             <input
@@ -90,7 +92,8 @@ export default function CreateComponent({ currentUser }) {
           <div className='flex flex-col gap-0 '>
             <label
               className='capitalize font-[600] text-[13px] '
-              htmlFor='headline'>
+              htmlFor='headline'
+            >
               overview:
             </label>
             <input
@@ -112,7 +115,8 @@ export default function CreateComponent({ currentUser }) {
             {
               <label
                 className='capitalize font-[600] text-[13px] '
-                htmlFor='headline'>
+                htmlFor='headline'
+              >
                 Exeat image
               </label>
             }
@@ -141,7 +145,8 @@ export default function CreateComponent({ currentUser }) {
         <div className='flex flex-col gap-0 '>
           <label
             className='capitalize font-[600] text-[13px] '
-            htmlFor='headline'>
+            htmlFor='headline'
+          >
             Exeat Content :
           </label>
           <ReactQuill
@@ -174,10 +179,11 @@ export default function CreateComponent({ currentUser }) {
           onClick={sendRequest}
           key='submit'
           type='primary'
-          disabled={status.length > 0 ? false : true}>
+          disabled={status.length > 0 ? false : true}
+        >
           Upload Exeat
         </button>
       </div>
     </div>
-  );
+  )
 }

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { getAllUsers } from '../../../api/FirestoreAPI';
+import React, { useEffect, useState } from 'react'
+import { getAllUsers } from '../../../api/FirestoreAPI'
+import { getDepartmentUser } from '../../../api/FirestoreAPI'
 
 export default function DepartmentStudentsComponent({ currentUser }) {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([])
   // const getCurrentUser = currentUser.id
 
   useEffect(() => {
-    getAllUsers(setUsers);
-  }, []);
+    getDepartmentUser(setUsers)
+  }, [])
 
   return users.length > 1 ? (
     <div className='connections-main p-4 flex flex-col gap-3'>
@@ -17,7 +18,8 @@ export default function DepartmentStudentsComponent({ currentUser }) {
         ) : (
           <div
             className='grid-child w-[93%] h-[100px] flex flex-row flex-nowrap justify-between items-center ml-[80px]  '
-            style={{ border: '2px solid black' }}>
+            style={{ border: '2px solid black' }}
+          >
             <img
               src={user.imageLink}
               alt='user-profileimage'
@@ -32,10 +34,10 @@ export default function DepartmentStudentsComponent({ currentUser }) {
         Connect
       </button> */}
           </div>
-        );
+        )
       })}
     </div>
   ) : (
     <div className='connections-main'>No Connections to Add!</div>
-  );
+  )
 }

@@ -1,28 +1,28 @@
-import React from 'react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
-import { AiOutlineMail } from 'react-icons/ai';
-import { RiLockPasswordFill } from 'react-icons/ri';
+import { AiOutlineMail } from 'react-icons/ai'
+import { RiLockPasswordFill } from 'react-icons/ri'
 
-import { LoginAPI } from '../../../api/AuthApi';
-import { toast } from 'react-toastify';
+import { LoginAPI } from '../../../api/AuthApi'
+import { toast } from 'react-toastify'
 export default function LoginComponent() {
-  const navig = useNavigate();
+  const navig = useNavigate()
 
-  const [credentials, setCredentials] = useState({});
+  const [credentials, setCredentials] = useState({})
   const login = async () => {
     try {
-      let res = await LoginAPI(credentials.email, credentials.password);
-      toast.success('Signed in to PASSI');
-      localStorage.setItem('userEmail', res.user.email);
-      navig('/passi');
+      let res = await LoginAPI(credentials.email, credentials.password)
+      toast.success('Signed in to PASSI')
+      localStorage.setItem('userEmail', res.user.email)
+      navig('/passi')
     } catch (err) {
-      toast.error('Check your credentials');
+      toast.error('Check your credentials')
     }
-  };
+  }
 
   return (
     <>
@@ -30,7 +30,8 @@ export default function LoginComponent() {
         <div className='flex flex-row justify-center'>
           <div
             data-aos='zoom-in'
-            className='bg-slate-900 md:px-[70px]  flex flex-col  p-[20px] rounded shadow-2xl'>
+            className='bg-slate-900 md:px-[70px]  flex flex-col  p-[20px] rounded shadow-2xl'
+          >
             <div>
               <h1 className='text-center text-slate-50 font-semibold text-[20px] uppercase font-myfont    mb-3'>
                 Welcome back!
@@ -40,7 +41,8 @@ export default function LoginComponent() {
               <div className='flex flex-col gap-1 items-start'>
                 <label
                   htmlFor='email'
-                  className='flex  items-center gap-1 text-slate-50 text-[15px]'>
+                  className='flex  items-center gap-1 text-slate-50 text-[15px]'
+                >
                   <AiOutlineMail />
                   Email:
                 </label>
@@ -57,7 +59,8 @@ export default function LoginComponent() {
               <div className='flex flex-col gap-1 items-start'>
                 <label
                   htmlFor='password'
-                  className='flex gap-1 items-center text-slate-50 text-[15px] '>
+                  className='flex gap-1 items-center text-slate-50 text-[15px] '
+                >
                   <RiLockPasswordFill />
                   Password
                 </label>
@@ -74,13 +77,15 @@ export default function LoginComponent() {
               <button
                 onClick={login}
                 type='button'
-                className='bg-yellow-500 hover:bg-yellow-700 text-slate-50 rounded text-[17px] font-semibold p-3'>
+                className='bg-yellow-500 hover:bg-yellow-700 text-slate-50 rounded text-[17px] font-semibold p-3'
+              >
                 Login
               </button>
 
               <Link
                 to='/recover'
-                className='text-slate-200 hover:text-slate-500 text-[13px] font-300'>
+                className='text-slate-200 hover:text-slate-500 text-[13px] font-300'
+              >
                 Forgot Password?
               </Link>
               <p className='text-center text-[17px] text-slate-100 '>
@@ -94,5 +99,5 @@ export default function LoginComponent() {
         </div>
       </div>
     </>
-  );
+  )
 }

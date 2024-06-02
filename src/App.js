@@ -11,8 +11,6 @@ import NavBar from './Pages/student/Passi/NavBar'
 // import { app } from './firebaseConfig';
 import Create from './Pages/student/Passi/create/Create'
 import Access from './Pages/student/Passi/Access/Access'
-
-import Admin from './Pages/admin/Admin'
 import About from './Pages/Profile/Profile'
 import DepartmentHead from './Pages/department/DepartmentHead'
 import StudentList from './Pages/admin/Components/StudentList'
@@ -25,6 +23,7 @@ import DepartmentStudentList from './Pages/department/Components/DepartmentStude
 import Loader from './Pages/student/Components/common/Loader'
 
 const Passi = lazy(() => import('./Pages/student/Passi/Passi'))
+const Admin = lazy(() => import('./Pages/admin/Admin'))
 const Profile = lazy(() => import('./Pages/student/Passi/profile/Profile'))
 // import { UserProvider } from './UserContext';
 const App = () => {
@@ -45,7 +44,10 @@ const App = () => {
               <Route path='register' element={<Register />} />
               <Route path='passi' element={<Passi />} />
               <Route path='passi/create' element={<Create />} />
-              <Route path='passi/profile' element={<Profile />} />
+              <Route
+                path='passi/profile'
+                element={<Profile currentUser={currentUser} />}
+              />
               <Route path='passi/logs' element={<Access />} />
               <Route path='recover' element={<ForgotPassword />} />
               <Route path='verify' element={<EmailVerification />} />
