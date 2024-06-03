@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import Docs from './Docs';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import Docs from './Docs'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
-import { auth } from '../../../../firebaseConfig';
-import Loader from '../../../student/Components/common/Loader';
-import SideBar from '../../SideBar';
+import { auth } from '../../../../firebaseConfig'
+import Loader from '../../../student/Components/common/Loader'
+
 const Document = ({ currentUser }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
-  let navigate = useNavigate();
+  let navigate = useNavigate()
   useEffect(() => {
     onAuthStateChanged(auth, (res) => {
       if (!res?.accessToken) {
-        navigate('/login');
+        navigate('/login')
       } else {
-        setLoading(false);
+        setLoading(false)
       }
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <div>
@@ -26,12 +26,11 @@ const Document = ({ currentUser }) => {
         <Loader />
       ) : (
         <>
-          <SideBar />
           <Docs currentUser={currentUser} />
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Document;
+export default Document

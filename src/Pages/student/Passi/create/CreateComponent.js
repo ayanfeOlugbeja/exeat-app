@@ -11,37 +11,21 @@ import { uploadPostImage } from '../../../../api/ImageUpload'
 import 'react-toastify/dist/ReactToastify.css'
 import { getCurrentTimestamp } from '../../../../helpers/useMoment'
 import { getUniqueID } from '../../../../helpers/getUniqueID'
+import { getCurrentUser } from '../../../../api/FirestoreAPI'
 
-export default function CreateComponent({ currentUser }) {
+export default function CreateComponent() {
   const [status, setStatus] = useState('')
   const [allStatuses, setAllStatus] = useState([])
   const [currentPost, setCurrentPost] = useState({})
   const [isEdit, setIsEdit] = useState(false)
   const [postImage, setPostImage] = useState('')
-  // console.log(currentUser);
+  const [currentUser, setCurrentUser] = useState({})
+
   const [newsContents, setNewsContents] = useState({
     headline: '',
     overview: '',
   })
-  console.log(newsContents)
-  const sendRequest = async () => {
-    let object = {
-      status: status,
-      timestamp: getCurrentTimestamp('LLL'),
-      userEmail: currentUser.email,
-      userName: currentUser.name,
-      matricNumber: currentUser.matricNumber,
-      department: currentUser.department,
-      postID: getUniqueID(),
-      userID: currentUser.id,
-      postImage: postImage,
-      headline: newsContents.headline,
-      overview: newsContents.overview,
-    }
-    await postResponse(object)
-    setIsEdit(false)
-    await setStatus('')
-  }
+
   const getEditData = (posts) => {
     setStatus(posts?.status)
     setCurrentPost(posts)
@@ -56,10 +40,33 @@ export default function CreateComponent({ currentUser }) {
     getPosts(setAllStatus)
   }, [])
 
+  useMemo(() => {
+    getCurrentUser(setCurrentUser)
+  }, [])
+
   const [progress, setProgress] = useState(0)
   const [fileType, setFileType] = useState('image')
 
-  // const { RangePicker } = DatePicker;
+  const sendRequest = async () => {
+    let object = {
+      status: status,
+      timestamp: getCurrentTimestamp('LLL'),
+      userEmail: currentUser.email,
+      userName: currentUser.name,
+      matricNumber: currentUser.matricNumber,
+      department: currentUser.department,
+      postID: getUniqueID(),
+      userID: currentUser.id,
+      postImage: postImage,
+      headline: newsContents.headline,
+      overview: newsContents.overview,
+      departmentApproved: false,
+      adminApproved: false,
+    }
+    await postResponse(object)
+    setIsEdit(false)
+    await setStatus('')
+  }
 
   return (
     <div

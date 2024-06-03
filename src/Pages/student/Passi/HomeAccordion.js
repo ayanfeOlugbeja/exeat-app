@@ -1,18 +1,13 @@
-import React, { useEffect } from 'react'
-import { FaUsers } from 'react-icons/fa'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { HiXMark } from 'react-icons/hi2'
 import { useState } from 'react'
 import { FaUserCircle } from 'react-icons/fa'
 import { AiOutlineMenu, AiFillDashboard } from 'react-icons/ai'
-
 import { BsNewspaper } from 'react-icons/bs'
-
 import { useNavigate } from 'react-router-dom'
-
-import { GiWhiteBook } from 'react-icons/gi'
-
 import { AiFillHome } from 'react-icons/ai'
+import { MdCreate } from 'react-icons/md'
 import HomeComponent from './HomeComponent'
 import Profile from './profile/Profile'
 import Create from './create/Create'
@@ -35,11 +30,6 @@ export const HomeAccordion = ({ currentUser }) => {
   })
   const [showBar, setShowBar] = useState('hidden')
   const [sideLinkState, setSideLinkState] = useState('hidden')
-  const navigate = useNavigate()
-
-  const handleProfileClick = () => {
-    navigate('/passi/profile', { state: { currentUser } })
-  }
 
   return (
     // mainUser[0]?.stats !== 'admin' ? navig('/login'):
@@ -93,7 +83,26 @@ export const HomeAccordion = ({ currentUser }) => {
 
           <div className='flex flex-row gap-1'>
             <button
-              onClick={handleProfileClick}
+              onClick={() =>
+                setDisplaying({
+                  pdfView: false,
+                  viewDashboard: false,
+                  viewProfile: true,
+                  pdfPost: false,
+                  newsPost: false,
+                  userView: false,
+                  viewAllNews: false,
+                  viewEditNews: false,
+                  pdfViewColor: 'text-slate-700',
+                  viewDashboardColor: 'text-slate-700',
+                  viewProfileColor: 'text-green-500',
+                  pdfPostColor: 'text-slate-700',
+                  newsPostColor: 'text-slate-500',
+                  userViewColor: 'text-slate-700',
+                  viewAllNewsColor: 'text-slate-700',
+                  viewEditNewsColor: 'text-slate-700',
+                })
+              }
               className='flex items-center text-slate-50 gap-2 md:text-[20px] bg-green-500 text-[15px]  p-2 h-fit rounded '
             >
               Profile <FaUserCircle />
@@ -174,9 +183,113 @@ export const HomeAccordion = ({ currentUser }) => {
                   </span>{' '}
                 </Link>
               </li>
-
-              <li onClick={handleProfileClick}>
+              <li>
                 <Link
+                  onClick={() => {
+                    setSideLinks({
+                      nextIc: true,
+                      prevIc: false,
+                      textSize: 'text-[8px]',
+                      flexType: 'flex-col',
+                    })
+                    setShowBar('hidden')
+                    setDisplaying({
+                      pdfView: false,
+                      viewDashboard: false,
+                      viewProfile: false,
+                      pdfPost: false,
+                      newsPost: true,
+                      userView: false,
+                      viewAllNews: false,
+                      viewEditNews: false,
+                      pdfViewColor: 'text-slate-700',
+                      viewDashboardColor: 'text-slate-700',
+                      viewProfileColor: 'text-slate-700',
+                      pdfPostColor: 'text-slate-700',
+                      newsPostColor: 'text-green-500',
+                      userViewColor: 'text-slate-700',
+                      viewAllNewsColor: 'text-slate-700',
+                      viewEditNewsColor: 'text-slate-700',
+                    })
+                  }}
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
+                >
+                  <BsNewspaper
+                    className={`${displaying.newsPostColor} text-[17px] md:text-[20px] `}
+                  />
+                  <span className={`${sideLinks.textSize} text-slate-900   `}>
+                    Exeats
+                  </span>{' '}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  onClick={() => {
+                    setSideLinks({
+                      nextIc: true,
+                      prevIc: false,
+                      textSize: 'text-[8px]',
+                      flexType: 'flex-col',
+                    })
+                    setShowBar('hidden')
+                    setDisplaying({
+                      pdfView: false,
+                      viewDashboard: false,
+                      viewProfile: false,
+                      pdfPost: false,
+                      newsPost: false,
+                      userView: false,
+                      viewAllNews: false,
+                      viewEditNews: true,
+                      pdfViewColor: 'text-slate-700',
+                      viewDashboardColor: 'text-slate-700',
+                      viewProfileColor: 'text-green-500',
+                      pdfPostColor: 'text-slate-700',
+                      newsPostColor: 'text-slate-500',
+                      userViewColor: 'text-slate-700',
+                      viewAllNewsColor: 'text-slate-700',
+                      viewEditNewsColor: 'text-slate-700',
+                    })
+                  }}
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
+                >
+                  <MdCreate
+                    className={`${displaying.EditNews} text-[17px] md:text-[20px] `}
+                  />
+                  <span className={`${sideLinks.textSize} text-slate-900   `}>
+                    Create
+                  </span>{' '}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  onClick={() => {
+                    setSideLinks({
+                      nextIc: true,
+                      prevIc: false,
+                      textSize: 'text-[8px]',
+                      flexType: 'flex-col',
+                    })
+                    setShowBar('hidden')
+                    setDisplaying({
+                      pdfView: false,
+                      viewDashboard: false,
+                      viewProfile: true,
+                      pdfPost: false,
+                      newsPost: false,
+                      userView: false,
+                      viewAllNews: false,
+                      viewEditNews: false,
+                      pdfViewColor: 'text-slate-700',
+                      viewDashboardColor: 'text-slate-700',
+                      viewProfileColor: 'text-green-500',
+                      pdfPostColor: 'text-slate-700',
+                      newsPostColor: 'text-slate-500',
+                      userViewColor: 'text-slate-700',
+                      viewAllNewsColor: 'text-slate-700',
+                      viewEditNewsColor: 'text-slate-700',
+                    })
+                  }}
                   className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
                 >
                   <FaUserCircle
@@ -187,13 +300,15 @@ export const HomeAccordion = ({ currentUser }) => {
                   </span>{' '}
                 </Link>
               </li>
-              <li></li>
             </ul>
           </div>
         </div>
 
         <div className='py-[10px] relative flex justify-center  lg:ml-[30px] '>
           <div>{displaying.viewDashboard && <HomeComponent />}</div>
+          <div>{displaying.viewProfile && <Profile />}</div>
+          <div> {displaying.newsPost && <Access />}</div>
+          <div> {displaying.viewEditNews && <Create />}</div>
         </div>
       </div>
     </div>

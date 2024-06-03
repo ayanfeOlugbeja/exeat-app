@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
-import ProfileCard from '../student/Components/common/ProfileCard';
-import ProfileEdit from '../student/Components/common/ProfileEdit';
+import React, { useState } from 'react'
+import ProfileCard from '../student/Components/common/ProfileCard'
 
 function ProfileComponent({ currentUser }) {
-  const [isEdit, setIsEdit] = useState(false);
-  const onEdit = () => {
-    setIsEdit(!isEdit);
-  };
   return (
     <div>
-      {isEdit ? (
-        <ProfileEdit onEdit={onEdit} currentUser={currentUser} />
-      ) : (
-        <ProfileCard currentUser={currentUser} onEdit={onEdit} />
-      )}
+      <ProfileCard currentUser={currentUser} />
     </div>
-  );
+  )
 }
 
-export default ProfileComponent;
+export default ProfileComponent

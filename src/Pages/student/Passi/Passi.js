@@ -6,6 +6,7 @@ import { getCurrentUser } from '../../../api/FirestoreAPI'
 import { auth } from '../../../firebaseConfig'
 import Loader from '../Components/common/Loader'
 import Admin from '../../admin/Admin'
+import DepartmentHead from '../../department/DepartmentHead'
 
 const Passi = () => {
   const [loading, setLoading] = useState(true)
@@ -26,7 +27,9 @@ const Passi = () => {
   }, [])
   if (currentUser.stats === 'admin') {
     return <Admin />
-  } else if (currentUser.stats !== 'admin') {
+  } else if (currentUser.stats === 'department') {
+    return <DepartmentHead />
+  } else {
     return (
       <div>
         {loading ? <Loader /> : <HomeAccordion currentUser={currentUser} />}

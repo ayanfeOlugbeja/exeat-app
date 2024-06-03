@@ -84,7 +84,7 @@ export default function LoginComponent() {
 
               <Link
                 to='/recover'
-                className='text-slate-200 hover:text-slate-500 text-[13px] font-300'
+                className='text-slate-200 hover:text-slate-500 text-[13px] font-300 text-center'
               >
                 Forgot Password?
               </Link>

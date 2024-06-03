@@ -12,19 +12,17 @@ import NavBar from './Pages/student/Passi/NavBar'
 import Create from './Pages/student/Passi/create/Create'
 import Access from './Pages/student/Passi/Access/Access'
 import About from './Pages/Profile/Profile'
-import DepartmentHead from './Pages/department/DepartmentHead'
-import StudentList from './Pages/admin/Components/StudentList'
-
 import { getCurrentUser } from './api/FirestoreAPI'
 import Document from './Pages/admin/Components/Document/Document'
 import DepartmentDocument from './Pages/department/Components/Documents/DepartmentDocument'
 import NotFound from './NotFound'
-import DepartmentStudentList from './Pages/department/Components/DepartmentStudentList'
+
 import Loader from './Pages/student/Components/common/Loader'
 
 const Passi = lazy(() => import('./Pages/student/Passi/Passi'))
 const Admin = lazy(() => import('./Pages/admin/Admin'))
 const Profile = lazy(() => import('./Pages/student/Passi/profile/Profile'))
+const DepartmentHead = lazy(() => import('./Pages/department/DepartmentHead'))
 // import { UserProvider } from './UserContext';
 const App = () => {
   const [currentUser, setCurrentUser] = useState({})
@@ -36,7 +34,7 @@ const App = () => {
     <Suspense fallback={<Loader />}>
       <BrowserRouter>
         <div className='App'>
-          <NavBar currentUser={currentUser} />
+          {/* <NavBar currentUser={currentUser} /> */}
           <main>
             <Routes>
               <Route index element={<Home />} />
@@ -63,17 +61,8 @@ const App = () => {
               />
 
               <Route
-                path='admin/students'
-                element={<StudentList currentUser={currentUser} />}
-              />
-
-              <Route
                 path='admin/docs'
                 element={<Document currentUser={currentUser} />}
-              />
-              <Route
-                path='department/students'
-                element={<DepartmentStudentList currentUser={currentUser} />}
               />
 
               <Route

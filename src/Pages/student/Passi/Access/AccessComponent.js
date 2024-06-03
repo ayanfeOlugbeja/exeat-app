@@ -1,38 +1,39 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Modal } from 'antd';
-import { BsPencil, BsTrash } from 'react-icons/bs';
+import React, { useMemo, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button, Modal } from 'antd'
+import { BsPencil, BsTrash } from 'react-icons/bs'
 import {
   getCurrentUser,
   getAllUsers,
   deletePost,
   getConnections,
-} from './../../../../api/FirestoreAPI';
-import school from '../../../../Images/schoolLogo.png';
+} from './../../../../api/FirestoreAPI'
+import school from '../../../../Images/schoolLogo.png'
 
 // import LikeButton from '../LikeButton';
 // import './index.scss';
 
 export default function AccessComponent({ posts, id, getEditData }) {
-  let navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState({});
-  const [allUsers, setAllUsers] = useState([]);
-  const [imageModal, setImageModal] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
+  let navigate = useNavigate()
+  const [currentUser, setCurrentUser] = useState({})
+  const [allUsers, setAllUsers] = useState([])
+  const [imageModal, setImageModal] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
   useMemo(() => {
-    getCurrentUser(setCurrentUser);
-    getAllUsers(setAllUsers);
-  }, []);
+    getCurrentUser(setCurrentUser)
+    getAllUsers(setAllUsers)
+  }, [])
 
   useEffect(() => {
-    getConnections(currentUser.id, posts.userID, setIsConnected);
-  }, [currentUser.id, posts.userID]);
+    getConnections(currentUser.id, posts.userID, setIsConnected)
+  }, [currentUser.id, posts.userID])
 
   return currentUser.id === posts.userID ? (
     <div
-      className='posts-card min-h-[150px] max-h-[470px]  w-[60%] mx-auto my-4'
+      className='posts-card min-h-[150px] max-h-[470px]  w-[867px] mx-auto my-4'
       key={id}
-      style={{ border: '3px solid blue', background: '#ceeff8' }}>
+      style={{ border: '3px solid blue', background: '#ceeff8' }}
+    >
       <div className='header flex flex-row justify-between w-[70%] items-center'>
         <img src={school} alt='school logo' className='w-[100px] h-[100px]' />
         <div className='text-center text-2xl font-extrabold'>
@@ -93,7 +94,8 @@ export default function AccessComponent({ posts, id, getEditData }) {
       <div className='request text-center text-base mx-2 my-2'>
         <p
           className='status'
-          dangerouslySetInnerHTML={{ __html: posts.status }}></p>
+          dangerouslySetInnerHTML={{ __html: posts.status }}
+        ></p>
       </div>
       <div className='flex flex-row items-center'>
         {posts.postImage ? (
@@ -107,7 +109,8 @@ export default function AccessComponent({ posts, id, getEditData }) {
         )}
         <p
           className=' cursor-pointer text-blue-800'
-          onClick={() => setImageModal(true)}>
+          onClick={() => setImageModal(true)}
+        >
           View Attachment
         </p>
       </div>
@@ -123,7 +126,8 @@ export default function AccessComponent({ posts, id, getEditData }) {
         open={imageModal}
         onOk={() => setImageModal(false)}
         onCancel={() => setImageModal(false)}
-        footer={[]}>
+        footer={[]}
+      >
         <img
           onClick={() => setImageModal(true)}
           src={posts.postImage}
@@ -135,5 +139,5 @@ export default function AccessComponent({ posts, id, getEditData }) {
     </div>
   ) : (
     <></>
-  );
+  )
 }

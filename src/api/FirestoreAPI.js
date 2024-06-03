@@ -95,12 +95,12 @@ export const getSingleUser = (setCurrentUser, email) => {
   })
 }
 
-export const getDepartmentUser = (setAllUsers, department) => {
-  const departmentUserQuery = query(
+export const getDepartmentUsers = (setAllUsers, department) => {
+  const departmentUsersQuery = query(
     userRef,
-    where('department', '==', department)
+    where('department', '==', 'department')
   )
-  onSnapshot(departmentUserQuery, (response) => {
+  onSnapshot(departmentUsersQuery, (response) => {
     setAllUsers(
       response.docs.map((docs) => {
         return { ...docs.data(), id: docs.id }

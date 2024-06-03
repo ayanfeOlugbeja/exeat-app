@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import SideBar from './SideBar'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { auth } from '../../firebaseConfig'
@@ -13,6 +12,7 @@ import { getCurrentUser } from '../../api/FirestoreAPI'
 import { AdminComponent } from './AdminComponent'
 import Passi from '../student/Passi/Passi'
 import { AdminAccordion } from './AdminAccordion'
+import DepartmentHead from '../department/DepartmentHead'
 function Admin() {
   let location = useLocation()
   const [loading, setLoading] = useState(true)
@@ -64,14 +64,16 @@ function Admin() {
 
   if (currentUser.stats === 'user') {
     return <Passi />
-  } else if (currentUser.stats !== 'passi') {
+  } else if (currentUser.stats === 'department') {
+    return <DepartmentHead />
+  } else {
     return (
       <>
         {loading ? (
           <Loader />
         ) : (
           <div>
-            <AdminComponent currentUser={currentUser}/>
+            <AdminComponent currentUser={currentUser} />
           </div>
         )}
       </>

@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { RegisterAPI } from '../../../api/AuthApi';
-import { postUserData } from '../../../api/FirestoreAPI';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { getUniqueID } from '../../../helpers/getUniqueID';
-import { toast } from 'react-toastify';
-import logo from './../../../Images/logo.png';
+import React, { useState } from 'react'
+import { RegisterAPI } from '../../../api/AuthApi'
+import { postUserData } from '../../../api/FirestoreAPI'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { getUniqueID } from '../../../helpers/getUniqueID'
+import { toast } from 'react-toastify'
+import logo from './../../../Images/logo.png'
 export default function RegisterComponent() {
-  let navigate = useNavigate();
-  const [credentials, setCredentials] = useState({});
+  let navigate = useNavigate()
+  const [credentials, setCredentials] = useState({})
   const Register = async () => {
     try {
-      let res = await RegisterAPI(credentials.email, credentials.password);
-      toast.success('Check Email for Account Verification Link');
+      let res = await RegisterAPI(credentials.email, credentials.password)
+      toast.success('Check Email for Account Verification Link')
       postUserData({
         name: credentials.name,
         department: credentials.department,
@@ -27,22 +27,24 @@ export default function RegisterComponent() {
         course: credentials.course,
         stats: 'user',
         imageLink: logo,
+        userImg: logo,
         userID: getUniqueID(),
-      });
-      navigate('/verify');
-      localStorage.setItem('userEmail', res.user.email);
+      })
+      navigate('/verify')
+      localStorage.setItem('userEmail', res.user.email)
     } catch (err) {
-      console.log(err);
-      toast.error('Error creating account');
+      console.log(err)
+      toast.error('Error creating account')
     }
-  };
+  }
 
   return (
     <div className='py-[70px] px-[20px] pt-[150px]'>
       <div className='flex flex-row justify-center'>
         <div
           data-aos='zoom-in'
-          className='bg-slate-900 shadow-2xl md:px-[70px]  flex flex-col  p-[20px] rounded'>
+          className='bg-slate-900 shadow-2xl md:px-[70px]  flex flex-col  p-[20px] rounded'
+        >
           <h1 className='text-center text-slate-50 font-semibold text-[20px] uppercase font-myfont    mb-3'>
             Sign up here
           </h1>
@@ -50,14 +52,16 @@ export default function RegisterComponent() {
           {
             <form
               action=''
-              className='flex  my-5  p-5 rounded flex-col gap-[20px]'>
+              className='flex  my-5  p-5 rounded flex-col gap-[20px]'
+            >
               <div>
                 <div className='flex  flex-col gap-[10px] '>
                   <div className='flex flex-col md:flex-row gap-5'>
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Full name:
                       </label>
                       <input
@@ -70,14 +74,16 @@ export default function RegisterComponent() {
                         placeholder='Input Name'
                         className=' bg-slate-50 text-slate-900 w-full border-[2px]  rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
                         type='text'
-                        name='email'
-                        id=''
+                        name='name'
+                        id='name'
+                        required
                       />
                     </div>
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Matric Number:
                       </label>
                       <input
@@ -91,7 +97,8 @@ export default function RegisterComponent() {
                         className=' bg-slate-50 text-slate-900 w-full border-[2px]  rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
                         type='text'
                         name='matricNumber'
-                        id=''
+                        id='matric'
+                        required
                       />
                     </div>
                   </div>
@@ -100,7 +107,8 @@ export default function RegisterComponent() {
                     <div className='flex   flex-col w-48'>
                       <label
                         className='text-[17px] text-slate-400 font-[300]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Department:
                       </label>
                       <select
@@ -111,8 +119,10 @@ export default function RegisterComponent() {
                           })
                         }
                         name=''
-                        id=''
-                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '>
+                        id='department'
+                        required
+                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
+                      >
                         <option className='text-[20px] '>
                           select department
                         </option>
@@ -135,7 +145,8 @@ export default function RegisterComponent() {
                     <div className='flex   flex-col w-32'>
                       <label
                         className='text-[17px] text-slate-400 font-[300]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Course:
                       </label>
                       <select
@@ -146,8 +157,10 @@ export default function RegisterComponent() {
                           })
                         }
                         name=''
-                        id=''
-                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '>
+                        id='course'
+                        required
+                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
+                      >
                         <option className='text-[20px] '>Course</option>
 
                         <option value='computer science'>
@@ -201,7 +214,8 @@ export default function RegisterComponent() {
                     <div className='flex flex-col w-32'>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Room Number:
                       </label>
                       <input
@@ -215,7 +229,8 @@ export default function RegisterComponent() {
                         className=' bg-slate-50 text-slate-900 w-full border-[2px]  rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
                         type='number'
                         name='room'
-                        id=''
+                        id='room'
+                        required
                       />
                     </div>
                   </div>
@@ -224,7 +239,8 @@ export default function RegisterComponent() {
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Email Address:
                       </label>
                       <input
@@ -238,14 +254,16 @@ export default function RegisterComponent() {
                         type='email'
                         placeholder='Input Email'
                         name='email'
-                        id=''
+                        id='email'
+                        required
                       />
                     </div>
 
                     <div className='flex   flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[300]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Level:
                       </label>
                       <select
@@ -256,8 +274,10 @@ export default function RegisterComponent() {
                           })
                         }
                         name=''
-                        id=''
-                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '>
+                        id='level'
+                        required
+                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
+                      >
                         <option className='text-[20px] '>select level</option>
 
                         <option value='100l' className='text-[20px] '>
@@ -281,7 +301,8 @@ export default function RegisterComponent() {
                     <div className='flex   flex-col w-28'>
                       <label
                         className='text-[17px] text-slate-400 font-[300]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Gender:
                       </label>
                       <select
@@ -292,8 +313,10 @@ export default function RegisterComponent() {
                           })
                         }
                         name=''
-                        id=''
-                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '>
+                        id='gender'
+                        required
+                        className=' bg-slate-50 text-slate-900 w-full border-[2px]  flex  flex-col gap-[20px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
+                      >
                         <option className='text-[20px] '>Gender</option>
 
                         <option value='male' className='text-[20px] '>
@@ -310,7 +333,8 @@ export default function RegisterComponent() {
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Phone
                       </label>
                       <input
@@ -325,13 +349,15 @@ export default function RegisterComponent() {
                         type='search'
                         x-model='input2'
                         name='phone'
-                        id=''
+                        id='phone'
+                        required
                       />
                     </div>
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Parent's Phone
                       </label>
                       <input
@@ -346,7 +372,8 @@ export default function RegisterComponent() {
                         type='search'
                         x-model='input2'
                         name='parentPhone'
-                        id=''
+                        id='parentphone'
+                        required
                       />
                     </div>
                   </div>
@@ -355,7 +382,8 @@ export default function RegisterComponent() {
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Parent's Email
                       </label>
                       <input
@@ -369,13 +397,15 @@ export default function RegisterComponent() {
                         className=' bg-slate-50 text-slate-900 w-full border-[2px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
                         type='email'
                         name='parentEmail'
-                        id=''
+                        id='parentemail'
+                        required
                       />
                     </div>
                     <div className='flex flex-col '>
                       <label
                         className='text-[17px] text-slate-400 font-[400]'
-                        htmlFor=''>
+                        htmlFor=''
+                      >
                         Password:
                       </label>
                       <input
@@ -388,15 +418,17 @@ export default function RegisterComponent() {
                         placeholder='Input Password'
                         className=' bg-slate-50 text-slate-900 w-full border-[2px] rounded  placeholder:text-slate-500 outline-0 px-[20px] py-[5px] '
                         type='password'
-                        name='email'
-                        id=''
+                        name='password'
+                        id='password'
+                        required
                       />
                     </div>
                   </div>
                   <button
                     onClick={Register}
                     className='hover:bg-yellow-700 shadow-2xl py-[3px] w-full bg-yellow-500  rounded text-[17px] text-slate-50 font-[400] '
-                    type='button'>
+                    type='button'
+                  >
                     Sign Up
                   </button>
                 </div>
@@ -417,5 +449,5 @@ export default function RegisterComponent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

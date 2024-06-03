@@ -1,14 +1,6 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  updateDoc,
-} from 'firebase/firestore'
-import React, { useContext, useEffect, useState } from 'react'
-import { db } from './../../../firebaseConfig'
-import { getAllUsers } from '../../../api/FirestoreAPI'
+import React, { useEffect, useState } from 'react'
+
+import { getAllUsers } from './../../../api/FirestoreAPI'
 
 export const Users = ({ currentUser }) => {
   const [userList, setUserList] = useState([])
@@ -18,26 +10,6 @@ export const Users = ({ currentUser }) => {
     getAllUsers(setUserList)
   }, [])
 
-  const makeUserAdmin = async (uid) => {
-    const theUser = doc(db, 'users', uid)
-    try {
-      await updateDoc(theUser, {
-        stats: 'department',
-      })
-    } catch (error) {
-      alert(error)
-    }
-  }
-  const removeAdmin = async (uid) => {
-    const theUser = doc(db, 'users', uid)
-    try {
-      await updateDoc(theUser, {
-        stats: 'user',
-      })
-    } catch (error) {
-      alert(error)
-    }
-  }
   return (
     <div className='justify-center flex'>
       <div className='md:ml-2 ml-[150px]'>
@@ -102,29 +74,7 @@ export const Users = ({ currentUser }) => {
                       {user.name}
                     </td>
                     <td class=' border border-slate-100 ... text-[10px] md:text-[14px]  text-slate-500 py-1 px-2 '>
-                      {user.email} <br />
-                      <div>
-                        {user.stats === 'user' && (
-                          <button
-                            onClick={() => {
-                              makeUserAdmin(user.id)
-                            }}
-                            className='bg-green-500 w-full  px-2 text-[7px] md:text-[12px]   font-semibold rounded-[2px] py-1 text-slate-50'
-                          >
-                            Make Admin
-                          </button>
-                        )}
-                        {user.stats === 'admin' && (
-                          <button
-                            onClick={() => {
-                              removeAdmin(user.id)
-                            }}
-                            className='bg-red-500 px-2 w-full text-[7px] md:text-[12px]   font-semibold rounded-[2px] py-1 text-slate-50'
-                          >
-                            Remove As Admin
-                          </button>
-                        )}
-                      </div>
+                      {user.email}
                     </td>
                     <td class=' border border-slate-100 ... text-[10px] md:text-[14px]  text-slate-500 py-1 px-2 '>
                       {user.level}
@@ -150,38 +100,8 @@ export const Users = ({ currentUser }) => {
                       {user.name}
                     </td>
                     <td class=' border border-slate-100 ... text-[10px] md:text-[14px]  text-slate-500 py-1 px-2 '>
-                      {user.email} <br />
-                      <span className='text-[8px] text-black font-bold'>
-                        {' '}
-                        {user?.date}
-                      </span>
+                      {user.email}
                       <br />
-                      {user.email === 'passian001@gmail.com' && (
-                        <div>
-                          {user.stats === 'user' &&
-                            user.userLevel !== 'Super Admin' && (
-                              <button
-                                onClick={() => {
-                                  makeUserAdmin(user.id)
-                                }}
-                                className='bg-green-500 w-full  px-2 text-[7px] md:text-[12px]   font-semibold rounded-[2px] py-1 text-slate-50'
-                              >
-                                Make Admin
-                              </button>
-                            )}
-                          {user.stats === 'admin' &&
-                            user.userLevel !== 'Super Admin' && (
-                              <button
-                                onClick={() => {
-                                  removeAdmin(user.id)
-                                }}
-                                className='bg-red-500 px-2 w-full text-[7px] md:text-[12px]   font-semibold rounded-[2px] py-1 text-slate-50'
-                              >
-                                Remove As Admin
-                              </button>
-                            )}
-                        </div>
-                      )}
                     </td>
                     <td class=' border border-slate-100 ... text-[10px] md:text-[14px]  text-slate-500 py-1 px-2 '>
                       {user.level}
@@ -194,8 +114,6 @@ export const Users = ({ currentUser }) => {
                         alt=''
                       />{' '}
                     </td>
-
-                    {/* <button className="bg-red-500 px-2 text-[10px] md:text-[17px]   font-semibold rounded-[2px] py-1 text-slate-50">Remove As Admin</button>*/}
                   </tr>
                 )
               })}

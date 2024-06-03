@@ -21,13 +21,12 @@ import { useNavigate } from 'react-router-dom'
 import { FaBook } from 'react-icons/fa'
 import { GiWhiteBook } from 'react-icons/gi'
 import { AiFillHome } from 'react-icons/ai'
-import { AdminAccordion } from './AdminAccordion'
 import { Users } from './Components/Users'
-import { AdminProfile } from './AdminProfile'
-import Document from './Components/Document/Document'
-import Docs from './Components/Document/Docs'
-import DocumentComponent from './Components/Document/DocumentComponent'
-export const AdminComponent = ({ currentUser }) => {
+import { AdminProfile } from './../admin/AdminProfile'
+import Document from './Components/Documents/DepartmentDocument'
+
+import { DepartmentAccordion } from './DepartmentAccordion'
+export const DepartmentComponent = ({ currentUser }) => {
   const [displaying, setDisplaying] = useState(
     JSON.parse(localStorage.getItem('displaying')) || {
       viewDashboard: true,
@@ -95,7 +94,7 @@ export const AdminComponent = ({ currentUser }) => {
             }
           </div>
           <h1 className='self-center text-[15px] uppercase font-semibold '>
-            Admin Dashboard
+            HOD
           </h1>
 
           <div className='flex flex-row gap-1'>
@@ -335,8 +334,8 @@ export const AdminComponent = ({ currentUser }) => {
 
         <div className='py-[10px] relative flex justify-center  lg:ml-[30px] '>
           <div>
-            {displaying.viewDashboard && <AdminAccordion />}
-            {displaying.userView && <Users />}
+            {displaying.viewDashboard && <DepartmentAccordion />}
+            {displaying.userView && <Users currentUser={currentUser} />}
             {displaying.viewProfile && (
               <AdminProfile currentUser={currentUser} />
             )}

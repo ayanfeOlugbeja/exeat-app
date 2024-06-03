@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { onLogout } from '../../../api/AuthApi';
-import { BiLogOut } from 'react-icons/bi';
+import React, { useState } from 'react'
+import { onLogout } from '../../../api/AuthApi'
+import { BiLogOut } from 'react-icons/bi'
 
 export default function HomePopup() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+    setIsModalOpen(true)
+  }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+    setIsModalOpen(false)
+  }
 
   const handleLogout = () => {
-    onLogout();
-    setIsModalOpen(false); // Close the modal after logout
-  };
+    onLogout()
+    setIsModalOpen(false) // Close the modal after logout
+  }
 
   return (
     <div>
@@ -24,7 +24,8 @@ export default function HomePopup() {
         <div className='fixed inset-0 flex items-center justify-center z-50'>
           <div
             className='modal fixed inset-0 bg-gray-800 bg-opacity-70 z-50'
-            onClick={handleCloseModal}></div>
+            onClick={handleCloseModal}
+          ></div>
           <div className='modal-container bg-white w-[400px] p-4 rounded-lg shadow-lg z-50'>
             <p className='text-black text-lg'>
               Are you sure you want to LOGOUT?
@@ -32,19 +33,21 @@ export default function HomePopup() {
             <div className='mt-4 flex justify-end'>
               <button
                 onClick={handleLogout}
-                className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'>
+                className='bg-blue-500 text-white px-4 py-2 rounded-md mr-2'
+              >
                 Logout
               </button>
               <button
                 onClick={handleCloseModal}
-                className='bg-gray-300 text-black px-4 py-2 rounded-md'>
+                className='bg-gray-300 text-black px-4 py-2 rounded-md'
+              >
                 Cancel
               </button>
             </div>
           </div>
         </div>
       )}
-      <BiLogOut onClick={handleOpenModal} className='w-[90px] h-[70px]' />
+      <BiLogOut onClick={handleOpenModal} className='w-[70px] h-[70px]' />
     </div>
-  );
+  )
 }
