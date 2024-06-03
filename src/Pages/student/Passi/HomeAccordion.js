@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { FaUserCircle } from 'react-icons/fa'
 import { AiOutlineMenu, AiFillDashboard } from 'react-icons/ai'
 import { BsNewspaper } from 'react-icons/bs'
-import { useNavigate } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import { MdCreate } from 'react-icons/md'
 import HomeComponent from './HomeComponent'
@@ -299,6 +298,12 @@ export const HomeAccordion = ({ currentUser }) => {
                     Profile
                   </span>{' '}
                 </Link>
+              </li>
+              <li></li>
+              <li></li>
+              <li>
+                <HomePopup />
+                <p className=' text-slate-900 text-sm'>Logout</p>
               </li>
             </ul>
           </div>

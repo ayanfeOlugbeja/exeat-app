@@ -47,7 +47,7 @@ export default function HomePopup() {
           </div>
         </div>
       )}
-      <BiLogOut onClick={handleOpenModal} className='w-[70px] h-[70px]' />
+      <BiLogOut onClick={handleOpenModal} className='w-[30px] h-[30px]' />
     </div>
   )
 }

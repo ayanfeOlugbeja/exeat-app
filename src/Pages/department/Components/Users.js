@@ -13,7 +13,7 @@ export const Users = ({ currentUser }) => {
   return (
     <div className='justify-center flex'>
       <div className='md:ml-2 ml-[150px]'>
-        <p className=' text-[15px] md:my-[25px] text-center font-bold uppercase text-[20px] '>
+        <p className='  md:my-[25px] text-center font-bold uppercase text-[20px] '>
           Registered users
         </p>
         <div className='flex justify-center'>

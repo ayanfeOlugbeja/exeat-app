@@ -1,32 +1,18 @@
 import React, { useEffect } from 'react'
 import { FaUsers } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { FcAbout } from 'react-icons/fc'
-import { AiFillMessage, AiFillDashboard } from 'react-icons/ai'
-import { FaSearch } from 'react-icons/fa'
+import { AiFillDashboard } from 'react-icons/ai'
 import { HiXMark } from 'react-icons/hi2'
-import { MdBedroomParent } from 'react-icons/md'
-import { BsFillHouseAddFill } from 'react-icons/bs'
-import { CgProfile } from 'react-icons/cg'
-import { GrNext, GrPrevious } from 'react-icons/gr'
 import { useState } from 'react'
-import { FaUserCircle, FaWarehouse } from 'react-icons/fa'
-import { AiOutlineLogout, AiOutlineMenu } from 'react-icons/ai'
+import { FaUserCircle } from 'react-icons/fa'
+import { AiOutlineMenu } from 'react-icons/ai'
 import { BsNewspaper } from 'react-icons/bs'
-import { MdPictureAsPdf } from 'react-icons/md'
-import { BsFillCalendarEventFill } from 'react-icons/bs'
-import { TiNews } from 'react-icons/ti'
-import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { FaBook } from 'react-icons/fa'
-import { GiWhiteBook } from 'react-icons/gi'
 import { AiFillHome } from 'react-icons/ai'
 import { AdminAccordion } from './AdminAccordion'
 import { Users } from './Components/Users'
 import { AdminProfile } from './AdminProfile'
 import Document from './Components/Document/Document'
-import Docs from './Components/Document/Docs'
-import DocumentComponent from './Components/Document/DocumentComponent'
+import HomePopup from '../student/Passi/HomePopup'
 export const AdminComponent = ({ currentUser }) => {
   const [displaying, setDisplaying] = useState(
     JSON.parse(localStorage.getItem('displaying')) || {
@@ -48,7 +34,6 @@ export const AdminComponent = ({ currentUser }) => {
   const [showBar, setShowBar] = useState('hidden')
   const [sideLinkState, setSideLinkState] = useState('hidden')
 
-  const navigate = useNavigate()
   return (
     <div className=' z-[100] bg-white  min-h-[100vh] fixed overflow-y-auto w-full left-0 right-0 top-0 pb-[100px] pt-[70px] bottom-0 '>
       <div className='flex flex-row items-center justify-center'>
@@ -328,6 +313,12 @@ export const AdminComponent = ({ currentUser }) => {
                     Profile
                   </span>{' '}
                 </Link>
+              </li>
+              <li></li>
+              <li></li>
+              <li>
+                <HomePopup />
+                <p className=' text-slate-900 text-sm'>Logout</p>
               </li>
             </ul>
           </div>

@@ -26,6 +26,7 @@ import { AdminProfile } from './../admin/AdminProfile'
 import Document from './Components/Documents/DepartmentDocument'
 
 import { DepartmentAccordion } from './DepartmentAccordion'
+import HomePopup from '../student/Passi/HomePopup'
 export const DepartmentComponent = ({ currentUser }) => {
   const [displaying, setDisplaying] = useState(
     JSON.parse(localStorage.getItem('displaying')) || {
@@ -327,6 +328,12 @@ export const DepartmentComponent = ({ currentUser }) => {
                     Profile
                   </span>{' '}
                 </Link>
+              </li>
+              <li></li>
+              <li></li>
+              <li>
+                <HomePopup />
+                <p className=' text-slate-900 text-sm'>Logout</p>
               </li>
             </ul>
           </div>

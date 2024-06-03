@@ -127,18 +127,40 @@ export default function RegisterComponent() {
                           select department
                         </option>
 
-                        <option value='mps'>
+                        <option value='Mathematical and Physical Sciences'>
                           Mathematical and Physical Sciences
                         </option>
 
-                        <option value='chemical sciences'>
+                        <option value='Chemical Sciences'>
                           Chemical Sciences
                         </option>
 
-                        <option value='biological sciences'>
+                        <option value='Biological Sciences'>
                           Biological Sciences
                         </option>
-                        <option value='languages'>Languages</option>
+                        <option value='Accounting'>Accounting</option>
+                        <option value='Business Administration'>
+                          Business Administration
+                        </option>
+                        <option value='Mass Communication'>
+                          Mass Communication
+                        </option>
+                        <option value='Public Administration'>
+                          Public Administration
+                        </option>
+                        <option value='Banking and Finance'>
+                          Banking and Finance
+                        </option>
+                        <option value='Economics'>Economics</option>
+                        <option value='Law'>Law</option>
+                        <option value='History and Diplomatic Studies'>
+                          History and Diplomatic Studies
+                        </option>
+                        <option value='Christian Religious Studies'>
+                          Christian Religious Studies
+                        </option>
+                        <option value='Languages'>Languages</option>
+                        <option value='Philosophy'>Philosophy</option>
                       </select>
                     </div>
 

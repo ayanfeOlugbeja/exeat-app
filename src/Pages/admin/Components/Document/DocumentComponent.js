@@ -7,36 +7,42 @@ import {
   getCurrentUser,
   getAllUsers,
   deletePost,
-  getConnections,
 } from './../../../../api/FirestoreAPI'
-
-// import LikeButton from '../LikeButton';
-// import './index.scss';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  updateDoc,
+} from 'firebase/firestore'
+import { db } from './../../../../firebaseConfig'
 
 export default function DocumentComponent({ posts, id, getEditData }) {
-  let navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState({})
   const [allUsers, setAllUsers] = useState([])
   const [imageModal, setImageModal] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
-  const [profileModal, setProfileModal] = useState(false)
-  const [selectedUser, setSelectedUser] = useState({})
-  const openProfileModal = () => {
-    setProfileModal(true)
-  }
+  const [exeatModal, setExeatModal] = useState(false)
 
   useMemo(() => {
     getCurrentUser(setCurrentUser)
     getAllUsers(setAllUsers)
   }, [])
 
-  // useEffect(() => {
-  //   getConnections(currentUser.id, posts.userID, setIsConnected);
-  // }, [currentUser.id, posts.userID]);
+  const approveExeat = async (id) => {
+    const thePost = doc(db, 'posts', id)
+    try {
+      await updateDoc(thePost, {
+        adminApproved: true,
+      })
+    } catch (error) {
+      alert(error)
+    }
+  }
 
-  return (
+  return posts.departmentApproved ? (
     <div
-      className='posts-card min-h-[150px] max-h-[470px]  w-[867px] mx-auto my-4'
+      className='posts-card min-h-[150px] max-h-[500px]  w-[867px] mx-auto my-4'
       key={id}
       style={{ border: '3px solid blue', background: '#ceeff8' }}
     >
@@ -97,28 +103,52 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           </p>
         </div>
       </div>
-      <div className='request text-center text-base mx-2 my-2'>
+      <div className='request text-center text-3xl font-bold mx-2'>
         <p
           className='status'
-          dangerouslySetInnerHTML={{ __html: posts.status }}
+          dangerouslySetInnerHTML={{ __html: posts.overview }}
         ></p>
-      </div>
-      <div className='flex flex-row items-center'>
-        {posts.postImage ? (
-          <img
-            src={posts.postImage}
-            className='post-image w-[80px] h-[60px]'
-            alt='post-image'
-          />
-        ) : (
-          <></>
-        )}
+        <br />
         <p
-          className=' cursor-pointer text-blue-800'
-          onClick={() => setImageModal(true)}
+          className=' cursor-pointer text-rose-800 text-base font-light'
+          onClick={() => setExeatModal(true)}
         >
-          View Attachment
+          View Exeat Request
         </p>
+      </div>
+      <div className='flex flex-row justify-between items-center p-2'>
+        <div className='flex flex-row items-center'>
+          {posts.postImage ? (
+            <img
+              src={posts.postImage}
+              className='post-image w-[80px] h-[60px] object-contain'
+              alt='exeatImg'
+            />
+          ) : (
+            <></>
+          )}
+          {posts.postImage ? (
+            <p
+              className=' cursor-pointer text-blue-800'
+              onClick={() => setImageModal(true)}
+            >
+              View Attachment
+            </p>
+          ) : (
+            <></>
+          )}
+        </div>
+
+        <button
+          className='bg-slate-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-center'
+          key='submit'
+          type='primary'
+          onClick={() => {
+            approveExeat(posts.id)
+          }}
+        >
+          Approve Exeat
+        </button>
       </div>
 
       {/* <LikeButton
@@ -137,11 +167,36 @@ export default function DocumentComponent({ posts, id, getEditData }) {
         <img
           onClick={() => setImageModal(true)}
           src={posts.postImage}
-          className='post-image modal w-[1000px] h-[600px] mx-auto my-auto p-4'
-          alt='post-image'
-          style={{ objectFit: 'cover' }}
+          className='post-image modal w-[1000px] h-[600px] mx-auto my-auto p-4 object-contain'
+          alt='exeatImg'
         />
       </Modal>
+
+      <Modal
+        centered
+        open={exeatModal}
+        onOk={() => setExeatModal(false)}
+        onCancel={() => setExeatModal(false)}
+        footer={[]}
+        className='w-[1400px] h-[600px] '
+      >
+        <div className='w-[1400px] h-[600px] flex flex-col gap-2 p-2 items-start justify-center'>
+          <p
+            className='status w-[450px]  font-bold text-lg'
+            dangerouslySetInnerHTML={{ __html: posts.overview }}
+          ></p>
+          <p
+            className='status w-[450px] h-[500px] text-justify font-medium '
+            dangerouslySetInnerHTML={{ __html: posts.status }}
+          ></p>
+        </div>
+      </Modal>
     </div>
+  ) : (
+    <>
+      <p className='text-rose-800 text-base font-light'>
+        Doc Waiting for HOD approval
+      </p>
+    </>
   )
 }
