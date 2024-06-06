@@ -22,6 +22,7 @@ import { db } from '../../../../firebaseConfig'
 export default function DocumentComponent({ posts, id, getEditData }) {
   let navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState({})
+  const [exeatModal, setExeatModal] = useState(false)
   const [allUsers, setAllUsers] = useState([])
   const [imageModal, setImageModal] = useState(false)
 
@@ -41,9 +42,10 @@ export default function DocumentComponent({ posts, id, getEditData }) {
     }
   }
 
-  return currentUser.department === posts.department ? (
+  return currentUser.department === posts.department &&
+    !posts.departmentApproved ? (
     <div
-      className='posts-card min-h-[150px] max-h-[500px]  w-[867px] mx-auto my-4'
+      className='posts-card min-h-[150px] max-h-[520px]  w-[867px] mx-auto my-4'
       key={id}
       style={{ border: '3px solid blue', background: '#ceeff8' }}
     >
@@ -90,6 +92,14 @@ export default function DocumentComponent({ posts, id, getEditData }) {
             {allUsers.filter((user) => user.id === posts.userID)[0]?.room}
           </p>
           <p>
+            <span className='font-bold'> Departure:</span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.departure}
+          </p>
+          <p>
+            <span className='font-bold'> Arrival:</span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.arrival}
+          </p>
+          <p>
             {' '}
             <span className='font-bold'>PHONE NUMBER: </span>{' '}
             {allUsers.filter((user) => user.id === posts.userID)[0]?.phone}
@@ -112,7 +122,7 @@ export default function DocumentComponent({ posts, id, getEditData }) {
         <br />
         <p
           className=' cursor-pointer text-rose-800 text-base font-light'
-          onClick={() => setImageModal(true)}
+          onClick={() => setExeatModal(true)}
         >
           View Exeat Request
         </p>
@@ -170,6 +180,26 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           className='post-image modal w-[1000px] h-[600px] mx-auto my-auto p-4 object-contain'
           alt='exeatImg'
         />
+      </Modal>
+
+      <Modal
+        centered
+        open={exeatModal}
+        onOk={() => setExeatModal(false)}
+        onCancel={() => setExeatModal(false)}
+        footer={[]}
+        className='w-[1400px] h-[600px] '
+      >
+        <div className='w-[1400px] h-[600px] flex flex-col gap-2 p-2 items-start justify-center'>
+          <p
+            className='status w-[450px]  font-bold text-lg'
+            dangerouslySetInnerHTML={{ __html: posts.overview }}
+          ></p>
+          <p
+            className='status w-[450px] h-[500px] text-justify font-medium '
+            dangerouslySetInnerHTML={{ __html: posts.status }}
+          ></p>
+        </div>
       </Modal>
     </div>
   ) : (

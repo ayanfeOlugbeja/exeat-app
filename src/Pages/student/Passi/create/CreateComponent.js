@@ -4,7 +4,8 @@ import {
   getPosts,
   updatePost,
 } from '../../../../api/FirestoreAPI'
-
+import moment from 'moment'
+import { DatePicker } from 'antd'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { uploadPostImage } from '../../../../api/ImageUpload'
@@ -13,28 +14,20 @@ import { getCurrentTimestamp } from '../../../../helpers/useMoment'
 import { getUniqueID } from '../../../../helpers/getUniqueID'
 import { getCurrentUser } from '../../../../api/FirestoreAPI'
 
+const { RangePicker } = DatePicker
+
 export default function CreateComponent() {
   const [status, setStatus] = useState('')
   const [allStatuses, setAllStatus] = useState([])
+  const [dates, setDates] = useState([])
   const [currentPost, setCurrentPost] = useState({})
   const [isEdit, setIsEdit] = useState(false)
   const [postImage, setPostImage] = useState('')
   const [currentUser, setCurrentUser] = useState({})
 
   const [newsContents, setNewsContents] = useState({
-    headline: '',
     overview: '',
   })
-
-  const getEditData = (posts) => {
-    setStatus(posts?.status)
-    setCurrentPost(posts)
-    setIsEdit(true)
-  }
-
-  const updateStatus = () => {
-    updatePost(currentPost.id, status, postImage)
-  }
 
   useMemo(() => {
     getPosts(setAllStatus)
@@ -58,10 +51,12 @@ export default function CreateComponent() {
       postID: getUniqueID(),
       userID: currentUser.id,
       postImage: postImage,
-      headline: newsContents.headline,
       overview: newsContents.overview,
       departmentApproved: false,
       adminApproved: false,
+      departure: dates[0],
+      arrival: dates[1],
+      print: false,
     }
     await postResponse(object)
     setIsEdit(false)
@@ -75,25 +70,16 @@ export default function CreateComponent() {
     >
       <div className='grid grid-cols-1 gap-5'>
         <div className='flex flex-col gap-5 md:flex-row  '>
-          <div className='flex flex-col gap-0 '>
-            <label
-              className='capitalize font-[600] text-[13px] '
-              htmlFor='headline'
-            >
-              headline :
-            </label>
-            <input
-              onChange={(e) =>
-                setNewsContents({
-                  ...newsContents,
-                  headline: e.target.value,
-                })
-              }
-              type='text'
-              className='p-4 bg-white capitalize text-[13px] outline-0 shadow rounded  w-full '
-              name='headline'
-              placeholder='Exeat headline'
-              id=''
+          <div className='flex flex-col gap-0  items-center justify-center'>
+            <RangePicker
+              className='self-center'
+              onChange={(values) => {
+                setDates(
+                  values.map((item) => {
+                    return moment(item).format('DD-MM-YYYY')
+                  })
+                )
+              }}
             />
           </div>
           <div className='flex flex-col gap-0 '>
@@ -144,10 +130,6 @@ export default function CreateComponent() {
             />
           </div>
         </div>
-
-        {/* <Space direction='vertical' size={10}>
-            <RangePicker required />
-          </Space> */}
 
         <div className='flex flex-col gap-0 '>
           <label

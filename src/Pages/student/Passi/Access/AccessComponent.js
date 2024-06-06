@@ -1,11 +1,12 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Modal } from 'antd'
 import { BsPencil, BsTrash } from 'react-icons/bs'
 import { getCurrentUser, getAllUsers } from './../../../../api/FirestoreAPI'
-import { ReactToPrint } from 'react-to-print'
+import { useReactToPrint } from 'react-to-print'
 import school from '../../../../Images/schoolLogo.png'
 import label from './../../../../Images/label.png'
+import { Content } from 'antd/es/layout/layout'
 
 export default function AccessComponent({ posts, id, getEditData }) {
   const [currentUser, setCurrentUser] = useState({})
@@ -17,14 +18,17 @@ export default function AccessComponent({ posts, id, getEditData }) {
     getCurrentUser(setCurrentUser)
     getAllUsers(setAllUsers)
   }, [])
-  // const handlePrintClick = () => {
-  //   navigate('/passi/print', { state: { currentUser } })
-  // }
+  const printRef = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+  })
+
   return currentUser.id === posts.userID ? (
     <div
-      className='posts-card min-h-[150px] max-h-[520px]  w-[867px] mx-auto my-4 bg-transparent relative'
+      className=' posts-card min-h-[150px] max-h-[530px]  w-[867px] mx-auto my-4 bg-transparent relative'
       key={id}
       style={{ border: '3px solid blue' }}
+      ref={printRef}
     >
       <div className='z-50 header flex flex-row justify-between w-[70%] items-center'>
         <img src={school} alt='school logo' className='w-[100px] h-[100px]' />
@@ -81,6 +85,16 @@ export default function AccessComponent({ posts, id, getEditData }) {
                 ?.parentPhone
             }
           </p>
+          <p>
+            {' '}
+            <span className='font-bold'>DEPARTURE: </span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.departure}
+          </p>
+          <p>
+            {' '}
+            <span className='font-bold'>ARRIVAL: </span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.arrival}
+          </p>
         </div>
       </div>
       <div className='request text-center text-3xl font-bold mx-2 my-2'>
@@ -90,7 +104,7 @@ export default function AccessComponent({ posts, id, getEditData }) {
         ></p>
         <br />
         <p
-          className=' cursor-pointer text-rose-800 text-base font-light'
+          className=' cursor-pointer text-rose-800 text-base font-light z-100'
           onClick={() => setExeatModal(true)}
         >
           View Exeat Request
@@ -123,6 +137,7 @@ export default function AccessComponent({ posts, id, getEditData }) {
             className='bg-slate-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-center'
             key='submit'
             type='primary'
+            onClick={handlePrint}
           >
             Print Exeat
           </button>
@@ -173,11 +188,18 @@ export default function AccessComponent({ posts, id, getEditData }) {
       </Modal>
 
       {posts.adminApproved ? (
-        <img
-          src={label}
-          alt='label'
-          className='absolute top-20 right-2 opacity-20'
-        />
+        <div>
+          <img
+            src={label}
+            alt='label'
+            className='absolute top-20 right-2 opacity-20'
+          />
+          <img
+            src={school}
+            alt='school'
+            className='absolute top-0 right-7 opacity-10 w-3/5 h-3/5 object-contain z-0'
+          />
+        </div>
       ) : (
         <></>
       )}

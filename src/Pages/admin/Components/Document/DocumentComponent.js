@@ -40,9 +40,9 @@ export default function DocumentComponent({ posts, id, getEditData }) {
     }
   }
 
-  return posts.departmentApproved ? (
+  return posts.departmentApproved && !posts.adminApproved ? (
     <div
-      className='posts-card min-h-[150px] max-h-[500px]  w-[867px] mx-auto my-4'
+      className='posts-card min-h-[150px] max-h-[520px]  w-[867px] mx-auto my-4'
       key={id}
       style={{ border: '3px solid blue', background: '#ceeff8' }}
     >
@@ -87,6 +87,17 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           <p>
             <span className='font-bold'> ROOM NUMBER:</span>{' '}
             {allUsers.filter((user) => user.id === posts.userID)[0]?.room}
+          </p>
+          <p>
+            <span className='font-bold'> Departure:</span>{' '}
+            {
+              allUsers.filter((user) => user.id === posts.userID)[0]
+                ?.matricNumber
+            }
+          </p>
+          <p>
+            <span className='font-bold'> Arrival:</span>{' '}
+            {allUsers.filter((user) => user.id === posts.userID)[0]?.arrival}
           </p>
           <p>
             {' '}
@@ -193,10 +204,6 @@ export default function DocumentComponent({ posts, id, getEditData }) {
       </Modal>
     </div>
   ) : (
-    <>
-      <p className='text-rose-800 text-base font-light'>
-        Doc Waiting for HOD approval
-      </p>
-    </>
+    <></>
   )
 }

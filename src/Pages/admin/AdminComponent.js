@@ -19,6 +19,7 @@ export const AdminComponent = ({ currentUser }) => {
       viewDashboard: true,
       viewProfile: false,
       newsPost: false,
+      postHistory: false,
       viewDashboardColor: 'text-green-500',
       viewProfileColor: 'text-slate-700',
       newsPostColor: 'text-rose-500',
