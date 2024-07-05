@@ -6,6 +6,7 @@ import { getCurrentUser, getAllUsers } from './../../../../api/FirestoreAPI'
 import { useReactToPrint } from 'react-to-print'
 import school from '../../../../Images/schoolLogo.png'
 import label from './../../../../Images/label.png'
+import rejected from './../../../../Images/rejected.png'
 import { Content } from 'antd/es/layout/layout'
 
 export default function AccessComponent({ posts, id, getEditData }) {
@@ -22,6 +23,7 @@ export default function AccessComponent({ posts, id, getEditData }) {
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
   })
+  console.log(posts.arrival, posts.departure)
 
   return currentUser.id === posts.userID ? (
     <div
@@ -146,12 +148,6 @@ export default function AccessComponent({ posts, id, getEditData }) {
         )}
       </div>
 
-      {/* <LikeButton
-        userId={currentUser?.id}
-        postId={posts.id}
-        currentUser={currentUser}
-      /> */}
-
       <Modal
         centered
         open={imageModal}
@@ -198,6 +194,23 @@ export default function AccessComponent({ posts, id, getEditData }) {
             src={school}
             alt='school'
             className='absolute top-0 right-7 opacity-10 w-3/5 h-3/5 object-contain z-0'
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {posts.Rejected ? (
+        <div>
+          <img
+            src={rejected}
+            alt='exeat rejected'
+            className='absolute top-20 right-2 opacity-90'
+          />
+          <img
+            src={school}
+            alt='school'
+            className='absolute top-0 right-7 opacity-60 w-3/5 h-3/5 object-contain z-0'
           />
         </div>
       ) : (

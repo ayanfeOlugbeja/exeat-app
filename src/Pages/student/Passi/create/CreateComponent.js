@@ -54,6 +54,7 @@ export default function CreateComponent() {
       overview: newsContents.overview,
       departmentApproved: false,
       adminApproved: false,
+      Rejected: false,
       departure: dates[0],
       arrival: dates[1],
       print: false,

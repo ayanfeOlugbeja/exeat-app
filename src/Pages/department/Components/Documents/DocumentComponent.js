@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Modal } from 'antd'
-import { BsPencil, BsTrash } from 'react-icons/bs'
+import { Modal } from 'antd'
 import school from './../../../../Images/schoolLogo.png'
 import {
   getCurrentUser,
@@ -9,14 +8,7 @@ import {
   deletePost,
 } from './../../../../api/FirestoreAPI'
 
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  updateDoc,
-} from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../firebaseConfig'
 
 export default function DocumentComponent({ posts, id, getEditData }) {
@@ -36,6 +28,16 @@ export default function DocumentComponent({ posts, id, getEditData }) {
     try {
       await updateDoc(thePost, {
         departmentApproved: true,
+      })
+    } catch (error) {
+      alert(error)
+    }
+  }
+  const rejectExeat = async (id) => {
+    const thePost = doc(db, 'posts', id)
+    try {
+      await updateDoc(thePost, {
+        Rejected: true,
       })
     } catch (error) {
       alert(error)
@@ -150,7 +152,7 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           )}
         </div>
         <button
-          className='bg-slate-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-center'
+          className='bg-slate-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-end'
           key='submit'
           type='primary'
           onClick={() => {
@@ -159,13 +161,17 @@ export default function DocumentComponent({ posts, id, getEditData }) {
         >
           Approve Exeat
         </button>
+        <button
+          className='bg-rose-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-end'
+          key='submit'
+          type='primary'
+          onClick={() => {
+            rejectExeat(posts.id)
+          }}
+        >
+          Reject Exeat
+        </button>
       </div>
-
-      {/* <LikeButton
-        userId={currentUser?.id}
-        postId={posts.id}
-        currentUser={currentUser}
-      /> */}
 
       <Modal
         centered

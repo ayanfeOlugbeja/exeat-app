@@ -18,7 +18,7 @@ import {
 } from 'firebase/firestore'
 import { db } from './../../../../firebaseConfig'
 
-export default function DocumentComponent({ posts, id, getEditData }) {
+export default function DocumentComponent({ posts, id }) {
   const [currentUser, setCurrentUser] = useState({})
   const [allUsers, setAllUsers] = useState([])
   const [imageModal, setImageModal] = useState(false)
@@ -39,8 +39,18 @@ export default function DocumentComponent({ posts, id, getEditData }) {
       alert(error)
     }
   }
+  const rejectExeat = async (id) => {
+    const thePost = doc(db, 'posts', id)
+    try {
+      await updateDoc(thePost, {
+        Rejected: true,
+      })
+    } catch (error) {
+      alert(error)
+    }
+  }
 
-  return posts.departmentApproved && !posts.adminApproved ? (
+  return posts.departmentApproved && !posts.adminApproved && !posts.Rejected ? (
     <div
       className='posts-card min-h-[150px] max-h-[520px]  w-[867px] mx-auto my-4'
       key={id}
@@ -160,13 +170,18 @@ export default function DocumentComponent({ posts, id, getEditData }) {
         >
           Approve Exeat
         </button>
-      </div>
 
-      {/* <LikeButton
-        userId={currentUser?.id}
-        postId={posts.id}
-        currentUser={currentUser}
-      /> */}
+        <button
+          className='bg-rose-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-end'
+          key='submit'
+          type='primary'
+          onClick={() => {
+            rejectExeat(posts.id)
+          }}
+        >
+          Reject Exeat
+        </button>
+      </div>
 
       <Modal
         centered
