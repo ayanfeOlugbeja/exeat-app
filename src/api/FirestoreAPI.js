@@ -25,18 +25,7 @@ export const postResponse = (object) => {
     .catch((err) => {
       console.log(err)
     })
-}
 
-// export const getPosts = (setAllStatus) => {
-//   const q = query(postsRef, orderBy('timeStamp'));
-//   onSnapshot(q, (response) => {
-//     console.log(
-//       response.docs.map((docs) => {
-//         return { ...docs.data(), id: docs.id };
-//       })
-//     );
-//   });
-// };
 export const getPosts = (setAllStatus) => {
   // const q = query(postsRef, orderBy('timeStamp'));
   onSnapshot(postsRef, (response) => {
