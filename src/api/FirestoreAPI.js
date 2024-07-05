@@ -25,6 +25,7 @@ export const postResponse = (object) => {
     .catch((err) => {
       console.log(err)
     })
+}
 
 export const getPosts = (setAllStatus) => {
   // const q = query(postsRef, orderBy('timeStamp'));
