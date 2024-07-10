@@ -101,12 +101,10 @@ export default function DocumentComponent({ posts, id, getEditData }) {
             {allUsers.filter((user) => user.id === posts.userID)[0]?.room}
           </p>
           <p>
-            <span className='font-bold'> Departure:</span>{' '}
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.departure}
+            <span className='font-bold'> Departure:</span> {posts.departure}
           </p>
           <p>
-            <span className='font-bold'> Arrival:</span>{' '}
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.arrival}
+            <span className='font-bold'> Arrival:</span> {posts.arrival}
           </p>
           <p>
             {' '}

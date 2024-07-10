@@ -63,6 +63,7 @@ export default function CreateComponent() {
     setIsEdit(false)
     await setStatus('')
   }
+  console.log(dates)
 
   return (
     <div
@@ -73,11 +74,10 @@ export default function CreateComponent() {
         <div className='flex flex-col gap-5 md:flex-row  '>
           <div className='flex flex-col gap-0  items-center justify-center'>
             <RangePicker
-              className='self-center'
               onChange={(values) => {
                 setDates(
                   values.map((item) => {
-                    return moment(item).format('DD-MM-YYYY')
+                    return moment(item).format('YYYY-DD-MM')
                   })
                 )
               }}

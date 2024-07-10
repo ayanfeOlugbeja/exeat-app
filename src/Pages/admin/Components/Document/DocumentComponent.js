@@ -49,7 +49,8 @@ export default function DocumentComponent({ posts, id }) {
       alert(error)
     }
   }
-
+  console.log(posts.arrival)
+  console.log(posts.departure)
   return posts.departmentApproved && !posts.adminApproved && !posts.Rejected ? (
     <div
       className='posts-card min-h-[150px] max-h-[630px] lg:max-h-[550px] w-[867px] max-w-[90vw] my-2'
@@ -106,12 +107,10 @@ export default function DocumentComponent({ posts, id }) {
             {allUsers.filter((user) => user.id === posts.userID)[0]?.room}
           </p>
           <p>
-            <span className='font-bold'> Departure:</span>{' '}
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.departure}
+            <span className='font-bold'> Departure:</span> {posts.departure}
           </p>
           <p>
-            <span className='font-bold'> Arrival:</span>{' '}
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.arrival}
+            <span className='font-bold'> Arrival:</span> {posts.arrival}
           </p>
           <p>
             {' '}

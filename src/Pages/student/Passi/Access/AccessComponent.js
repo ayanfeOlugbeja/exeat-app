@@ -24,10 +24,6 @@ export default function AccessComponent({ posts, id, getEditData }) {
     content: () => printRef.current,
   })
 
-  console.log(posts.arrival, posts.departure)
-  console.log(posts.matricNumber)
-  console.log(posts.arrival)
-
   return currentUser.id === posts.userID ? (
     <div
       className=' posts-card min-h-[150px] max-h-[580px] lg:max-h-[550px] w-[867px] max-w-[90vw]   bg-transparent relative my-2'
@@ -35,6 +31,21 @@ export default function AccessComponent({ posts, id, getEditData }) {
       style={{ border: '3px solid blue' }}
       ref={printRef}
     >
+      {!posts.departmentApproved && !posts.adminApproved ? (
+        <div className='w-[100%] bg-rose-600 h-5 text-center font-bold text-sm text-white'>
+          Waiting for HOD Approval!
+        </div>
+      ) : (
+        <></>
+      )}
+      {posts.departmentApproved && !posts.adminApproved ? (
+        <div className='w-[100%] bg-green-600 h-5 text-center font-bold text-sm text-white'>
+          Waiting for Hall Administrator Approval!
+        </div>
+      ) : (
+        <></>
+      )}
+
       <div className='z-50 header flex flex-row justify-between w-[100%] items-center gap-3 lg:w-[70%]'>
         <img src={school} alt='school logo' className='w-[100px] h-[100px]' />
         <div className='text-center lg:text-2xl font-extrabold text-base flex justify-between gap-2 flex-col'>
