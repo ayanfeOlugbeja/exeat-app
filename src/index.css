@@ -48,3 +48,12 @@ body {
 .q1-editor {
   min-height: 60px;
 }
+.ant-picker-dropdown .ant-picker-panel-container .ant-picker-panels {
+  display: inline-flex;
+  animation: none;
+  flex-wrap: nowrap;
+  direction: ltr;
+  @media (max-width: 768px) {
+    display: inline-grid;
+  }
+}

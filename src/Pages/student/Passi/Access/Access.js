@@ -24,7 +24,7 @@ const Access = () => {
   }, [])
 
   return (
-    <div className='mt-[80px]'>
+    <div className=''>
       {loading ? <Loader /> : <Accessing currentUser={currentUser} />}
     </div>
   )
