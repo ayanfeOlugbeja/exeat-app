@@ -23,7 +23,10 @@ export default function AccessComponent({ posts, id, getEditData }) {
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
   })
+
   console.log(posts.arrival, posts.departure)
+  console.log(posts.matricNumber)
+  console.log(posts.arrival)
 
   return currentUser.id === posts.userID ? (
     <div
@@ -53,6 +56,13 @@ export default function AccessComponent({ posts, id, getEditData }) {
           <p>
             <span className='font-bold'>NAME: </span>{' '}
             {allUsers.filter((user) => user.id === posts.userID)[0]?.name}
+          </p>
+          <p>
+            <span className='font-bold'>MATRIC NUMBER: </span>{' '}
+            {
+              allUsers.filter((user) => user.id === posts.userID)[0]
+                ?.matricNumber
+            }
           </p>
           <p>
             <span className='font-bold'>DEPARTMENT: </span>{' '}
@@ -89,13 +99,12 @@ export default function AccessComponent({ posts, id, getEditData }) {
           </p>
           <p>
             {' '}
-            <span className='font-bold'>DEPARTURE: </span>{' '}
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.departure}
+            <span className='font-bold'>DEPARTURE: </span> {posts.departure}
           </p>
           <p>
             {' '}
-            <span className='font-bold'>ARRIVAL: </span>{' '}
-            {allUsers.filter((user) => user.id === posts.userID)[0]?.arrival}
+            <span className='font-bold'>ARRIVAL: </span>
+            {posts.arrival}
           </p>
         </div>
       </div>

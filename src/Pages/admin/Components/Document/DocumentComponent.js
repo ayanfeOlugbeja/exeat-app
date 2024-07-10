@@ -79,6 +79,13 @@ export default function DocumentComponent({ posts, id }) {
             {allUsers.filter((user) => user.id === posts.userID)[0]?.name}
           </p>
           <p>
+            <span className='font-bold'>MATRIC NUMBER: </span>{' '}
+            {
+              allUsers.filter((user) => user.id === posts.userID)[0]
+                ?.matricNumber
+            }
+          </p>
+          <p>
             <span className='font-bold'>DEPARTMENT: </span>{' '}
             {allUsers.filter((user) => user.id === posts.userID)[0]?.department}
           </p>

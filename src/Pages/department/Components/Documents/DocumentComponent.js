@@ -78,6 +78,13 @@ export default function DocumentComponent({ posts, id, getEditData }) {
             {allUsers.filter((user) => user.id === posts.userID)[0]?.department}
           </p>
           <p>
+            <span className='font-bold'>MATRIC NUMBER: </span>{' '}
+            {
+              allUsers.filter((user) => user.id === posts.userID)[0]
+                ?.matricNumber
+            }
+          </p>
+          <p>
             <span className='font-bold'> COURSE:</span>{' '}
             {allUsers.filter((user) => user.id === posts.userID)[0]?.course}
           </p>
