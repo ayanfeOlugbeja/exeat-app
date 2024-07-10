@@ -47,13 +47,13 @@ export default function DocumentComponent({ posts, id, getEditData }) {
   return currentUser.department === posts.department &&
     !posts.departmentApproved ? (
     <div
-      className='posts-card min-h-[150px] max-h-[520px]  w-[867px] mx-auto my-4'
+      className='posts-card min-h-[150px] max-h-[630px] lg:max-h-[550px] w-[867px] max-w-[90vw]  my-2 '
       key={id}
       style={{ border: '3px solid blue', background: '#ceeff8' }}
     >
-      <div className='header flex flex-row justify-between w-[70%] items-center'>
+      <div className='header flex flex-row justify-between w-[100%] items-center gap-3 lg:w-[70%]'>
         <img src={school} alt='school logo' className='w-[100px] h-[100px]' />
-        <div className='text-center text-2xl font-extrabold'>
+        <div className='text-center lg:text-2xl font-extrabold text-base flex justify-between gap-2 flex-col'>
           <p>GLORIOUS VISION UNIVERSITY</p>
           <p>STUDENTS EXEAT FORM</p>
         </div>
@@ -66,7 +66,7 @@ export default function DocumentComponent({ posts, id, getEditData }) {
               .map((item) => item.imageLink)[0]
           }
           alt=''
-          className='profile-image w-[180px] h-[180px]'
+          className='profile-image lg:w-[180px] lg:h-[180px] flex self-center w-[150px] h-[150px]'
         />
         <div className='text-sm w-[50%] font-semibold '>
           <p>
@@ -116,12 +116,12 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           </p>
         </div>
       </div>
-      <div className='request text-center text-3xl font-bold mx-2 '>
+      <div className='request text-center text-3xl font-bold flex gap-2 items-center  flex-col'>
         <p
           className='status'
           dangerouslySetInnerHTML={{ __html: posts.overview }}
         ></p>
-        <br />
+
         <p
           className=' cursor-pointer text-rose-800 text-base font-light'
           onClick={() => setExeatModal(true)}
@@ -129,7 +129,7 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           View Exeat Request
         </p>
       </div>
-      <div className='flex flex-row justify-between items-center p-2'>
+      <div className='flex  justify-between items-center'>
         <div className='flex flex-row items-center'>
           {posts.postImage ? (
             <img
@@ -151,8 +151,10 @@ export default function DocumentComponent({ posts, id, getEditData }) {
             <></>
           )}
         </div>
+      </div>
+      <div className='flex justify-between items-end'>
         <button
-          className='bg-slate-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-end'
+          className='bg-slate-900 w-fit   shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700'
           key='submit'
           type='primary'
           onClick={() => {
@@ -162,7 +164,7 @@ export default function DocumentComponent({ posts, id, getEditData }) {
           Approve Exeat
         </button>
         <button
-          className='bg-rose-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-end'
+          className='bg-rose-900 w-fit shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 self-end'
           key='submit'
           type='primary'
           onClick={() => {

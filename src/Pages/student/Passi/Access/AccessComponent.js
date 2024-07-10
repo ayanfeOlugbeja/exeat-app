@@ -27,7 +27,7 @@ export default function AccessComponent({ posts, id, getEditData }) {
 
   return currentUser.id === posts.userID ? (
     <div
-      className=' posts-card min-h-[150px] max-h-[580px] lg:max-h-[550px] w-[867px] max-w-[90vw]   bg-transparent relative'
+      className=' posts-card min-h-[150px] max-h-[580px] lg:max-h-[550px] w-[867px] max-w-[90vw]   bg-transparent relative my-2'
       key={id}
       style={{ border: '3px solid blue' }}
       ref={printRef}
