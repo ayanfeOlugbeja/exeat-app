@@ -63,7 +63,6 @@ export default function CreateComponent() {
     setIsEdit(false)
     await setStatus('')
   }
-  console.log(dates)
 
   return (
     <div
