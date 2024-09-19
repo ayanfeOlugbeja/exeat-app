@@ -90,7 +90,7 @@ const Home = () => {
         <div className='mt-10'>
           <button
             className='bg-yellow-400 text-black font-semibold py-4 px-10 rounded-full shadow-lg hover:bg-yellow-500 transition-all duration-500 ease-in-out transform hover:scale-105'
-            onClick={() => (window.location.href = '/signup')}>
+            onClick={() => (window.location.href = '/register')}>
             Sign Up Now ↗
           </button>
         </div>

@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
 import { useReactToPrint } from 'react-to-print';
 import school from '../../../../Images/schoolLogo.png';
@@ -12,7 +11,6 @@ export default function AccessComponent({ posts, id }) {
   const [allUsers, setAllUsers] = useState([]);
   const [exeatModal, setExeatModal] = useState(false);
   const [imageModal, setImageModal] = useState(false);
-  const navigate = useNavigate();
   const printRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -28,7 +26,7 @@ export default function AccessComponent({ posts, id }) {
 
   return currentUser.id === posts.userID ? (
     <div
-      className='posts-card bg-white shadow-lg rounded-lg p-6 max-w-full w-full lg:max-w-4xl relative my-4'
+      className='posts-card bg-white shadow-xl rounded-lg p-6 max-w-3xl w-full lg:max-w-4xl relative my-4'
       key={id}
       ref={printRef}>
       {/* Approval Banner */}
@@ -46,58 +44,53 @@ export default function AccessComponent({ posts, id }) {
       )}
 
       {/* Header */}
-      <div className='header flex flex-col lg:flex-row items-center justify-between gap-4'>
-        <img src={school} alt='school logo' className='w-24 h-24' />
-        <div className='text-center lg:text-2xl font-extrabold text-lg'>
+      <div className='flex items-center justify-between gap-4'>
+        <img src={school} alt='school logo' className='w-16 h-16' />
+        <div className='text-center lg:text-xl font-bold'>
           <p>GLORIOUS VISION UNIVERSITY</p>
           <p>STUDENTS EXEAT FORM</p>
         </div>
       </div>
 
-      {/* Body */}
-      <div className='body my-4 flex flex-col lg:flex-row items-center justify-between gap-6'>
+      {/* Body - Simplified for card display */}
+      <div className='my-4 flex items-center justify-between gap-6'>
         <img
           src={user.imageLink}
           alt='student'
-          className='profile-image w-32 h-32 lg:w-36 lg:h-36 rounded-full object-cover'
+          className='w-28 h-28 rounded-full object-cover shadow-lg'
         />
-        <UserInfo user={user} posts={posts} />
+        <div className='text-sm lg:text-base font-medium'>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+          <p>
+            <strong>Name:</strong> {user.name}
+          </p>
+          <p>
+            <strong>Matric Number:</strong> {user.matricNumber}
+          </p>
+        </div>
       </div>
 
-      {/* Exeat Request */}
-      <div className='request text-center text-xl font-bold flex flex-col gap-2'>
-        <p dangerouslySetInnerHTML={{ __html: posts.overview }}></p>
-        <p
-          className='cursor-pointer text-rose-800 text-sm font-light'
+      {/* View Exeat Request */}
+      <div className='text-center mt-4'>
+        <button
+          className='bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600'
           onClick={() => setExeatModal(true)}>
           View Exeat Request
-        </p>
+        </button>
       </div>
 
-      {/* Print Button and Image */}
-      <div className='flex justify-between items-center mt-4'>
-        {posts.postImage && (
-          <div className='flex items-center gap-2'>
-            <img
-              src={posts.postImage}
-              className='w-20 h-16 object-contain'
-              alt='attachment'
-            />
-            <p
-              className='cursor-pointer text-blue-800'
-              onClick={() => setImageModal(true)}>
-              View Attachment
-            </p>
-          </div>
-        )}
-        {posts.adminApproved && (
+      {/* Print Button */}
+      {posts.adminApproved && (
+        <div className='flex justify-end mt-4'>
           <button
             className='bg-blue-800 text-white py-2 px-5 rounded-lg hover:bg-blue-700 transition-all'
             onClick={handlePrint}>
             Print Exeat
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Modals */}
       <ImageModal
@@ -108,17 +101,18 @@ export default function AccessComponent({ posts, id }) {
       <ExeatModal
         exeatModal={exeatModal}
         setExeatModal={setExeatModal}
-        overview={posts.overview}
-        status={posts.status}
+        posts={posts}
+        user={user}
       />
 
-      {/* Background Elements */}
+      {/* Watermarks */}
       {posts.adminApproved && <Watermark label={label} school={school} />}
       {posts.Rejected && <Watermark label={rejected} school={school} />}
     </div>
   ) : null;
 }
 
+/* Approval Banner Component */
 const ApprovalBanner = ({ message, bgColor }) => (
   <div
     className={`w-full py-1 text-center font-bold text-sm text-white ${bgColor} rounded-t-lg`}>
@@ -126,44 +120,70 @@ const ApprovalBanner = ({ message, bgColor }) => (
   </div>
 );
 
-const UserInfo = ({ user, posts }) => (
-  <div className='text-sm lg:text-base w-full lg:w-2/3 space-y-2 font-medium'>
-    <p>
-      <strong>Name:</strong> {user.name}
-    </p>
-    <p>
-      <strong>Matric Number:</strong> {user.matricNumber}
-    </p>
-    <p>
-      <strong>Department:</strong> {user.department}
-    </p>
-    <p>
-      <strong>Course:</strong> {user.course}
-    </p>
-    <p>
-      <strong>Academic Level:</strong> {user.level}
-    </p>
-    <p>
-      <strong>Gender:</strong> {user.gender}
-    </p>
-    <p>
-      <strong>Room Number:</strong> {user.room}
-    </p>
-    <p>
-      <strong>Phone Number:</strong> {user.phone}
-    </p>
-    <p>
-      <strong>Parent's Number:</strong> {user.parentPhone}
-    </p>
-    <p>
-      <strong>Departure:</strong> {posts.departure}
-    </p>
-    <p>
-      <strong>Arrival:</strong> {posts.arrival}
-    </p>
-  </div>
+/* Exeat Modal */
+const ExeatModal = ({ exeatModal, setExeatModal, posts, user }) => (
+  <Modal
+    centered
+    open={exeatModal}
+    onOk={() => setExeatModal(false)}
+    onCancel={() => setExeatModal(false)}
+    footer={null}
+    className='custom-modal'>
+    <div className='p-6'>
+      <h2 className='text-2xl font-bold text-center'>Exeat Request Details</h2>
+
+      <div className='mt-4 text-lg font-serif leading-relaxed space-y-4'>
+        <p>
+          <strong>Name:</strong> {user.name}
+        </p>
+        <p>
+          <strong>Matric Number:</strong> {user.matricNumber}
+        </p>
+        <p>
+          <strong>Department:</strong> {user.department}
+        </p>
+        <p>
+          <strong>Course:</strong> {user.course}
+        </p>
+        <p>
+          <strong>Academic Level:</strong> {user.level}
+        </p>
+        <p>
+          <strong>Gender:</strong> {user.gender}
+        </p>
+        <p>
+          <strong>Room Number:</strong> {user.room}
+        </p>
+        <p>
+          <strong>Phone Number:</strong> {user.phone}
+        </p>
+        <p>
+          <strong>Parent's Number:</strong> {user.parentPhone}
+        </p>
+        <p>
+          <strong>Departure Date:</strong> {posts.departure}
+        </p>
+        <p>
+          <strong>Arrival Date:</strong> {posts.arrival}
+        </p>
+
+        <hr className='my-4' />
+
+        <p>
+          <strong>Exeat Overview:</strong>
+        </p>
+        <p dangerouslySetInnerHTML={{ __html: posts.overview }}></p>
+
+        <p className='mt-4'>
+          <strong>Exeat Content:</strong>
+        </p>
+        <p dangerouslySetInnerHTML={{ __html: posts.content }}></p>
+      </div>
+    </div>
+  </Modal>
 );
 
+/* Image Modal */
 const ImageModal = ({ imageModal, setImageModal, postImage }) => (
   <Modal
     centered
@@ -179,26 +199,9 @@ const ImageModal = ({ imageModal, setImageModal, postImage }) => (
   </Modal>
 );
 
-const ExeatModal = ({ exeatModal, setExeatModal, overview, status }) => (
-  <Modal
-    centered
-    open={exeatModal}
-    onOk={() => setExeatModal(false)}
-    onCancel={() => setExeatModal(false)}
-    footer={null}>
-    <div className='p-4 space-y-4'>
-      <p
-        className='font-bold text-lg'
-        dangerouslySetInnerHTML={{ __html: overview }}></p>
-      <p
-        className='font-medium text-justify'
-        dangerouslySetInnerHTML={{ __html: status }}></p>
-    </div>
-  </Modal>
-);
-
+/* Watermark */
 const Watermark = ({ label, school }) => (
-  <div className='absolute top-20 right-4 opacity-20'>
+  <div className='absolute top-24 right-4 opacity-20'>
     <img src={label} alt='label' />
     <img
       src={school}

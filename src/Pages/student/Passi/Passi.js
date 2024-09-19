@@ -22,7 +22,7 @@ const Passi = () => {
       }
     });
   }, []);
-  console.log(currentUser.stats, 'passi');
+
   useMemo(() => {
     getCurrentUser(setCurrentUser);
   }, []);

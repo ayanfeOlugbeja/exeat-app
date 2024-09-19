@@ -1,42 +1,48 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   postResponse,
   getPosts,
   getCurrentUser,
 } from '../../../../api/FirestoreAPI';
 import moment from 'moment';
-import { DatePicker } from 'antd';
 import ReactQuill from 'react-quill';
+import ReactDatePicker from 'react-datepicker';
 import 'react-quill/dist/quill.snow.css';
+import 'react-datepicker/dist/react-datepicker.css'; // Import for basic styles
+import './CustomDatePicker.css'; // Import your custom styles
 import { uploadPostImage } from '../../../../api/ImageUpload';
 import { getCurrentTimestamp } from '../../../../helpers/useMoment';
 import { getUniqueID } from '../../../../helpers/getUniqueID';
-
-const { RangePicker } = DatePicker;
+import { Modal } from 'antd';
 
 export default function CreateComponent() {
   const [status, setStatus] = useState('');
-  const [dates, setDates] = useState([]);
+  const [dates, setDates] = useState([null, null]);
   const [overview, setOverview] = useState('');
   const [content, setContent] = useState('');
   const [postImage, setPostImage] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [allStatuses, setAllStatus] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [fileType, setFileType] = useState('image');
 
   useMemo(() => {
     getPosts(setAllStatus);
     getCurrentUser(setCurrentUser);
   }, []);
 
-  const handleDateChange = (values) => {
-    if (values && values.length === 2) {
-      setDates(values.map((date) => moment(date).toISOString()));
-    } else {
-      setDates([]);
-    }
+  // Handle date change with react-datepicker
+  const handleDateChange = (dates) => {
+    setDates(dates);
   };
 
+  // Check if form is valid for enabling the button
+  const isFormValid = status && overview && content && dates[0] && dates[1];
+
   const sendRequest = async () => {
+    const formattedDeparture = moment(dates[0]).format('YYYY-MM-DD');
+    const formattedArrival = moment(dates[1]).format('YYYY-MM-DD');
+
     let object = {
       status,
       timestamp: getCurrentTimestamp('LLL'),
@@ -52,15 +58,17 @@ export default function CreateComponent() {
       departmentApproved: false,
       adminApproved: false,
       Rejected: false,
-      departure: dates[0] || '',
-      arrival: dates[1] || '',
+      departure: formattedDeparture,
+      arrival: formattedArrival,
       print: false,
     };
+
     await postResponse(object);
+    // Reset form fields
     setStatus('');
     setOverview('');
     setContent('');
-    setDates([]);
+    setDates([null, null]);
     setPostImage('');
   };
 
@@ -72,10 +80,15 @@ export default function CreateComponent() {
           <label className='font-semibold text-gray-700' htmlFor='dates'>
             Departure and Arrival Dates:
           </label>
-          <RangePicker
+          <ReactDatePicker
+            selected={dates[0]}
             onChange={handleDateChange}
-            format='YYYY-MM-DD'
-            className='w-full'
+            startDate={dates[0]}
+            endDate={dates[1]}
+            selectsRange
+            dateFormat='yyyy-MM-dd'
+            placeholderText='Select date range'
+            className='w-full p-2 border rounded-md'
           />
         </div>
 
@@ -124,12 +137,12 @@ export default function CreateComponent() {
           <label className='font-semibold text-gray-700' htmlFor='image'>
             Exeat Image:
           </label>
+
           <input
             type='file'
-            id='image'
-            accept='image/*'
+            accept={`${fileType}/*`}
             onChange={(event) =>
-              uploadPostImage(event.target.files[0], setPostImage)
+              uploadPostImage(event.target.files[0], setPostImage, setProgress)
             }
             className='p-2 border rounded-md w-full'
           />
@@ -138,8 +151,9 @@ export default function CreateComponent() {
         {/* Submit Button */}
         <button
           onClick={sendRequest}
-          className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-gray-400'
-          disabled={!status || !overview || !content || dates.length < 2}>
+          className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${
+            !isFormValid && 'disabled:bg-gray-400'
+          }`}>
           Send Exeat
         </button>
       </div>
