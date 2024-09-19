@@ -1,48 +1,44 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   postResponse,
   getPosts,
-  updatePost,
-} from '../../../../api/FirestoreAPI'
-import moment from 'moment'
-import { DatePicker } from 'antd'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import { uploadPostImage } from '../../../../api/ImageUpload'
-import 'react-toastify/dist/ReactToastify.css'
-import { getCurrentTimestamp } from '../../../../helpers/useMoment'
-import { getUniqueID } from '../../../../helpers/getUniqueID'
-import { getCurrentUser } from '../../../../api/FirestoreAPI'
+  getCurrentUser,
+} from '../../../../api/FirestoreAPI';
+import moment from 'moment';
+import { DatePicker } from 'antd';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { uploadPostImage } from '../../../../api/ImageUpload';
+import { getCurrentTimestamp } from '../../../../helpers/useMoment';
+import { getUniqueID } from '../../../../helpers/getUniqueID';
 
-const { RangePicker } = DatePicker
+const { RangePicker } = DatePicker;
 
 export default function CreateComponent() {
-  const [status, setStatus] = useState('')
-  const [allStatuses, setAllStatus] = useState([])
-  const [dates, setDates] = useState([])
-  const [currentPost, setCurrentPost] = useState({})
-  const [isEdit, setIsEdit] = useState(false)
-  const [postImage, setPostImage] = useState('')
-  const [currentUser, setCurrentUser] = useState({})
-
-  const [newsContents, setNewsContents] = useState({
-    overview: '',
-  })
+  const [status, setStatus] = useState('');
+  const [dates, setDates] = useState([]);
+  const [overview, setOverview] = useState('');
+  const [content, setContent] = useState('');
+  const [postImage, setPostImage] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
+  const [allStatuses, setAllStatus] = useState([]);
 
   useMemo(() => {
-    getPosts(setAllStatus)
-  }, [])
+    getPosts(setAllStatus);
+    getCurrentUser(setCurrentUser);
+  }, []);
 
-  useMemo(() => {
-    getCurrentUser(setCurrentUser)
-  }, [])
-
-  const [progress, setProgress] = useState(0)
-  const [fileType, setFileType] = useState('image')
+  const handleDateChange = (values) => {
+    if (values && values.length === 2) {
+      setDates(values.map((date) => moment(date).toISOString()));
+    } else {
+      setDates([]);
+    }
+  };
 
   const sendRequest = async () => {
     let object = {
-      status: status,
+      status,
       timestamp: getCurrentTimestamp('LLL'),
       userEmail: currentUser.email,
       userName: currentUser.name,
@@ -50,129 +46,103 @@ export default function CreateComponent() {
       department: currentUser.department,
       postID: getUniqueID(),
       userID: currentUser.id,
-      postImage: postImage,
-      overview: newsContents.overview,
+      postImage,
+      overview,
+      content,
       departmentApproved: false,
       adminApproved: false,
       Rejected: false,
-      departure: dates[0],
-      arrival: dates[1],
+      departure: dates[0] || '',
+      arrival: dates[1] || '',
       print: false,
-    }
-    await postResponse(object)
-    setIsEdit(false)
-    await setStatus('')
-  }
+    };
+    await postResponse(object);
+    setStatus('');
+    setOverview('');
+    setContent('');
+    setDates([]);
+    setPostImage('');
+  };
 
   return (
-    <div
-      on
-      className='py-[20px] shadow rounded-[30px] m-[20px] mt-[80px] px-[40px] font-poppins justify-center bg-gray-50 overflow-x-hidden flex flex-row '
-    >
-      <div className='grid grid-cols-1 gap-5'>
-        <div className='flex flex-col gap-5 md:flex-row  '>
-          <div className='flex flex-col gap-0  items-center justify-center'>
-            <RangePicker
-              onChange={(values) => {
-                setDates(
-                  values.map((item) => {
-                    return moment(item).format('YYYY-DD-MM')
-                  })
-                )
-              }}
-            />
-          </div>
-          <div className='flex flex-col gap-0 '>
-            <label
-              className='capitalize font-[600] text-[13px] '
-              htmlFor='headline'
-            >
-              overview:
-            </label>
-            <input
-              onChange={(e) =>
-                setNewsContents({
-                  ...newsContents,
-                  overview: e.target.value,
-                })
-              }
-              type='text'
-              className='p-4 bg-white capitalize text-[13px] outline-0 shadow rounded  w-full '
-              name='headline'
-              placeholder='Exeat overview'
-              id=''
-            />
-          </div>
-
-          <div className='flex flex-col gap-0 '>
-            {
-              <label
-                className='capitalize font-[600] text-[13px] '
-                htmlFor='headline'
-              >
-                Exeat image
-              </label>
-            }
-            <input
-              onChange={(event) =>
-                uploadPostImage(
-                  event.target.files[0],
-                  setPostImage,
-                  setProgress
-                )
-              }
-              accept={`${fileType}/*`}
-              type='file'
-              className='p-3 file:bg-white file:border-0 capitalize text-[15px] bg-white outline-0 shadow rounded  w-full '
-              name='headline'
-              placeholder='News headline'
-              id=''
-            />
-          </div>
+    <div className='py-8 px-6 mx-auto max-w-4xl bg-white shadow-lg rounded-lg'>
+      <div className='flex flex-col gap-6'>
+        {/* Date Picker */}
+        <div className='flex flex-col gap-4'>
+          <label className='font-semibold text-gray-700' htmlFor='dates'>
+            Departure and Arrival Dates:
+          </label>
+          <RangePicker
+            onChange={handleDateChange}
+            format='YYYY-MM-DD'
+            className='w-full'
+          />
         </div>
 
-        <div className='flex flex-col gap-0 '>
-          <label
-            className='capitalize font-[600] text-[13px] '
-            htmlFor='headline'
-          >
-            Exeat Content :
+        {/* Exeat Overview */}
+        <div className='flex flex-col gap-4'>
+          <label className='font-semibold text-gray-700' htmlFor='overview'>
+            Exeat Overview:
+          </label>
+          <input
+            type='text'
+            id='overview'
+            value={overview}
+            onChange={(e) => setOverview(e.target.value)}
+            placeholder='Enter overview here'
+            className='p-4 border rounded-md w-full'
+          />
+        </div>
+
+        {/* Exeat Content */}
+        <div className='flex flex-col gap-4'>
+          <label className='font-semibold text-gray-700' htmlFor='content'>
+            Exeat Content:
           </label>
           <ReactQuill
-            className='md:max-w-[700px]  rounded-[30px] max-w-[500px] md:min-h-[30vh] lg:max-w-[1100px] '
-            onChange={setStatus}
-            value={status}
-            placeholder='Full contents of the Exeat'
+            id='content'
+            value={content}
+            onChange={setContent}
+            placeholder='Enter content here'
+            className='border rounded-md'
             modules={{
-              toolbar: {
-                container: [
-                  ['bold', 'italic', 'underline', 'strike'], // Basic formatting button
-                  ['script'],
-                  [{ font: [] }],
-                  [{ align: [] }],
-                  [{ color: [] }, { background: [] }],
-                  ['blockquote'],
-                  [{ size: ['small', false, 'large', 'huge'] }],
-                  [{ header: 1 }, { header: 2 }], // Header formatting buttons
-                  [{ list: 'ordered' }, { list: 'bullet' }], // List buttons
-                  ['link'], // Link and media buttons
-                  ['uppercase', 'capitalize', 'lowercase'],
-                ],
-              },
+              toolbar: [
+                [{ font: [] }],
+                [{ size: [] }],
+                ['bold', 'italic', 'underline'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['link', 'image'],
+                [{ align: [] }],
+                [{ color: [] }, { background: [] }],
+              ],
             }}
           />
         </div>
 
+        {/* Exeat Image */}
+        <div className='flex flex-col gap-4'>
+          <label className='font-semibold text-gray-700' htmlFor='image'>
+            Exeat Image:
+          </label>
+          <input
+            type='file'
+            id='image'
+            accept='image/*'
+            onChange={(event) =>
+              uploadPostImage(event.target.files[0], setPostImage)
+            }
+            className='p-2 border rounded-md w-full'
+          />
+        </div>
+
+        {/* Submit Button */}
         <button
-          className='bg-slate-900 w-fit  mt-[100px] md:mt-[50px] shadow py-2 px-5 rounded text-slate-50 text-[13px] hover:bg-slate-700 '
           onClick={sendRequest}
-          key='submit'
-          type='primary'
-          disabled={status.length > 0 ? false : true}
-        >
+          className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-gray-400'
+          disabled={!status || !overview || !content || dates.length < 2}>
           Upload Exeat
         </button>
       </div>
     </div>
-  )
+  );
 }

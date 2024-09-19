@@ -1,103 +1,135 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AiOutlineMail } from 'react-icons/ai';
+import { RiLockPasswordFill } from 'react-icons/ri';
+import { LoginAPI } from '../../../api/AuthApi';
+import { toast } from 'react-toastify';
 
-import { useNavigate } from 'react-router-dom'
-
-import { AiOutlineMail } from 'react-icons/ai'
-import { RiLockPasswordFill } from 'react-icons/ri'
-
-import { LoginAPI } from '../../../api/AuthApi'
-import { toast } from 'react-toastify'
 export default function LoginComponent() {
-  const navig = useNavigate()
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ email: '', password: '' });
 
-  const [credentials, setCredentials] = useState({})
-  const login = async () => {
-    try {
-      let res = await LoginAPI(credentials.email, credentials.password)
-      toast.success('Signed in to PASSI')
-      localStorage.setItem('userEmail', res.user.email)
-      navig('/passi')
-    } catch (err) {
-      toast.error('Check your credentials')
+  const validateEmail = (email) => {
+    // More robust email validation regex
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    // Password must be at least 8 characters, contain letters and numbers, and allow special characters
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const handleLogin = async () => {
+    // Reset errors
+    setErrors({ email: '', password: '' });
+
+    // Basic validation
+    if (!validateEmail(credentials.email)) {
+      setErrors((prev) => ({ ...prev, email: 'Invalid email address' }));
+      toast.error('Please enter a valid email address');
+      return;
     }
-  }
+
+    if (!validatePassword(credentials.password)) {
+      setErrors((prev) => ({
+        ...prev,
+        password:
+          'Password must be at least 8 characters long, include letters and numbers',
+      }));
+      toast.error('Password does not meet security requirements');
+      return;
+    }
+
+    try {
+      let res = await LoginAPI(credentials.email, credentials.password);
+      toast.success('Signed in to PASSI');
+      localStorage.setItem('userEmail', res.user.email);
+      navigate('/passi');
+    } catch (err) {
+      toast.error('Invalid credentials, please try again');
+    }
+  };
 
   return (
-    <>
-      <div className='py-[150px] px-[20px]  '>
-        <div className='flex flex-row justify-center'>
-          <div
-            data-aos='zoom-in'
-            className='bg-slate-900 md:px-[70px]  flex flex-col  p-[20px] rounded shadow-2xl'
-          >
-            <div>
-              <h1 className='text-center text-slate-50 font-semibold text-[20px] uppercase font-myfont    mb-3'>
-                Welcome back!
-              </h1>
-            </div>
-            <form action='' className='flex  flex-col gap-5'>
-              <div className='flex flex-col gap-1 items-start'>
-                <label
-                  htmlFor='email'
-                  className='flex  items-center gap-1 text-slate-50 text-[15px]'
-                >
-                  <AiOutlineMail />
-                  Email:
-                </label>
-                <input
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, email: e.target.value })
-                  }
-                  value={credentials.emailAddress}
-                  type='email'
-                  placeholder='aiyedogbon@gmail.com'
-                  className='p-3 text shadow bg-slate-50 text-slate-900 rounded w-full outline-0 '
-                />
-              </div>
-              <div className='flex flex-col gap-1 items-start'>
-                <label
-                  htmlFor='password'
-                  className='flex gap-1 items-center text-slate-50 text-[15px] '
-                >
-                  <RiLockPasswordFill />
-                  Password
-                </label>
-                <input
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, password: e.target.value })
-                  }
-                  value={credentials.password}
-                  type='password'
-                  placeholder='******'
-                  className='p-3 rounded bg-slate-50 text-slate-900 outline-0 w-full shadow '
-                />
-              </div>
-              <button
-                onClick={login}
-                type='button'
-                className='bg-yellow-500 hover:bg-yellow-700 text-slate-50 rounded text-[17px] font-semibold p-3'
-              >
-                Login
-              </button>
+    <div className='min-h-screen flex items-center justify-center bg-gray-900 text-white'>
+      <div className='w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-lg shadow-lg'>
+        <h1 className='text-4xl font-bold text-center text-yellow-400'>
+          Welcome Back!
+        </h1>
 
-              <Link
-                to='/recover'
-                className='text-slate-200 hover:text-slate-500 text-[13px] font-300 text-center'
-              >
-                Forgot Password?
-              </Link>
-              <p className='text-center text-[17px] text-slate-100 '>
-                Don't have account yet?{' '}
-                <Link to='/register' className='text-yellow-500 text-[15px]'>
-                  Sign Up
-                </Link>
-              </p>
-            </form>
+        {/* Form */}
+        <form className='mt-8 space-y-6' action='#' method='POST'>
+          {/* Email Input */}
+          <div className='relative'>
+            <label className='text-sm font-semibold' htmlFor='email'>
+              <AiOutlineMail className='inline-block mr-2' /> Email
+            </label>
+            <input
+              id='email'
+              name='email'
+              type='email'
+              placeholder='youremail@example.com'
+              className='w-full p-3 mt-1 rounded-lg bg-gray-700 border border-transparent focus:border-yellow-400 focus:bg-gray-600 focus:outline-none text-gray-200'
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
+              value={credentials.email}
+            />
+            {errors.email && (
+              <p className='mt-1 text-sm text-red-500'>{errors.email}</p>
+            )}
           </div>
+
+          {/* Password Input */}
+          <div className='relative'>
+            <label className='text-sm font-semibold' htmlFor='password'>
+              <RiLockPasswordFill className='inline-block mr-2' /> Password
+            </label>
+            <input
+              id='password'
+              name='password'
+              type='password'
+              placeholder='********'
+              className='w-full p-3 mt-1 rounded-lg bg-gray-700 border border-transparent focus:border-yellow-400 focus:bg-gray-600 focus:outline-none text-gray-200'
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
+              value={credentials.password}
+            />
+            {errors.password && (
+              <p className='mt-1 text-sm text-red-500'>{errors.password}</p>
+            )}
+          </div>
+
+          {/* Login Button */}
+          <button
+            type='button'
+            onClick={handleLogin}
+            className='w-full py-3 mt-4 text-white bg-yellow-400 rounded-lg shadow-lg hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50 transition duration-300 transform hover:scale-105'>
+            Login
+          </button>
+        </form>
+
+        {/* Forgot Password */}
+        <div className='text-sm text-center'>
+          <Link to='/recover' className='text-yellow-400 hover:text-yellow-500'>
+            Forgot your password?
+          </Link>
         </div>
+
+        {/* Sign Up */}
+        <p className='text-center text-sm'>
+          Don't have an account?{' '}
+          <Link
+            to='/register'
+            className='text-yellow-400 hover:text-yellow-500'>
+            Sign Up
+          </Link>
+        </p>
       </div>
-    </>
-  )
+    </div>
+  );
 }

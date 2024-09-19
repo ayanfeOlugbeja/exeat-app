@@ -1,40 +1,42 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import { HomeAccordion } from './HomeAccordion'
-import { onAuthStateChanged } from 'firebase/auth'
-import { useNavigate } from 'react-router-dom'
-import { getCurrentUser } from '../../../api/FirestoreAPI'
-import { auth } from '../../../firebaseConfig'
-import Loader from '../Components/common/Loader'
-import Admin from '../../admin/Admin'
-import DepartmentHead from '../../department/DepartmentHead'
+import React, { useEffect, useState, useMemo } from 'react';
+import { HomeAccordion } from './HomeAccordion';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { getCurrentUser } from '../../../api/FirestoreAPI';
+import { auth } from '../../../firebaseConfig';
+import Loader from '../Components/common/Loader';
+import Admin from '../../admin/Admin';
+import DepartmentHead from '../../department/DepartmentHead';
 
 const Passi = () => {
-  const [loading, setLoading] = useState(true)
-  const [currentUser, setCurrentUser] = useState({})
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState({});
 
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   useEffect(() => {
     onAuthStateChanged(auth, (res) => {
       if (!res?.accessToken) {
-        navigate('/login')
+        navigate('/login');
       } else {
-        setLoading(false)
+        setLoading(false);
       }
-    })
-  }, [])
+    });
+  }, []);
+  console.log(currentUser.stats, 'passi');
   useMemo(() => {
-    getCurrentUser(setCurrentUser)
-  }, [])
+    getCurrentUser(setCurrentUser);
+  }, []);
   if (currentUser.stats === 'admin') {
-    return <Admin />
+    return <Admin />;
   } else if (currentUser.stats === 'department') {
-    return <DepartmentHead />
+    return <DepartmentHead />;
   } else {
     return (
       <div>
         {loading ? <Loader /> : <HomeAccordion currentUser={currentUser} />}
       </div>
-    )
+    );
   }
-}
-export default Passi
+};
+
+export default Passi;
