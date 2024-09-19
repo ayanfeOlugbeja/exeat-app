@@ -140,7 +140,7 @@ export default function CreateComponent() {
           onClick={sendRequest}
           className='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 disabled:bg-gray-400'
           disabled={!status || !overview || !content || dates.length < 2}>
-          Upload Exeat
+          Send Exeat
         </button>
       </div>
     </div>
