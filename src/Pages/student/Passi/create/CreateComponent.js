@@ -1,19 +1,20 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   postResponse,
   getPosts,
   getCurrentUser,
-} from '../../../../api/FirestoreAPI';
+  getUsersByDepartmentAndStat, // New helper to get departmentHead
+} from '../../../../api/FirestoreAPI'; // Update your Firestore API to include this
 import moment from 'moment';
 import ReactQuill from 'react-quill';
 import ReactDatePicker from 'react-datepicker';
 import 'react-quill/dist/quill.snow.css';
-import 'react-datepicker/dist/react-datepicker.css'; // Import for basic styles
-import './CustomDatePicker.css'; // Import your custom styles
+import 'react-datepicker/dist/react-datepicker.css';
+import './CustomDatePicker.css';
 import { uploadPostImage } from '../../../../api/ImageUpload';
 import { getCurrentTimestamp } from '../../../../helpers/useMoment';
 import { getUniqueID } from '../../../../helpers/getUniqueID';
-import { Modal } from 'antd';
+import emailjs from 'emailjs-com'; // Import EmailJS
 
 export default function CreateComponent() {
   const [status, setStatus] = useState('');
@@ -22,28 +23,76 @@ export default function CreateComponent() {
   const [content, setContent] = useState('');
   const [postImage, setPostImage] = useState('');
   const [currentUser, setCurrentUser] = useState({});
-  const [allStatuses, setAllStatus] = useState([]);
   const [progress, setProgress] = useState(0);
-  const [fileType, setFileType] = useState('image');
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  useMemo(() => {
-    getPosts(setAllStatus);
+  const [departmentHeadEmail, setDepartmentHeadEmail] = useState('');
+
+  // Fetch user and posts data
+  useEffect(() => {
+    getPosts(() => {});
     getCurrentUser(setCurrentUser);
   }, []);
 
-  // Handle date change with react-datepicker
+  // Fetch department head email after current user is fetched
+  useEffect(() => {
+    if (currentUser.department) {
+      // Fetch department head based on user's department
+      getUsersByDepartmentAndStat(currentUser.department, 'departmentHead')
+        .then((departmentHead) => {
+          if (departmentHead && departmentHead.length > 0) {
+            setDepartmentHeadEmail(departmentHead[0].email);
+          }
+        })
+        .catch((error) =>
+          console.error('Failed to fetch department head', error)
+        );
+    }
+  }, [currentUser.department]);
+
+  // Function to calculate word count
+  const getWordCount = (text) => {
+    return text
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length;
+  };
+
+  // Handle date change
   const handleDateChange = (dates) => {
     setDates(dates);
   };
 
-  // Check if form is valid for enabling the button
-  const isFormValid = status && overview && content && dates[0] && dates[1];
+  // Check if the form is valid whenever form inputs change
+  useEffect(() => {
+    const contentWordCount = getWordCount(content);
+    const isValid =
+      overview.trim() !== '' &&
+      contentWordCount >= 30 &&
+      dates[0] !== null &&
+      dates[1] !== null;
 
+    setIsFormValid(isValid);
+  }, [status, overview, content, dates]);
+
+  // EmailJS function to send email
+  const sendEmail = (emailData) => {
+    emailjs
+      .send('passi', 'template_snndt97', emailData, '4wzNspvOJ6BREODVT')
+      .then((response) => {
+        // console.log('Email sent successfully!', response.status, response.text);
+      })
+      .catch((error) => {
+        // console.error('Failed to send email:', error);
+      });
+  };
+
+  // Submit the form request and send email
   const sendRequest = async () => {
     const formattedDeparture = moment(dates[0]).format('YYYY-MM-DD');
     const formattedArrival = moment(dates[1]).format('YYYY-MM-DD');
 
-    let object = {
+    let requestObject = {
       status,
       timestamp: getCurrentTimestamp('LLL'),
       userEmail: currentUser.email,
@@ -55,16 +104,33 @@ export default function CreateComponent() {
       postImage,
       overview,
       content,
-      departmentApproved: false,
-      adminApproved: false,
-      Rejected: false,
       departure: formattedDeparture,
       arrival: formattedArrival,
-      print: false,
     };
 
-    await postResponse(object);
-    // Reset form fields
+    // Post response to Firestore
+    await postResponse(requestObject);
+
+    // Prepare email data
+    const emailData = {
+      from_name: currentUser.email,
+      to_email: currentUser.parentEmail, // Parent's email
+      cc_email: departmentHeadEmail, // Department head email
+      student_name: currentUser.name,
+      matric_number: currentUser.matricNumber,
+      department: currentUser.department,
+      status: status,
+      departure_date: formattedDeparture,
+      arrival_date: formattedArrival,
+      overview: overview,
+      content: content,
+      subject: 'Exeat Request Details', // Subject of the email
+    };
+
+    // Send email via EmailJS
+    sendEmail(emailData);
+
+    // Reset form fields after submission
     setStatus('');
     setOverview('');
     setContent('');
@@ -110,7 +176,7 @@ export default function CreateComponent() {
         {/* Exeat Content */}
         <div className='flex flex-col gap-4'>
           <label className='font-semibold text-gray-700' htmlFor='content'>
-            Exeat Content:
+            Exeat Content (min 30 words):
           </label>
           <ReactQuill
             id='content'
@@ -130,6 +196,9 @@ export default function CreateComponent() {
               ],
             }}
           />
+          <p className='text-sm text-gray-600'>
+            Word count: {getWordCount(content)} / 30 words minimum
+          </p>
         </div>
 
         {/* Exeat Image */}
@@ -137,10 +206,9 @@ export default function CreateComponent() {
           <label className='font-semibold text-gray-700' htmlFor='image'>
             Exeat Image:
           </label>
-
           <input
             type='file'
-            accept={`${fileType}/*`}
+            accept='image/*'
             onChange={(event) =>
               uploadPostImage(event.target.files[0], setPostImage, setProgress)
             }
@@ -150,12 +218,19 @@ export default function CreateComponent() {
 
         {/* Submit Button */}
         <button
+          disabled={!isFormValid}
           onClick={sendRequest}
           className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${
-            !isFormValid && 'disabled:bg-gray-400'
+            !isFormValid ? 'opacity-50 cursor-not-allowed' : ''
           }`}>
           Send Exeat
         </button>
+        {!isFormValid && (
+          <p className='text-red-500 text-sm'>
+            Please ensure all fields are filled in and the content is at least
+            30 words.
+          </p>
+        )}
       </div>
     </div>
   );

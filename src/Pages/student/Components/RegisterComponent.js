@@ -9,7 +9,56 @@ import logo from './../../../Images/logo.png';
 export default function RegisterComponent() {
   let navigate = useNavigate();
   const [credentials, setCredentials] = useState({});
+
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+    parentEmail: '',
+  });
+
+  const validateEmail = (email) => {
+    // More robust email validation regex
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  };
+
+  const validateParentEmail = (parentEmail) => {
+    // More robust email validation regex
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(parentEmail);
+  };
+
+  const validatePassword = (password) => {
+    // Password must be at least 8 characters, contain letters and numbers, and allow special characters
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const Register = async () => {
+    // Reset errors
+    setErrors({ email: '', password: '' });
+
+    // Basic validation
+    if (!validateEmail(credentials.email)) {
+      setErrors((prev) => ({ ...prev, email: 'Invalid email address' }));
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    if (!validateParentEmail(credentials.parentEmail)) {
+      setErrors((prev) => ({ ...prev, email: 'Invalid email address' }));
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    if (!validatePassword(credentials.password)) {
+      setErrors((prev) => ({
+        ...prev,
+        password:
+          'Password must be at least 8 characters long, include letters and numbers',
+      }));
+      toast.error('Password does not meet security requirements');
+      return;
+    }
     try {
       let res = await RegisterAPI(credentials.email, credentials.password);
       toast.success('Check Email for Account Verification Link');
@@ -269,6 +318,11 @@ export default function RegisterComponent() {
                         id='email'
                         required
                       />
+                      {errors.email && (
+                        <p className='mt-1 text-sm text-red-500'>
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
 
                     <div className='flex   flex-col '>
@@ -405,6 +459,11 @@ export default function RegisterComponent() {
                         id='parentemail'
                         required
                       />
+                      {errors.email && (
+                        <p className='mt-1 text-sm text-red-500'>
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
                     <div className='flex flex-col '>
                       <label
@@ -427,6 +486,11 @@ export default function RegisterComponent() {
                         required
                       />
                     </div>
+                    {errors.password && (
+                      <p className='mt-1 text-sm text-red-500'>
+                        {errors.password}
+                      </p>
+                    )}
                   </div>
                   <button
                     onClick={Register}

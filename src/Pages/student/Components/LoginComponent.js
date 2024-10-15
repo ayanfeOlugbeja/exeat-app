@@ -8,40 +8,40 @@ import { toast } from 'react-toastify';
 export default function LoginComponent() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  // const [errors, setErrors] = useState({ email: '', password: '' });
 
-  const validateEmail = (email) => {
-    // More robust email validation regex
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return emailRegex.test(email);
-  };
+  // const validateEmail = (email) => {
+  //   // More robust email validation regex
+  //   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  //   return emailRegex.test(email);
+  // };
 
-  const validatePassword = (password) => {
-    // Password must be at least 8 characters, contain letters and numbers, and allow special characters
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
+  // const validatePassword = (password) => {
+  //   // Password must be at least 8 characters, contain letters and numbers, and allow special characters
+  //   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+  //   return passwordRegex.test(password);
+  // };
 
   const handleLogin = async () => {
-    // Reset errors
-    setErrors({ email: '', password: '' });
+    // // Reset errors
+    // setErrors({ email: '', password: '' });
 
-    // Basic validation
-    if (!validateEmail(credentials.email)) {
-      setErrors((prev) => ({ ...prev, email: 'Invalid email address' }));
-      toast.error('Please enter a valid email address');
-      return;
-    }
+    // // Basic validation
+    // if (!validateEmail(credentials.email)) {
+    //   setErrors((prev) => ({ ...prev, email: 'Invalid email address' }));
+    //   toast.error('Please enter a valid email address');
+    //   return;
+    // }
 
-    if (!validatePassword(credentials.password)) {
-      setErrors((prev) => ({
-        ...prev,
-        password:
-          'Password must be at least 8 characters long, include letters and numbers',
-      }));
-      toast.error('Password does not meet security requirements');
-      return;
-    }
+    // if (!validatePassword(credentials.password)) {
+    //   setErrors((prev) => ({
+    //     ...prev,
+    //     password:
+    //       'Password must be at least 8 characters long, include letters and numbers',
+    //   }));
+    //   toast.error('Password does not meet security requirements');
+    //   return;
+    // }
 
     try {
       let res = await LoginAPI(credentials.email, credentials.password);
@@ -78,9 +78,6 @@ export default function LoginComponent() {
               }
               value={credentials.email}
             />
-            {errors.email && (
-              <p className='mt-1 text-sm text-red-500'>{errors.email}</p>
-            )}
           </div>
 
           {/* Password Input */}
@@ -99,9 +96,6 @@ export default function LoginComponent() {
               }
               value={credentials.password}
             />
-            {errors.password && (
-              <p className='mt-1 text-sm text-red-500'>{errors.password}</p>
-            )}
           </div>
 
           {/* Login Button */}
