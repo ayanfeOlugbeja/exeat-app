@@ -1,4 +1,4 @@
-import { firestore } from '../firebaseConfig';
+import { firestore, db } from '../firebaseConfig';
 import {
   addDoc,
   collection,
@@ -11,6 +11,7 @@ import {
   deleteDoc,
   orderBy,
   serverTimestamp,
+  getDocs,
 } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
@@ -136,4 +137,29 @@ export const getUsersByDepartmentAndStat = async (department, stat) => {
   });
 
   return users;
+};
+
+// Function to check if there is a pending exeat request for the current user
+export const checkPendingExeatRequest = async (userName) => {
+  try {
+    const postsCollection = collection(db, 'posts');
+    const pendingRequestQuery = query(
+      postsCollection,
+      where('userName', '==', userName),
+      where('adminApproved', '==', false),
+      where('Rejected', '==', false)
+    );
+
+    const querySnapshot = await getDocs(pendingRequestQuery);
+
+    if (!querySnapshot.empty) {
+      const pendingRequest = querySnapshot.docs[0].data(); // Get the first pending request (if any)
+      return pendingRequest; // Return the pending request details
+    } else {
+      return null; // No pending request found
+    }
+  } catch (error) {
+    console.error('Error checking for pending exeat request:', error);
+    throw error;
+  }
 };

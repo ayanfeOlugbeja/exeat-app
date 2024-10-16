@@ -1,39 +1,40 @@
-import React, { useEffect } from 'react'
-import { FaUsers } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import { AiFillDashboard } from 'react-icons/ai'
-import { HiXMark } from 'react-icons/hi2'
-import { useState } from 'react'
-import { FaUserCircle } from 'react-icons/fa'
-import { AiOutlineMenu } from 'react-icons/ai'
-import { BsNewspaper } from 'react-icons/bs'
-import { AiFillHome } from 'react-icons/ai'
-import { AdminAccordion } from './AdminAccordion'
-import { Users } from './Components/Users'
-import { AdminProfile } from './AdminProfile'
-import Document from './Components/Document/Document'
-import HomePopup from '../student/Passi/HomePopup'
+import React, { useEffect } from 'react';
+import { FaUsers } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { AiFillDashboard } from 'react-icons/ai';
+import { HiXMark } from 'react-icons/hi2';
+import { useState } from 'react';
+import { FaUserCircle } from 'react-icons/fa';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { BsNewspaper } from 'react-icons/bs';
+import { AiFillHome } from 'react-icons/ai';
+import { AdminAccordion } from './AdminAccordion';
+import { Users } from './Components/Users';
+import { AdminProfile } from './AdminProfile';
+import Document from './Components/Document/Document';
+import HomePopup from '../student/Passi/HomePopup';
 export const AdminComponent = ({ currentUser }) => {
   const [displaying, setDisplaying] = useState(
     JSON.parse(localStorage.getItem('displaying')) || {
       viewDashboard: true,
       viewProfile: false,
-      newsPost: false,
-      postHistory: false,
+      exeatPost: false,
+      exeatHistory: false,
       viewDashboardColor: 'text-green-500',
       viewProfileColor: 'text-slate-700',
-      newsPostColor: 'text-rose-500',
+      exeatPostColor: 'text-rose-500',
+      exeatHistoryColor: 'text-rose-500',
     }
-  )
+  );
 
   const [sideLinks, setSideLinks] = useState({
     nextIc: true,
     prevIc: false,
     textSize: 'text-[8px]',
     flexType: 'flex-col',
-  })
-  const [showBar, setShowBar] = useState('hidden')
-  const [sideLinkState, setSideLinkState] = useState('hidden')
+  });
+  const [showBar, setShowBar] = useState('hidden');
+  const [sideLinkState, setSideLinkState] = useState('hidden');
 
   return (
     <div className=' z-[100] bg-white  min-h-[100vh] fixed overflow-y-auto w-full left-0 right-0 top-0 pb-[100px] pt-[70px] bottom-0 '>
@@ -44,14 +45,14 @@ export const AdminComponent = ({ currentUser }) => {
               {sideLinks.prevIc && (
                 <HiXMark
                   onClick={() => {
-                    setSideLinkState('hidden')
+                    setSideLinkState('hidden');
                     setSideLinks({
                       nextIc: true,
                       prevIc: false,
                       textSize: 'text-[8px]',
                       flexType: 'flex-col',
-                    })
-                    setShowBar('hidden')
+                    });
+                    setShowBar('hidden');
                   }}
                   className={`bg-slate-50  p-1 rounded-[2px] text-[20px] md:text-[20px]`}
                 />
@@ -60,14 +61,14 @@ export const AdminComponent = ({ currentUser }) => {
               {sideLinks.nextIc && (
                 <AiOutlineMenu
                   onClick={() => {
-                    setSideLinkState('flex')
+                    setSideLinkState('flex');
                     setSideLinks({
                       nextIc: false,
                       prevIc: true,
                       textSize: 'text-[13px]',
                       flexType: 'flex-row',
-                    })
-                    setShowBar('flex')
+                    });
+                    setShowBar('flex');
                   }}
                   className={`bg-slate-50  p-1 rounded-[2px] text-[20px] md:text-[20px]`}
                 />
@@ -88,33 +89,23 @@ export const AdminComponent = ({ currentUser }) => {
             <button
               onClick={() =>
                 setDisplaying({
-                  pdfView: false,
                   viewDashboard: false,
                   viewProfile: true,
-                  pdfPost: false,
-                  newsPost: false,
-                  userView: false,
-                  viewAllNews: false,
-                  viewEditNews: false,
-                  pdfViewColor: 'text-slate-700',
+                  exeatPost: false,
+                  exeatHistory: false,
                   viewDashboardColor: 'text-slate-700',
                   viewProfileColor: 'text-green-500',
-                  pdfPostColor: 'text-slate-700',
-                  newsPostColor: 'text-slate-500',
-                  userViewColor: 'text-slate-700',
-                  viewAllNewsColor: 'text-slate-700',
-                  viewEditNewsColor: 'text-slate-700',
+                  exeatPostColor: 'text-slate-700',
+                  exeatHistoryColor: 'text-slate-700',
                 })
               }
-              className='flex items-center text-slate-50 gap-2 md:text-[20px] bg-green-500 text-[15px]  p-2 h-fit rounded '
-            >
+              className='flex items-center text-slate-50 gap-2 md:text-[20px] bg-green-500 text-[15px]  p-2 h-fit rounded '>
               Profile <FaUserCircle />
             </button>
           </div>
         </div>
         <div
-          className={`bg-slate-50 lg:flex ${showBar} shadow z-[10] bottom-0 p-1 md:p-5 fixed  top-0 left-0 h-[100%]`}
-        >
+          className={`bg-slate-50 lg:flex ${showBar} shadow z-[10] bottom-0 p-1 md:p-5 fixed  top-0 left-0 h-[100%]`}>
           <div>
             <ul className='flex flex-col px-[5px] pt-[70px] gap-[25px]'>
               <li>
@@ -126,29 +117,20 @@ export const AdminComponent = ({ currentUser }) => {
                       prevIc: false,
                       textSize: 'text-[8px]',
                       flexType: 'flex-col',
-                    })
-                    setShowBar('hidden')
+                    });
+                    setShowBar('hidden');
                     setDisplaying({
-                      pdfView: false,
                       viewDashboard: true,
                       viewProfile: false,
-                      pdfPost: false,
-                      newsPost: false,
-                      userView: false,
-                      viewAllNews: false,
-                      viewEditNews: false,
-                      pdfViewColor: 'text-slate-700',
+                      exeatPost: false,
+                      exeatHistory: false,
                       viewDashboardColor: 'text-green-500',
                       viewProfileColor: 'text-slate-700',
-                      pdfPostColor: 'text-slate-700',
-                      newsPostColor: 'text-slate-700',
-                      userViewColor: 'text-slate-700',
-                      viewAllNewsColor: 'text-slate-700',
-                      viewEditNewsColor: 'text-slate-700',
-                    })
+                      exeatPostColor: 'text-slate-700',
+                      exeatHistoryColor: 'text-slate-700',
+                    });
                   }}
-                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
-                >
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}>
                   {' '}
                   <AiFillHome
                     className={`text-slate-700 text-[17px] md:text-[20px] `}
@@ -166,29 +148,20 @@ export const AdminComponent = ({ currentUser }) => {
                       prevIc: false,
                       textSize: 'text-[8px]',
                       flexType: 'flex-col',
-                    })
-                    setShowBar('hidden')
+                    });
+                    setShowBar('hidden');
                     setDisplaying({
-                      pdfView: false,
                       viewDashboard: true,
                       viewProfile: false,
-                      pdfPost: false,
-                      newsPost: false,
-                      userView: false,
-                      viewAllNews: false,
-                      viewEditNews: false,
-                      pdfViewColor: 'text-slate-700',
+                      exeatPost: false,
+                      exeatHistory: false,
                       viewDashboardColor: 'text-green-500',
                       viewProfileColor: 'text-slate-700',
-                      pdfPostColor: 'text-slate-700',
-                      newsPostColor: 'text-slate-700',
-                      userViewColor: 'text-slate-700',
-                      viewAllNewsColor: 'text-slate-700',
-                      viewEditNewsColor: 'text-slate-700',
-                    })
+                      exeatPostColor: 'text-slate-700',
+                      exeatHistoryColor: 'text-slate-700',
+                    });
                   }}
-                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
-                >
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}>
                   {' '}
                   <AiFillDashboard
                     className={`${displaying.viewDashboardColor} text-[17px] md:text-[20px] `}
@@ -206,29 +179,20 @@ export const AdminComponent = ({ currentUser }) => {
                       prevIc: false,
                       textSize: 'text-[8px]',
                       flexType: 'flex-col',
-                    })
-                    setShowBar('hidden')
+                    });
+                    setShowBar('hidden');
                     setDisplaying({
-                      pdfView: false,
                       viewDashboard: false,
                       viewProfile: false,
-                      pdfPost: false,
-                      newsPost: false,
-                      userView: true,
-                      viewAllNews: false,
-                      viewEditNews: false,
-                      pdfViewColor: 'text-slate-700',
+                      exeatPost: false,
+                      exeatHistory: true,
                       viewDashboardColor: 'text-slate-700',
                       viewProfileColor: 'text-slate-700',
-                      pdfPostColor: 'text-slate-700',
-                      newsPostColor: 'text-slate-700',
-                      userViewColor: 'text-green-500',
-                      viewAllNewsColor: 'text-slate-700',
-                      viewEditNewsColor: 'text-slate-700',
-                    })
+                      exeatPostColor: 'text-slate-700',
+                      exeatHistoryColor: 'text-green-500',
+                    });
                   }}
-                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
-                >
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}>
                   <FaUsers
                     className={`${displaying.userViewColor} text-[17px] md:text-[20px] `}
                   />
@@ -245,29 +209,20 @@ export const AdminComponent = ({ currentUser }) => {
                       prevIc: false,
                       textSize: 'text-[8px]',
                       flexType: 'flex-col',
-                    })
-                    setShowBar('hidden')
+                    });
+                    setShowBar('hidden');
                     setDisplaying({
-                      pdfView: false,
                       viewDashboard: false,
                       viewProfile: false,
-                      pdfPost: false,
-                      newsPost: true,
-                      userView: false,
-                      viewAllNews: false,
-                      viewEditNews: false,
-                      pdfViewColor: 'text-slate-700',
+                      exeatPost: true,
+                      exeatHistory: false,
                       viewDashboardColor: 'text-slate-700',
                       viewProfileColor: 'text-slate-700',
-                      pdfPostColor: 'text-slate-700',
-                      newsPostColor: 'text-green-500',
-                      userViewColor: 'text-slate-700',
-                      viewAllNewsColor: 'text-slate-700',
-                      viewEditNewsColor: 'text-slate-700',
-                    })
+                      exeatPostColor: 'text-green-500',
+                      exeatHistoryColor: 'text-slate-700',
+                    });
                   }}
-                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
-                >
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}>
                   <BsNewspaper
                     className={`${displaying.newsPostColor} text-[17px] md:text-[20px] `}
                   />
@@ -284,29 +239,20 @@ export const AdminComponent = ({ currentUser }) => {
                       prevIc: false,
                       textSize: 'text-[8px]',
                       flexType: 'flex-col',
-                    })
-                    setShowBar('hidden')
+                    });
+                    setShowBar('hidden');
                     setDisplaying({
-                      pdfView: false,
                       viewDashboard: false,
                       viewProfile: true,
-                      pdfPost: false,
-                      newsPost: false,
-                      userView: false,
-                      viewAllNews: false,
-                      viewEditNews: false,
-                      pdfViewColor: 'text-slate-700',
+                      exeatPost: false,
+                      exeatHistory: false,
                       viewDashboardColor: 'text-slate-700',
                       viewProfileColor: 'text-green-500',
-                      pdfPostColor: 'text-slate-700',
-                      newsPostColor: 'text-slate-500',
-                      userViewColor: 'text-slate-700',
-                      viewAllNewsColor: 'text-slate-700',
-                      viewEditNewsColor: 'text-slate-700',
-                    })
+                      exeatPostColor: 'text-slate-500',
+                      exeatHistoryColor: 'text-slate-700',
+                    });
                   }}
-                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}
-                >
+                  className={`${sideLinks.flexType}   flex items-center gap-x-2  `}>
                   <FaUserCircle
                     className={`${displaying.viewProfileColor} text-[17px] md:text-[20px] `}
                   />
@@ -328,21 +274,14 @@ export const AdminComponent = ({ currentUser }) => {
         <div className='py-[10px] relative flex justify-center  lg:ml-[30px] '>
           <div>
             {displaying.viewDashboard && <AdminAccordion />}
-            {displaying.userView && <Users />}
+            {displaying.exeatHistory && <Users />}
             {displaying.viewProfile && (
               <AdminProfile currentUser={currentUser} />
             )}
-            {displaying.newsPost && <Document />}
-            {/* 
-            {displaying.pdfPost && <PdfUpload />}
-            
-          
-            {displaying.viewAllNews && <AllNews />}
-            {displaying.viewEditNews && <EditNews />}
-            {displaying.pdfView && <AllPdf />} */}
+            {displaying.exeatPost && <Document />}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -3,7 +3,8 @@ import {
   postResponse,
   getPosts,
   getCurrentUser,
-  getUsersByDepartmentAndStat, // New helper to get departmentHead
+  getUsersByDepartmentAndStat,
+  checkPendingExeatRequest, // New function to check pending request
 } from '../../../../api/FirestoreAPI';
 import moment from 'moment';
 import ReactQuill from 'react-quill';
@@ -26,6 +27,8 @@ export default function CreateComponent() {
   const [progress, setProgress] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
   const [departmentHeadEmail, setDepartmentHeadEmail] = useState('');
+  const [hasPendingRequest, setHasPendingRequest] = useState(false); // New state for pending request
+  const [pendingRequestTimestamp, setPendingRequestTimestamp] = useState(''); // To show timestamp of pending request
 
   // Fetch user and posts data
   useEffect(() => {
@@ -36,7 +39,6 @@ export default function CreateComponent() {
   // Fetch department head email after current user is fetched
   useEffect(() => {
     if (currentUser.department) {
-      // Fetch department head based on user's department
       getUsersByDepartmentAndStat(currentUser.department, 'departmentHead')
         .then((departmentHead) => {
           if (departmentHead && departmentHead.length > 0) {
@@ -48,6 +50,22 @@ export default function CreateComponent() {
         );
     }
   }, [currentUser.department]);
+
+  // Check for pending exeat requests when the user is fetched
+  useEffect(() => {
+    if (currentUser.name) {
+      checkPendingExeatRequest(currentUser.name)
+        .then((pendingRequest) => {
+          if (pendingRequest) {
+            setHasPendingRequest(true);
+            setPendingRequestTimestamp(pendingRequest.timestamp); // Get timestamp of pending request
+          }
+        })
+        .catch((error) =>
+          console.error('Error checking pending request:', error)
+        );
+    }
+  }, [currentUser.name]);
 
   // Function to calculate word count
   const getWordCount = (text) => {
@@ -90,10 +108,11 @@ export default function CreateComponent() {
   const sendRequest = async () => {
     const formattedDeparture = moment(dates[0]).format('YYYY-MM-DD');
     const formattedArrival = moment(dates[1]).format('YYYY-MM-DD');
+    const currentTimestamp = getCurrentTimestamp('LLL');
 
     let requestObject = {
       status,
-      timestamp: getCurrentTimestamp('LLL'),
+      timestamp: currentTimestamp, // Include current timestamp
       userEmail: currentUser.email,
       userName: currentUser.name,
       matricNumber: currentUser.matricNumber,
@@ -105,46 +124,51 @@ export default function CreateComponent() {
       content,
       departure: formattedDeparture,
       arrival: formattedArrival,
+      departmentApproved: false,
+      adminApproved: false,
+      Rejected: false,
     };
 
-    // Post response to Firestore
     await postResponse(requestObject);
 
-    // Check if parent's email exists
     if (!currentUser.parentEmail) {
-      // console.error('Parent email is missing!');
       return;
     }
 
-    // Prepare email data
     const emailData = {
       from_name: 'Passi',
-      cc_email: currentUser.parentEmail, // Parent's email
-      to_email: departmentHeadEmail, // Department head email
+      cc_email: currentUser.parentEmail,
+      to_email: departmentHeadEmail,
       student_name: currentUser.name,
       matric_number: currentUser.matricNumber,
       department: currentUser.department,
       departure_date: formattedDeparture,
       arrival_date: formattedArrival,
       content: content,
-      subject: overview, // Subject of the email
+      subject: overview,
+      request_time: currentTimestamp, // Include the timestamp in the email
     };
-    console.log('Parent Email:', currentUser.parentEmail);
-    // Send email via EmailJS
     sendEmail(emailData);
 
-    // Reset form fields after submission
     setStatus('');
     setOverview('');
     setContent('');
     setDates([null, null]);
     setPostImage('');
   };
-  // console.log('Parent Email:', currentUser.parentEmail);
+
   return (
     <div className='py-8 px-6 mx-auto max-w-4xl bg-white shadow-lg rounded-lg'>
+      {hasPendingRequest && (
+        <div className='bg-yellow-200 p-4 rounded-md mb-4'>
+          <p className='text-yellow-800'>
+            You have a pending exeat request submitted on{' '}
+            {pendingRequestTimestamp}. You cannot submit another request until
+            the current one is resolved.
+          </p>
+        </div>
+      )}
       <div className='flex flex-col gap-6'>
-        {/* Date Picker */}
         <div className='flex flex-col gap-4'>
           <label className='font-semibold text-gray-700' htmlFor='dates'>
             Departure and Arrival Dates:
@@ -161,7 +185,6 @@ export default function CreateComponent() {
           />
         </div>
 
-        {/* Exeat Overview */}
         <div className='flex flex-col gap-4'>
           <label className='font-semibold text-gray-700' htmlFor='overview'>
             Exeat Overview:
@@ -176,7 +199,6 @@ export default function CreateComponent() {
           />
         </div>
 
-        {/* Exeat Content */}
         <div className='flex flex-col gap-4'>
           <label className='font-semibold text-gray-700' htmlFor='content'>
             Exeat Content (min 30 words):
@@ -204,7 +226,6 @@ export default function CreateComponent() {
           </p>
         </div>
 
-        {/* Exeat Image */}
         <div className='flex flex-col gap-4'>
           <label className='font-semibold text-gray-700' htmlFor='image'>
             Exeat Image:
@@ -219,12 +240,13 @@ export default function CreateComponent() {
           />
         </div>
 
-        {/* Submit Button */}
         <button
-          disabled={!isFormValid}
+          disabled={!isFormValid || hasPendingRequest}
           onClick={sendRequest}
           className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 ${
-            !isFormValid ? 'opacity-50 cursor-not-allowed' : ''
+            !isFormValid || hasPendingRequest
+              ? 'opacity-50 cursor-not-allowed'
+              : ''
           }`}>
           Send Exeat
         </button>

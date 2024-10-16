@@ -1,13 +1,17 @@
 import React from 'react';
+import Access from './Access/Access';
 
 // student dashboard
 export default function HomeComponent() {
   return (
-    <div className='flex justify-center items-center w-96'>
-      <iframe
-        src='https://gvu.edu.ng/university-news/'
-        title='Glorious Vision University'
-        className='w-96 h-96'></iframe>
+    <div className='p-8 text-center'>
+      <h2 className='text-2xl font-bold mb-4'>
+        Welcome to the Student Dashboard 👋🏾
+      </h2>
+      <p className='text-gray-600 mb-8'>
+        Here you can manage your profile, requests, and more.
+      </p>
+      <Access />
     </div>
   );
 }
