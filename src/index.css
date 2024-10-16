@@ -57,3 +57,21 @@ body {
     display: inline-grid;
   }
 }
+.image-upload-area {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.placeholder-text {
+  font-size: 16px;
+  color: #888;
+}
+
+.uploaded-file-name {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.progress-section {
+  margin-top: 20px;
+}

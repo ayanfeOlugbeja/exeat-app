@@ -4,7 +4,7 @@ import {
   getPosts,
   getCurrentUser,
   getUsersByDepartmentAndStat, // New helper to get departmentHead
-} from '../../../../api/FirestoreAPI'; // Update your Firestore API to include this
+} from '../../../../api/FirestoreAPI';
 import moment from 'moment';
 import ReactQuill from 'react-quill';
 import ReactDatePicker from 'react-datepicker';
@@ -14,7 +14,7 @@ import './CustomDatePicker.css';
 import { uploadPostImage } from '../../../../api/ImageUpload';
 import { getCurrentTimestamp } from '../../../../helpers/useMoment';
 import { getUniqueID } from '../../../../helpers/getUniqueID';
-import emailjs from 'emailjs-com'; // Import EmailJS
+import emailjs from 'emailjs-com';
 
 export default function CreateComponent() {
   const [status, setStatus] = useState('');
@@ -25,7 +25,6 @@ export default function CreateComponent() {
   const [currentUser, setCurrentUser] = useState({});
   const [progress, setProgress] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
-
   const [departmentHeadEmail, setDepartmentHeadEmail] = useState('');
 
   // Fetch user and posts data
@@ -111,22 +110,26 @@ export default function CreateComponent() {
     // Post response to Firestore
     await postResponse(requestObject);
 
+    // Check if parent's email exists
+    if (!currentUser.parentEmail) {
+      // console.error('Parent email is missing!');
+      return;
+    }
+
     // Prepare email data
     const emailData = {
-      from_name: currentUser.email,
-      to_email: currentUser.parentEmail, // Parent's email
-      cc_email: departmentHeadEmail, // Department head email
+      from_name: 'Passi',
+      cc_email: currentUser.parentEmail, // Parent's email
+      to_email: departmentHeadEmail, // Department head email
       student_name: currentUser.name,
       matric_number: currentUser.matricNumber,
       department: currentUser.department,
-      status: status,
       departure_date: formattedDeparture,
       arrival_date: formattedArrival,
-      overview: overview,
       content: content,
-      subject: 'Exeat Request Details', // Subject of the email
+      subject: overview, // Subject of the email
     };
-
+    console.log('Parent Email:', currentUser.parentEmail);
     // Send email via EmailJS
     sendEmail(emailData);
 
@@ -137,7 +140,7 @@ export default function CreateComponent() {
     setDates([null, null]);
     setPostImage('');
   };
-
+  // console.log('Parent Email:', currentUser.parentEmail);
   return (
     <div className='py-8 px-6 mx-auto max-w-4xl bg-white shadow-lg rounded-lg'>
       <div className='flex flex-col gap-6'>
