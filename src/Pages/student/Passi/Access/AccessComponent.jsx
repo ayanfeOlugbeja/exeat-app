@@ -1,34 +1,35 @@
-import React, { useMemo, useState, useRef } from 'react';
-import { Modal } from 'antd';
-import { useReactToPrint } from 'react-to-print';
-import school from '../../../../Images/schoolLogo.png';
-import label from './../../../../Images/label.png';
-import rejected from './../../../../Images/rejected.png';
-import { getCurrentUser, getAllUsers } from '../../../../api/FirestoreAPI';
+import React, { useMemo, useState, useRef } from 'react'
+import { Modal } from 'antd'
+import { useReactToPrint } from 'react-to-print'
+import school from '../../../../Images/schoolLogo.png'
+import label from './../../../../Images/label.png'
+import rejected from './../../../../Images/rejected.png'
+import { getCurrentUser, getAllUsers } from '../../../../api/FirestoreAPI'
 
 export default function AccessComponent({ posts, id }) {
-  const [currentUser, setCurrentUser] = useState({});
-  const [allUsers, setAllUsers] = useState([]);
-  const [exeatModal, setExeatModal] = useState(false);
-  const [imageModal, setImageModal] = useState(false);
-  const printRef = useRef();
+  const [currentUser, setCurrentUser] = useState({})
+  const [allUsers, setAllUsers] = useState([])
+  const [exeatModal, setExeatModal] = useState(false)
+  const [imageModal, setImageModal] = useState(false)
+  const printRef = useRef()
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
-  });
+  })
 
   useMemo(() => {
-    getCurrentUser(setCurrentUser);
-    getAllUsers(setAllUsers);
-  }, []);
+    getCurrentUser(setCurrentUser)
+    getAllUsers(setAllUsers)
+  }, [])
 
-  const user = allUsers.find((user) => user.id === posts.userID) || {};
+  const user = allUsers.find((user) => user.id === posts.userID) || {}
 
-  return currentUser.id === posts.userID ? (
+  return (
     <div
       className='posts-card bg-white shadow-xl rounded-lg p-6 max-w-3xl w-full lg:max-w-4xl relative my-4'
       key={id}
-      ref={printRef}>
+      ref={printRef}
+    >
       {/* Approval Banner */}
       {!posts.departmentApproved && !posts.adminApproved && (
         <ApprovalBanner
@@ -52,7 +53,7 @@ export default function AccessComponent({ posts, id }) {
         </div>
       </div>
 
-      {/* Body - Simplified for card display */}
+      {/* Body */}
       <div className='my-4 flex items-center justify-between gap-6'>
         <img
           src={user.imageLink}
@@ -76,7 +77,8 @@ export default function AccessComponent({ posts, id }) {
       <div className='text-center mt-4'>
         <button
           className='bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600'
-          onClick={() => setExeatModal(true)}>
+          onClick={() => setExeatModal(true)}
+        >
           View Exeat Request
         </button>
       </div>
@@ -86,7 +88,8 @@ export default function AccessComponent({ posts, id }) {
         <div className='flex justify-end mt-4'>
           <button
             className='bg-blue-800 text-white py-2 px-5 rounded-lg hover:bg-blue-700 transition-all'
-            onClick={handlePrint}>
+            onClick={handlePrint}
+          >
             Print Exeat
           </button>
         </div>
@@ -109,16 +112,17 @@ export default function AccessComponent({ posts, id }) {
       {posts.adminApproved && <Watermark label={label} school={school} />}
       {posts.Rejected && <Watermark label={rejected} school={school} />}
     </div>
-  ) : null;
+  )
 }
 
 /* Approval Banner Component */
 const ApprovalBanner = ({ message, bgColor }) => (
   <div
-    className={`w-full py-1 text-center font-bold text-sm text-white ${bgColor} rounded-t-lg`}>
+    className={`w-full py-1 text-center font-bold text-sm text-white ${bgColor} rounded-t-lg`}
+  >
     {message}
   </div>
-);
+)
 
 /* Exeat Modal */
 const ExeatModal = ({ exeatModal, setExeatModal, posts, user }) => (
@@ -128,7 +132,8 @@ const ExeatModal = ({ exeatModal, setExeatModal, posts, user }) => (
     onOk={() => setExeatModal(false)}
     onCancel={() => setExeatModal(false)}
     footer={null}
-    className='custom-modal'>
+    className='custom-modal'
+  >
     <div className='p-6'>
       <h2 className='text-2xl font-bold text-center'>Exeat Request Details</h2>
 
@@ -181,7 +186,7 @@ const ExeatModal = ({ exeatModal, setExeatModal, posts, user }) => (
       </div>
     </div>
   </Modal>
-);
+)
 
 /* Image Modal */
 const ImageModal = ({ imageModal, setImageModal, postImage }) => (
@@ -190,14 +195,15 @@ const ImageModal = ({ imageModal, setImageModal, postImage }) => (
     open={imageModal}
     onOk={() => setImageModal(false)}
     onCancel={() => setImageModal(false)}
-    footer={null}>
+    footer={null}
+  >
     <img
       src={postImage}
       alt='exeat attachment'
       className='w-full h-auto object-contain'
     />
   </Modal>
-);
+)
 
 /* Watermark */
 const Watermark = ({ label, school }) => (
@@ -209,4 +215,4 @@ const Watermark = ({ label, school }) => (
       className='absolute top-0 right-8 opacity-10 w-1/2 h-1/2 object-contain'
     />
   </div>
-);
+)

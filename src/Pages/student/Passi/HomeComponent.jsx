@@ -1,5 +1,4 @@
-import React from 'react';
-import Access from './Access/Access';
+import React from 'react'
 
 // student dashboard
 export default function HomeComponent() {
@@ -11,7 +10,6 @@ export default function HomeComponent() {
       <p className='text-gray-600 mb-8'>
         Here you can manage your profile, requests, and more.
       </p>
-      <Access />
     </div>
-  );
+  )
 }

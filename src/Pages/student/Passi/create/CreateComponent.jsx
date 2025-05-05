@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
   postResponse,
   getPosts,
   getCurrentUser,
   getUsersByDepartmentAndStat,
   checkPendingExeatRequest, // New function to check pending request
-} from '../../../../api/FirestoreAPI';
-import moment from 'moment';
-import ReactQuill from 'react-quill';
-import ReactDatePicker from 'react-datepicker';
-import 'react-quill/dist/quill.snow.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import './CustomDatePicker.css';
-import { uploadPostImage } from '../../../../api/ImageUpload';
-import { getCurrentTimestamp } from '../../../../helpers/useMoment';
-import { getUniqueID } from '../../../../helpers/getUniqueID';
-import emailjs from 'emailjs-com';
+} from '../../../../api/FirestoreAPI'
+import moment from 'moment'
+import ReactQuill from 'react-quill'
+import ReactDatePicker from 'react-datepicker'
+import 'react-quill/dist/quill.snow.css'
+import 'react-datepicker/dist/react-datepicker.css'
+import './CustomDatePicker.css'
+import { uploadPostImage } from '../../../../api/ImageUpload'
+import { getCurrentTimestamp } from '../../../../helpers/useMoment'
+import { getUniqueID } from '../../../../helpers/getUniqueID'
+import emailjs from 'emailjs-com'
 
 export default function CreateComponent() {
-  const [status, setStatus] = useState('');
-  const [dates, setDates] = useState([null, null]);
-  const [overview, setOverview] = useState('');
-  const [content, setContent] = useState('');
-  const [postImage, setPostImage] = useState('');
-  const [currentUser, setCurrentUser] = useState({});
-  const [progress, setProgress] = useState(0);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [departmentHeadEmail, setDepartmentHeadEmail] = useState('');
-  const [hasPendingRequest, setHasPendingRequest] = useState(false); // New state for pending request
-  const [pendingRequestTimestamp, setPendingRequestTimestamp] = useState(''); // To show timestamp of pending request
+  const [status, setStatus] = useState('')
+  const [dates, setDates] = useState([null, null])
+  const [overview, setOverview] = useState('')
+  const [content, setContent] = useState('')
+  const [postImage, setPostImage] = useState('')
+  const [currentUser, setCurrentUser] = useState({})
+  const [progress, setProgress] = useState(0)
+  const [isFormValid, setIsFormValid] = useState(false)
+  const [departmentHeadEmail, setDepartmentHeadEmail] = useState('')
+  const [hasPendingRequest, setHasPendingRequest] = useState(false) // New state for pending request
+  const [pendingRequestTimestamp, setPendingRequestTimestamp] = useState('') // To show timestamp of pending request
 
   // Fetch user and posts data
   useEffect(() => {
-    getPosts(() => {});
-    getCurrentUser(setCurrentUser);
-  }, []);
+    getPosts(() => {})
+    getCurrentUser(setCurrentUser)
+  }, [])
 
   // Fetch department head email after current user is fetched
   useEffect(() => {
@@ -42,14 +42,14 @@ export default function CreateComponent() {
       getUsersByDepartmentAndStat(currentUser.department, 'departmentHead')
         .then((departmentHead) => {
           if (departmentHead && departmentHead.length > 0) {
-            setDepartmentHeadEmail(departmentHead[0].email);
+            setDepartmentHeadEmail(departmentHead[0].email)
           }
         })
         .catch((error) =>
           console.error('Failed to fetch department head', error)
-        );
+        )
     }
-  }, [currentUser.department]);
+  }, [currentUser.department])
 
   // Check for pending exeat requests when the user is fetched
   useEffect(() => {
@@ -57,40 +57,40 @@ export default function CreateComponent() {
       checkPendingExeatRequest(currentUser.name)
         .then((pendingRequest) => {
           if (pendingRequest) {
-            setHasPendingRequest(true);
-            setPendingRequestTimestamp(pendingRequest.timestamp); // Get timestamp of pending request
+            setHasPendingRequest(true)
+            setPendingRequestTimestamp(pendingRequest.timestamp) // Get timestamp of pending request
           }
         })
         .catch((error) =>
           console.error('Error checking pending request:', error)
-        );
+        )
     }
-  }, [currentUser.name]);
+  }, [currentUser.name])
 
   // Function to calculate word count
   const getWordCount = (text) => {
     return text
       .trim()
       .split(/\s+/)
-      .filter((word) => word.length > 0).length;
-  };
+      .filter((word) => word.length > 0).length
+  }
 
   // Handle date change
   const handleDateChange = (dates) => {
-    setDates(dates);
-  };
+    setDates(dates)
+  }
 
   // Check if the form is valid whenever form inputs change
   useEffect(() => {
-    const contentWordCount = getWordCount(content);
+    const contentWordCount = getWordCount(content)
     const isValid =
       overview.trim() !== '' &&
       contentWordCount >= 30 &&
       dates[0] !== null &&
-      dates[1] !== null;
+      dates[1] !== null
 
-    setIsFormValid(isValid);
-  }, [status, overview, content, dates]);
+    setIsFormValid(isValid)
+  }, [status, overview, content, dates])
 
   // EmailJS function to send email
   const sendEmail = (emailData) => {
@@ -101,14 +101,14 @@ export default function CreateComponent() {
       })
       .catch((error) => {
         // console.error('Failed to send email:', error);
-      });
-  };
+      })
+  }
 
   // Submit the form request and send email
   const sendRequest = async () => {
-    const formattedDeparture = moment(dates[0]).format('YYYY-MM-DD');
-    const formattedArrival = moment(dates[1]).format('YYYY-MM-DD');
-    const currentTimestamp = getCurrentTimestamp('LLL');
+    const formattedDeparture = moment(dates[0]).format('YYYY-MM-DD')
+    const formattedArrival = moment(dates[1]).format('YYYY-MM-DD')
+    const currentTimestamp = getCurrentTimestamp('LLL')
 
     let requestObject = {
       status,
@@ -127,12 +127,12 @@ export default function CreateComponent() {
       departmentApproved: false,
       adminApproved: false,
       Rejected: false,
-    };
+    }
 
-    await postResponse(requestObject);
+    await postResponse(requestObject)
 
     if (!currentUser.parentEmail) {
-      return;
+      return
     }
 
     const emailData = {
@@ -147,18 +147,18 @@ export default function CreateComponent() {
       content: content,
       subject: overview,
       request_time: currentTimestamp, // Include the timestamp in the email
-    };
-    sendEmail(emailData);
+    }
+    sendEmail(emailData)
 
-    setStatus('');
-    setOverview('');
-    setContent('');
-    setDates([null, null]);
-    setPostImage('');
-  };
+    setStatus('')
+    setOverview('')
+    setContent('')
+    setDates([null, null])
+    setPostImage('')
+  }
 
   return (
-    <div className='py-8 px-6 mx-auto max-w-4xl bg-white shadow-lg rounded-lg'>
+    <div className='py-8 px-6 mx-auto max-w-4xl bg-white '>
       {hasPendingRequest && (
         <div className='bg-yellow-200 p-4 rounded-md mb-4'>
           <p className='text-yellow-800'>
@@ -247,7 +247,8 @@ export default function CreateComponent() {
             !isFormValid || hasPendingRequest
               ? 'opacity-50 cursor-not-allowed'
               : ''
-          }`}>
+          }`}
+        >
           Send Exeat
         </button>
         {!isFormValid && (
@@ -258,5 +259,5 @@ export default function CreateComponent() {
         )}
       </div>
     </div>
-  );
+  )
 }
